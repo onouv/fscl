@@ -1,37 +1,23 @@
-## Work in Progress !
+#F S C L
+##A System to Manage Systems
 
-You can use the [editor on GitHub](https://github.com/onouv/fscl/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+Industrial systems such as factories, refineries, chemical plants, power stations, power transmission systems, automatic transport systems, sea ships and many more examples are pretty complex. Many different components must be skillfully designed and combined by many engineering disciplines to work together in countless different relationships.
+- Electrical,  Mechanical and Civil Engineers are using advanced tools like CAD and CAE systems to create the phyiscal design of the systems. 
+- Automation Software Engineers use advanced simulation and programming tool chains. 
+- Production and supply chain use systems such as ERP and MES to manufacture or procure the systems and components
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+**Functional requirements**, however, often are managed in documents and in the mind only. There is no link in the various tools between the artifcacts of engineering and the functional model of the system. In most cases, there is no explicit functional model for a project at all. This means, they are often missed or lost along the way and cause trouble downstream of a project.
+The success of a technical design is based on the *complete* understanding of just these functional requirements and their correct and complete *mapping to artefacts* in the physical and software design. FSCL is a demonstrator of a software system to bring this capability into the hands of project engineers and project managers.
 
-### Markdown
+FSCL is a tool to maintain consistency by continuously managing: 
+F	Functions   - specifications of a distinct elements of performance or behaviour
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+S	Systems     - logical groupings of *components* to perform a set of common functions
 
-```markdown
-Syntax highlighted code block
+C	Components  - physical or software artefacts (parts)
 
-# Header 1
-## Header 2
-### Header 3
+L	Locations   - places where *components* are installed
 
-- Bulleted
-- List
+FSCL is built in a microservices architecture based on Spring Boot and MongoDB with a common React web client as user interface. 
 
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/onouv/fscl/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+Note it is built as a demonstrator for private purposes and provided here without any license or any liability. 
