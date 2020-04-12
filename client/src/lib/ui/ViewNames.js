@@ -1,0 +1,10 @@
+const ViewNames = {
+   HOME: "HOME",
+   PROJECTS: "PROJECTS",
+   FUNCTIONS: "FUNCTIONS",
+   SYSTEMS: "SYSTEMS",
+   COMPONENTS: "COMPONENTS",
+   LOCATIONS: "LOCATIONS"
+}
+
+export default ViewNames

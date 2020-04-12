@@ -1,0 +1,51 @@
+server:
+  port: <port-number>8083
+spring:
+  application:
+    name: component-service
+  data:
+    mongodb:
+      uri: mongodb://<user-name>:<password>@<server>:27017/fscl-components      
+  cloud:
+    stream:
+      kafka:
+         binder:
+            zkNodes: localhost
+            brokers: localhost
+      bindings:
+        input:
+          destination: projects
+          content-type: application/json
+          group: projects2components1
+        SubscribeFunctionCreated:
+          destination: FunctionCreatedTopic
+          content-type: application/json
+          group: function-change-1
+        SubscribeFunctionDeleted:
+          destination: FunctionDeletedTopic
+          content-type: application/json
+          group: function-change-1
+        SubscribeFunctionRecoded:
+          destination: FunctionRecodedTopic
+          content-type: application/json
+          group: function-change-1
+        SubscribeFunctionComponentLinking:
+          destination: FunctionComponentLinkTopic
+          content-type: application/json
+          group: function-change-1
+        PublishComponentCreated:
+          destination: ComponentCreatedTopic
+          content-type: application/json
+          group: component-change-1
+        PublishComponentDeleted:
+          destination: ComponentDeletedTopic
+          content-type: application/json
+          group: component-change-1
+        PublishComponentRecoded:
+          destination: ComponentRecodedTopic
+          content-type: application/json
+          group: component-change-1
+        PublishComponentFunctionLinking:
+          destination: ComponentFunctionLinkTopic
+          content-type: application/json
+          group: component-change-1
