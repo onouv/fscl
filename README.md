@@ -1,4 +1,4 @@
-#F S C L
+#FSCL
 ##A System to Manage Systems
 
 Industrial systems such as factories, refineries, chemical plants, power stations, power transmission systems, automatic transport systems, sea ships and many more examples are pretty complex. Many different components must be skillfully designed and combined by many engineering disciplines to work together in countless different relationships.
