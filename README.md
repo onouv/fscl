@@ -11,13 +11,13 @@ The success of a technical design is based on the *complete* understanding of ju
 
 FSCL is a tool to maintain consistency by continuously managing: 
 
-**F   Functions**   - specifications of a distinct elements of performance or behaviour
+**Functions**   - specifications of a distinct elements of performance or behaviour
 
-**S   Systems**     - logical groupings of *components* to perform a set of common functions
+**Systems**     - logical groupings of *components* to perform a set of common functions
 
-**C   Components**  - physical or software artefacts (parts)
+**Components**  - physical or software artefacts (parts)
 
-**L   Locations**   - places where *components* are installed
+**Locations**   - places where *components* are installed
 
 FSCL is built in a microservices architecture based on Spring Boot and MongoDB with a common React web client as user interface. 
 
