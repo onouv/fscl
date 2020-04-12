@@ -10,6 +10,7 @@ Industrial systems such as factories, refineries, chemical plants, power station
 The success of a technical design is based on the *complete* understanding of just these functional requirements and their correct and complete *mapping to artefacts* in the physical and software design. FSCL is a demonstrator of a software system to bring this capability into the hands of project engineers and project managers.
 
 FSCL is a tool to maintain consistency by continuously managing: 
+
 F	Functions   - specifications of a distinct elements of performance or behaviour
 
 S	Systems     - logical groupings of *components* to perform a set of common functions
