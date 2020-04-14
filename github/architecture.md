@@ -85,5 +85,8 @@ the component. The stateless functional component will be named with a UI suffix
 
 Each of the entities (*Function*, *Component*) is shown as a line in a List.
 Sub-entities can be folded out and back in (hidden). to support this behavior,
-entities follows a life cycle defined by this state machine, ![](github/pics/entity-states.png)
+entities follows a life cycle defined by this state machine, 
+
+![](pics/client-entity-states.png)
+
 which is supported in the [domain classes](client/src/lib/domain).
