@@ -3,7 +3,6 @@
 
 [Get Started](github/get-started.md)
 
-[User Intro](github/user-intro.md)
 
 FSCL is a tool to model industrial systems from the following simple artefacts:
 
@@ -19,7 +18,13 @@ FSCL is a tool to model industrial systems from the following simple artefacts:
 * ***Locations***   - places where *components* are installed
   * *for example, in an elevator system "Machine Room", "Shaft Floor 1", "Concourse Floor 1"*
 
-Please note FSCL is built as a demonstrator for private purposes and provided here without any license or any liability. If anybody is interested in contributing, please contact me and I'd be happy to consider picking one of the open source licenses.
+It is built as a distributed set of microservices and a web client to :
+
+* model industrial systems out of the *core object model*  mentioned above
+
+* build value-added services around this core object model, accessible via a RESTful API with HTTP
+      
+Please note FSCL is currently a concept demonstrator for private purposes and provided here without any license or any liability. If anybody is interested in contributing, please contact me and I'd be happy to consider picking one of the open source licenses.
 
 ## Motivation
 Industrial systems such as factories, refineries, chemical plants, power stations, power transmission systems, automatic transport systems, sea ships and many more examples are pretty complex. Many different components must be skillfully designed and combined by many engineering disciplines to work together in countless different relationships.
