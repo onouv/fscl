@@ -1,8 +1,6 @@
 # FSCL
 ## A System to Manage Systems
 
-[Directly To Repository](https://github.com/onouv/fscl)
-
 [Get Started](github/get-started.md)
 
 [User Intro](github/user-intro.md)
