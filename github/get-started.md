@@ -67,6 +67,48 @@ Make sure to install `fscl-core-lib` into your local maven repository, e.g. `~/.
 
 Normally, Maven will build the rest during startup. If not, this might require some tweaking of your pom.xml files.
 
+#### Setup Ports and Credentials
+
+**component-service**
+
+  rename [component-service/src/main/resources/application.sample](component-service/src/main/resources/application.sample)
+to `application.yml`
+  
+  choose reasonable values for 
+  
+      server:      
+        port: <port-number> (client actually expects 8083)
+  
+      data:      
+        mongodb:        
+          uri: mongodb://<user-name>:<password>@<server>:27017/fscl-components
+          
+**function-service**
+
+  rename [function-service/src/main/resources/application.sample](function-service/src/main/resources/application.sample)
+to `application.yml`
+  
+  choose reasonable values for 
+  
+     server:      
+        port: <port-number> (client actually expects 8081)
+  
+     data:      
+        mongodb:        
+          uri: mongodb://<user-name>:<password>@<server>:27017/fscl-functions
+          
+**project-service**
+
+  rename [project-service/src/main/resources/application.sample](project-service/src/main/resources/application.sample)
+to `application.yml`
+  
+  choose reasonable values for 
+  
+      server:      
+        port: <port-number> (client actually expects 8080)
+      data:      
+        mongodb:        
+          uri: mongodb://<user-name>:<password>@<server>:27017/fscl-projects
 
 
 ## STARTUP
