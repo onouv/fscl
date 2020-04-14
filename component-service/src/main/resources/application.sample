@@ -1,5 +1,5 @@
 server:
-  port: <port-number>8083
+  port: <port-number>
 spring:
   application:
     name: component-service
