@@ -3,7 +3,7 @@
 ## Core Object Model
 
 Please look at this UML diagram as an overview or the core object model:
-[](pics/core-object.model.png)
+![](pics/core-object-model.png)
 
 Functions, Systems, Components and Locations are all organized in hierarchical
 parent-child structures. Certain relations between these entities are modelled
@@ -18,7 +18,7 @@ artefact must be introduced to provide a context for the entities above.
 
 Following a simple domain driven design, the *bounded contexts* for
 this subset look like this:
-[](pics/bounded-context-overview.png)
+![](pics/bounded-context-overview.png)
 
 There are three aggregates (*Project*, *Function*, *Component*). The web client
 provides a view for each of these three to the users.
@@ -65,7 +65,7 @@ The web client provides user views for
    * create, delete, edit *Functions* and sub-functions
    * link/ unlink *Components* to *Functions*
 
-* [**Component** aggregate](client/src/component)
+* [**Component**](client/src/component)
    * create, delete, edit *Components* and sub-components
    * link/ unlink *Functions* to *Components*
 
@@ -85,5 +85,5 @@ the component. The stateless functional component will be named with a UI suffix
 
 Each of the entities (*Function*, *Component*) is shown as a line in a List.
 Sub-entities can be folded out and back in (hidden). to support this behavior,
-entities follows a life cycle defined by this ![state machine](github/pics/entity-states.png)
+entities follows a life cycle defined by this state machine, ![](github/pics/entity-states.png)
 which is supported in the [domain classes](client/src/lib/domain).
