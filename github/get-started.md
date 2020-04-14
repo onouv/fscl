@@ -84,7 +84,7 @@ to `application.yml`
           
 **function-service**
 
-  rename [function-service/src/main/resources/application.sample](function-service/src/main/resources/application.sample)
+  rename [function-service/src/main/resources/application.sample](../function-service/src/main/resources/application.sample)
 to `application.yml`
   
   choose reasonable values for 
@@ -98,13 +98,11 @@ to `application.yml`
           
 **project-service**
 
-  rename [project-service/src/main/resources/application.sample](project-service/src/main/resources/application.sample)
+  rename [project-service/src/main/resources/application.sample](../project-service/src/main/resources/application.sample)
 to `application.yml`
   
-  choose reasonable values for 
-  
-      server:      
-        port: <port-number> (client actually expects 8080)
+  choose reasonable values for  
+      
       data:      
         mongodb:        
           uri: mongodb://<user-name>:<password>@<server>:27017/fscl-projects
