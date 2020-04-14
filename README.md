@@ -34,4 +34,4 @@ The success of a technical design is based on the *complete* understanding of ju
 FSCL is built in a microservices architecture based on Spring Boot and MongoDB with a common React web client as user interface. [Learn More...](github/architecture.md)
 
 ## Development
-Ideas and plans for the future, open items, etc. [Learn More...](https://github.com/onouv/fscl/github/development.md)
+Ideas and plans for the future, open items, etc. [Learn More...](github/development.md)
