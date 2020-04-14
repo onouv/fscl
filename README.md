@@ -31,7 +31,7 @@ The success of a technical design is based on the *complete* understanding of ju
 - streaming apps could track process events (e.g. from [OPC UA protocols](https://opcfoundation.org/about/opc-technologies/opc-ua/) and assign them to the histories of either *functions* or *components* 
 
 ## Architecture
-FSCL is built in a microservices architecture based on Spring Boot and MongoDB with a common React web client as user interface. [Learn More...](https://github.com/onouv/fscl/github/architecture.md)
+FSCL is built in a microservices architecture based on Spring Boot and MongoDB with a common React web client as user interface. [Learn More...](github/architecture.md)
 
 ## Development
 Ideas and plans for the future, open items, etc. [Learn More...](https://github.com/onouv/fscl/github/development.md)
