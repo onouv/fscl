@@ -5,6 +5,8 @@
 
 [Get Started](github/get-started.md)
 
+[User Intro](github/user-intro.md)
+
 FSCL is a tool to model industrial systems from the following simple artefacts:
 
 ***Functions***   - specifications of distinct elements of performance or behaviour
