@@ -20,7 +20,7 @@ FSCL is a tool to model industrial systems from the following simple artefacts:
 
 It is built as a distributed set of microservices and a web client to :
 
-* model industrial systems out of the artifacts mentioned above,called the *core object model*
+* model industrial systems out of the *core object model*  mentioned above
 
 * build value-added services around this core object model, accessible via a RESTful API with HTTP
       
