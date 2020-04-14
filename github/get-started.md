@@ -70,7 +70,7 @@ Normally, Maven will build the rest during startup. If not, this might require s
 
 **component-service**
 
-  rename [component-service/src/main/resources/application.sample](component-service/src/main/resources/application.sample)
+  rename [component-service/src/main/resources/application.sample](../component-service/src/main/resources/application.sample)
 to `application.yml`
   
   choose reasonable values for 
