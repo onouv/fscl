@@ -29,9 +29,8 @@ personal choice, of course
 
 ### MongoDB
 
-[MongoDB](https://docs.mongodb.com/guides/)
+[MongoDB](https://docs.mongodb.com/guides/server/install/)
 
-[Download](https://www.mongodb.com/download-center/community)
 
 ### Kafka Messaging
 
