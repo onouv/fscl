@@ -3,7 +3,7 @@
 
 [Directly To Repository](https://github.com/onouv/fscl)
 
-[Get Started]()
+[Get Started](github/get-started.md)
 
 FSCL is a tool to model industrial systems from the following simple artefacts:
 
