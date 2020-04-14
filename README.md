@@ -23,12 +23,12 @@ Industrial systems such as factories, refineries, chemical plants, power station
 - Automation Software Engineers use advanced simulation and programming tool chains.
 - Production and supply chain use systems such as ERP and MES to manufacture or procure the systems and components
 
-**Functional requirements**, however, often are managed in documents and in the mind only. There is no link in the various tools between the artifcacts of engineering and the functional model of the system. In most cases, there is no explicit functional model for a project at all. This means, they are often missed or lost along the way and cause trouble downstream of a project.
+**Functional requirements**, however, often are managed in documents and in the mind only. There is no link in the various tools between the artifacts of engineering and the functional model of the system. In most cases, there is no explicit functional model for a project at all. This means, they are often missed or lost along the way and cause trouble downstream of a project.
 The success of a technical design is based on the *complete* understanding of just these functional requirements and their correct and complete *mapping to artefacts* in the physical and software design. FSCL is a demonstrator of a software system to bring this capability into the hands of project engineers and project managers.
 
 **IoT Applications** may benefit in various ways from a simple straightforward but consistent information model. Just a few examples:
 - establishing the relation between *components* and *functions* enables deducting availablity of *functions* from operational state of the *components*, to continously assess availability of *functions*
-- streaming apps could track process events (e.g. from [OPC UA protocols](https://opcfoundation.org/about/opc-technologies/opc-ua/) and assign them to the histories of either *functions* or *components* 
+- streaming apps could track process events (e.g. from [OPC UA protocols](https://opcfoundation.org/about/opc-technologies/opc-ua/) and assign them to the histories of either *functions* or *components*
 
 ## Architecture
 FSCL is built in a microservices architecture based on Spring Boot and MongoDB with a common React web client as user interface. [Learn More...](github/architecture.md)
