@@ -167,7 +167,7 @@ elegant :
 
 `$ npm start`
 
-
+Then open a web browser at ***`http://localhost:3000`***
 
 
 
