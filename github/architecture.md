@@ -44,7 +44,7 @@ There are currently three of them:
    * emitting domain events as defined in the `fscl-function-api` library
    * handling domain events as defined in the `fscl-component-api` and `fscl-project-api`
 
-* **component-service**: manages the *Component* aggregate
+* **`component-service`**: manages the *Component* aggregate
    * serving the REST api associated with the aggregate to the web client
    * managing persistency with database
    * emitting domain events as defined in the `fscl-component-api` library
@@ -61,27 +61,27 @@ to maintain transactional consistency.
 ## Web Client
 
 The web client provides user views for
-* [**Function**](client/src/function)
+* [**Function**](../client/src/function)
    * create, delete, edit *Functions* and sub-functions
    * link/ unlink *Components* to *Functions*
 
-* [**Component**](client/src/component)
+* [**Component**](../client/src/component)
    * create, delete, edit *Components* and sub-components
    * link/ unlink *Functions* to *Components*
 
-* [**Project**](client/src/project) aggregate
+* [**Project**](../client/src/project) aggregate
    * create, delete, edit *Projects*
 
 Each of these views is built from React.js components, mostly setup in [`lib`](client/src/lib).
 Here, all stateless ui components are assembled in [`lib\ui`]. The client heavily uses [`react-redux`](https://react-redux.js.org/). Therefore, all state is rooted in [`store.js`](client/src/store.js). There is one view-specific reducer for each view, e.g.
-[`FunctionReducer.js`](client/src/function/redux/FunctionReducer.js), and a couple
-generic specialized sub-reducers in ['client/src/lib/redux'](client/src/lib/redux)
+[`FunctionReducer.js`](../client/src/function/redux/FunctionReducer.js), and a couple
+generic specialized sub-reducers in ['client/src/lib/redux'](../client/src/lib/redux)
 Each *Redux-Action* lives in its own file named after the Action. All redux code is
 collected in a `redux` folder either in the view folder or in lib.
 
 All view components are built as ***stateless functional components***, connecting to the store  through their ***container*** function. This is intended to make testing easier (most of test code to be done, yet).  A view component will live in a folder named after
 the component. The stateless functional component will be named with a UI suffix
-(see [FunctionLst](client/src/function/FunctionList) as an example).
+(see [FunctionLst](../client/src/function/FunctionList) as an example).
 
 Each of the entities (*Function*, *Component*) is shown as a line in a List.
 Sub-entities can be folded out and back in (hidden). to support this behavior,
@@ -89,4 +89,4 @@ entities follows a life cycle defined by this state machine,
 
 ![](pics/client-entity-states.png)
 
-which is supported in the [domain classes](client/src/lib/domain).
+which is supported in the [domain classes](../client/src/lib/domain).
