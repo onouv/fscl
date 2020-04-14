@@ -9,13 +9,17 @@
 
 FSCL is a tool to model industrial systems from the following simple artefacts:
 
-***Functions***   - specifications of distinct elements of performance or behaviour
+* ***Functions*** - specifications of distinct elements of performance or behaviour
+  * *for example, in an elevator system "Transport Passenger"*
 
-***Systems***     - logical groupings of *components* to perform a set of common functions
+* ***Systems***     - logical groupings of *components* to perform a set of common functions
+  * *for example, in an elevator system "Drive System" or "Independent Brake System"*
 
-***Components***  - physical or software artefacts (parts)
+* ***Components***  - physical or software artefacts (parts)
+  * *for example, in an elevator system "Drive Motor" "Brake Magnet"
 
-***Locations***   - places where *components* are installed
+* ***Locations***   - places where *components* are installed
+  * *for example, in an elevator system "Machine Room", "Shaft Floor 1", "Concourse Floor 1"
 
 Please note FSCL is built as a demonstrator for private purposes and provided here without any license or any liability. If anybody is interested in contributing, please contact me and I'd be happy to consider picking one of the open source licenses.
 
