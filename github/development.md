@@ -1,6 +1,6 @@
 # FSCL Development
 
-Future activties, if I get around to it: 
+Ideas for future interesting activties : 
 
 (1)     tidy Maven dependencies - OPEN
 
@@ -29,6 +29,7 @@ meaningfull items. This could mean an interface to allow selecting [eClass categ
 
 (7)     Of course, *Locations* and *Systems* should be supported in a way similar to what is currently implemented for *Functions* and *Components*
 
-(8)     A streaming service could process incoming event data (such as process alarms and faults, and assign each event to the appropriate *Component* and/or *Function* for future evaluation. An evaluation service could then walk over these and generate findings and/ or action recommendations (e.g. "function XYZ inhibited due to fault of component UVW, currently backed by function ABC, but recommend maintenance staff activation within 48 hrs")
+(8)     A streaming service could process incoming event data (such as process alarms and faults, and assign each event to the appropriate *Component* and/or *Function* for future evaluation. An evaluation service could then walk over these and generate findings and/ or action recommendations (e.g. "function XYZ inhibited due to fault of component UVW, currently backed by function ABC, but recommend maintenance staff activation within 48 hrs"). Events could be coming from an interface to the world of [OPC UA](https://opcfoundation.org/about/opc-technologies/opc-ua/)
 
+(9)     Services should be running 'close to the systems they model', i.e. in various locations and clearly and consistently organize their data among each other (yes, that's quite a big wheel to turn...)
         
