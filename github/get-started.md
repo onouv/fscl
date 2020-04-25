@@ -43,28 +43,27 @@ personal choice, of course
 [A few tips for setup](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-an-apache-zookeeper-cluster-on-ubuntu-18-04)
 
 
-## BUILD
-
+## BUILD PREP
 `$ mkdir fscl; cd fscl`
 
 `$ git clone https://github.com/onouv/fscl`
 
-
-### Client
+### Build Client
 
 `$ cd fscl/client`
+
 `$ npm install`
 
 
-### Server 
+### Build Server 
 
-Make sure to install `fscl-core-lib` into your local maven repository, e.g. `~/.m2/repository` :
+`$ export FSCLHOME=[path to fscl dir]`
 
-`$ cd fscl-core-lib`
+`$ cd fscl`
 
-`$ mvn install`
+`$ ./fscl.build`
 
-Normally, Maven will build the rest during startup. If not, this might require some tweaking of your pom.xml files.
+The Maven dependencies are not very tidy, yet (sorry, it's a TODO). This might require you to run the `fscl.build` script a few times, until Maven eventually has downloaded everything and built all dependencies. 
 
 #### Setup Ports and Credentials
 
