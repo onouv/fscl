@@ -1,5 +1,5 @@
-# FSCL
-## A System to Manage Systems
+![](github/pics/master-logo.png)
+
 
 [Get Started](github/get-started.md)
 
