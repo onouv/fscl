@@ -75,7 +75,7 @@ The web client provides user views for
 Each of these views is built from React.js components, mostly setup in [`lib`](client/src/lib).
 Here, all stateless ui components are assembled in [`lib\ui`]. The client heavily uses [`react-redux`](https://react-redux.js.org/). Therefore, all state is rooted in [`store.js`](client/src/store.js). There is one view-specific reducer for each view, e.g.
 [`FunctionReducer.js`](../client/src/function/redux/FunctionReducer.js), and a couple
-generic specialized sub-reducers in ['client/src/lib/redux'](../client/src/lib/redux)
+specialized sub-reducers in ['client/src/lib/redux'](../client/src/lib/redux)
 Each *Redux-Action* lives in its own file named after the Action. All redux code is
 collected in a `redux` folder either in the view folder or in lib.
 
