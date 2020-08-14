@@ -7,7 +7,16 @@ Please look at this UML diagram as an overview or the core object model:
 
 Functions, Systems, Components and Locations are all organized in hierarchical
 parent-child structures. Certain relations between these entities are modelled
-as well.
+as well. In short: 
+* *Functions* describe behaviour or performance features. For us, this currently is 
+  just a name representation and a little description. A future improved domain model
+  is likely going to have more on this, e.g. *safety relevant* functions or collections 
+  of type-value-pairs to explicitly represent performance parameters.
+* *Functions* are *realized* by *Components*, which are pieces of hardware or software
+* a bunch of *Components* may constitute a *System*, which means that *Systems* may 
+  also *realize* *Functions*
+* A *Component* may be *installed* in a *Location*, and *Locations* of course can have 
+  sub-locations (slots in a rack in a cabinet in a room in a building...)
 
 Currently, the demonstrator deals with *Function* and *Component* entities,
 omitting *Location* and *System* artefacts for brevity. In addition, a *Project*
