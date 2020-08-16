@@ -1,0 +1,7 @@
+2020-08-13
+* nesting Maven projects
+* making fscl-project-service and all dependencies build 
+* maintaining the IDEA module system (introducing *.iml, .idea/ into repo) 
+
+
+

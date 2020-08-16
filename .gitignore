@@ -1,0 +1,11 @@
+# java stuff
+*.class
+target/
+
+# node.js/ npm stuff
+node_module/
+
+# IntelliJ IDEA stuff
+*.iml
+.idea/
+
