@@ -1,16 +1,25 @@
 package fscl.projectservice.domain;
 
-import org.springframework.data.mongodb.core.mapping.Document;
+
+import javax.persistence.*;
+//import org.springframework.data.annotation.Id;
 import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.PersistenceConstructor;
+//import org.springframework.data.annotation.PersistenceConstructor;
 import java.util.UUID;
 import java.time.LocalDateTime;
 
-@Document(collection="cachedcodes")
+@Entity
+@Table(name="IDREGISTRATION")
 public class IdRegistration {
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private ObjectId dataBaseId;
+	private final String code;
+	private final UUID clientId;
+	private final LocalDateTime expiration;
 	
-	@PersistenceConstructor
+	//@PersistenceConstructor
 	public IdRegistration(String code, UUID clientId, LocalDateTime expiration) {
 		this.code = code;
 		this.clientId = clientId;
@@ -58,11 +67,4 @@ public class IdRegistration {
 			cc.expiration.equals(this.expiration)
 		);		
 	}
-	
-	@Id
-	private ObjectId dataBaseId;
-	private final String code;
-	private final UUID clientId;
-	private final LocalDateTime expiration;
-	
 }

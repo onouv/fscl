@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.UUID;
 
 @Component("ProjectService")
@@ -169,8 +170,12 @@ public class ProjectService {
 	 * @throws 	Exception		in case of lower layer problems
 	 */
 	public List<Project> getProjects() throws Exception {
-
-		return this.projectRepo.findAll();
+		Iterable<Project> projectIterable = this.projectRepo.findAll();
+		ArrayList<Project> projects = new ArrayList<Project>();
+		for(Project p : projectIterable ) {
+			projects.add(p);
+		}
+		return projects;
 	}
 
 	/**

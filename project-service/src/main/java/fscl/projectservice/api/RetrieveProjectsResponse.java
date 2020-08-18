@@ -1,11 +1,14 @@
 package fscl.projectservice.api;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import fscl.projectservice.domain.Project;
 import fscl.core.api.Response;
 
 public class RetrieveProjectsResponse extends Response {
+
+	private final ProjectData[] projects;
 
 	public RetrieveProjectsResponse() {
 		super();
@@ -17,23 +20,18 @@ public class RetrieveProjectsResponse extends Response {
 		super.setError(errMsg);
 	}
 	
-	public RetrieveProjectsResponse(List<Project> pList) {
+	public RetrieveProjectsResponse(List<Project> projects) {
+
 		super();
-		this.projects = new ProjectData[pList.size()];
-		int i = 0;
-		for(Project p : pList) {
-			ProjectData responseData = new ProjectData(p);
-			this.projects[i++]  = responseData;
+		List<ProjectData> data  = new ArrayList<>();
+		for(Project p : projects ) {
+			data.add(new ProjectData(p));
 		}
+		this.projects = data.toArray(ProjectData[]::new);
 	}
-	
+
 	public ProjectData[] getProjects() {
 		return this.projects;
 	}
-	
-	private ProjectData[] projects;
 
-	public int numProjects() {
-		return this.projects.length;
-	}
 }

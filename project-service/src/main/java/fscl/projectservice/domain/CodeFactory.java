@@ -26,7 +26,7 @@ class CodeFactory {
 	private CodeProvider codeProvider;
 
 	public List<String> listCommittedCodes() {
-		List<Project> projects = this.projectRepo.findAll(orderBy());
+		Iterable<Project> projects = this.projectRepo.findAll();
 		List<String> committed = new ArrayList<String>();
 		projects.forEach(project -> {
 			committed.add(project.getCode().toString());
@@ -45,9 +45,5 @@ class CodeFactory {
 	
 	public String generateCode(List<String> committedCodes, List<String> cachedCodes) {
 		return codeProvider.generateCode(committedCodes, cachedCodes);
-	}
-	
-	private Sort orderBy() {
-		return Sort.by(Sort.Direction.DESC, "code");
 	}
 }

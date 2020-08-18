@@ -8,18 +8,21 @@ import fscl.project.api.events.ProjectEvent;
 
 import org.bson.types.ObjectId;
 
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.annotation.Id;
+import javax.persistence.Table;
+import javax.persistence.Id;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 
 import java.util.List;
 import java.util.ArrayList;
 
-
-
-@Document(collection="projects")
+@Entity
+@Table(name="PROJECT")
 public class Project extends EntityContent {
 	
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	protected ObjectId dbId;
 	
 	private String code;
