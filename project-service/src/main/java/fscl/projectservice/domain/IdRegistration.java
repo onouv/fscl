@@ -1,14 +1,22 @@
 package fscl.projectservice.domain;
 
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
+
 import org.springframework.data.annotation.PersistenceConstructor;
+
+import javax.persistence.*;
 import java.util.UUID;
 import java.time.LocalDateTime;
 
-@Document(collection="cachedcodes")
+@Entity
+//@Table(name="IDREGISTRATION")
 public class IdRegistration {
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private Long dataBaseId;
+	private final String code;
+	private final UUID clientId;
+	private final LocalDateTime expiration;
 	
 	@PersistenceConstructor
 	public IdRegistration(String code, UUID clientId, LocalDateTime expiration) {
@@ -22,7 +30,14 @@ public class IdRegistration {
 		this.clientId = clientId;
 		this.expiration = LocalDateTime.now().plusSeconds(secondsExpiring);
 	}
-		
+
+	// just for the Hibernate db layer
+	public IdRegistration() {
+		this.code = "";
+		this.clientId = null;
+		this.expiration = null;
+	}
+
 	public UUID getClientId( ) {
 		return this.clientId;
 	}
@@ -36,7 +51,7 @@ public class IdRegistration {
 	}
 	
 	public String toString() {
-		StringBuffer buf = new StringBuffer("{ ");
+		StringBuilder buf = new StringBuilder("{ ");
 		buf.append(String.format(" code: %s,", this.code));
 		buf.append(String.format(" clientId: %s,", this.clientId.toString()));
 		buf.append(String.format(" expiration: %s,", this.expiration.toString()));
@@ -58,11 +73,4 @@ public class IdRegistration {
 			cc.expiration.equals(this.expiration)
 		);		
 	}
-	
-	@Id
-	private ObjectId dataBaseId;
-	private final String code;
-	private final UUID clientId;
-	private final LocalDateTime expiration;
-	
 }

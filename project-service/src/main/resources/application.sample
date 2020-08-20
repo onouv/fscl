@@ -1,9 +1,19 @@
 spring:
   application:
     name: project-service
-  data:
-    mongodb:
-      uri: mongodb://<user-name>:<password>@<server:27017/fscl-projects        
+  jpa:
+      database-platform: org.hibernate.dialect.PostgreSQLDialect
+      show-sql: false
+      hibernate:
+        #ddl-auto: validate # production
+        ddl-auto: update   # develop
+    datasource:
+      platform: postgres
+      driver-class-name:
+      #initialization-mode: always
+      url: "jdbc:postgresql://localhost:5432/fscl_projects"
+      username: fsclusr
+      password: <pick one>    
   cloud:
     stream:
       bindings:

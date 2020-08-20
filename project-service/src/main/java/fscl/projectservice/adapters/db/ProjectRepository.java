@@ -1,10 +1,12 @@
 package fscl.projectservice.adapters.db;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import fscl.projectservice.domain.Project;
 
-public interface ProjectRepository extends MongoRepository<Project, String> {
+@Repository
+public interface ProjectRepository extends CrudRepository<Project, String> {
 	
 	public Project findByCode(String code);
 		

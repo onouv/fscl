@@ -1,5 +1,8 @@
 package fscl.core.domain;
 
+import javax.persistence.MappedSuperclass;
+
+@MappedSuperclass
 public class EntityContent {
 	
 	protected String name;
