@@ -54,7 +54,7 @@ public class ProjectController {
 					new NewProjectCodeResponse(newCode),
 					HttpStatus.OK);
 			
-			log.info("new project code cached : \tcode={}\ttime out={} s\tclient={}", 
+				log.info("new project code cached : \tcode={}\ttime out={} s\tclient={}",
 					newCode,
 					request.getTimeoutSeconds(),
 					request.getClientId());
@@ -90,7 +90,7 @@ public class ProjectController {
 	
 	/**
 	 * CREATE a new project
-	 * @param req		ProjectData
+	 * @param request	CreateProjectRequest
 	 * @return			ResponseEntity<Response>
 	 */
 	@CrossOrigin(origins=CommonConfig.Web.allowedCorsClient)
@@ -127,6 +127,16 @@ public class ProjectController {
 			return new ResponseEntity<Response>(
 					new Response(e.getMessage()), 
 					HttpStatus.CONFLICT);
+		} catch(Exception e) {
+
+			log.error(
+					"exception while serving request to update project :\tcode={}, message={}",
+					request.getCode(),
+					e.getMessage());
+
+			return new ResponseEntity<Response> (
+					new Response(e.getMessage()),
+					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	

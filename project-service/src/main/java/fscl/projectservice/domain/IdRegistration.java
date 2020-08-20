@@ -1,25 +1,24 @@
 package fscl.projectservice.domain;
 
 
+import org.springframework.data.annotation.PersistenceConstructor;
+
 import javax.persistence.*;
-//import org.springframework.data.annotation.Id;
-import org.bson.types.ObjectId;
-//import org.springframework.data.annotation.PersistenceConstructor;
 import java.util.UUID;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name="IDREGISTRATION")
+//@Table(name="IDREGISTRATION")
 public class IdRegistration {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private ObjectId dataBaseId;
+	private Long dataBaseId;
 	private final String code;
 	private final UUID clientId;
 	private final LocalDateTime expiration;
 	
-	//@PersistenceConstructor
+	@PersistenceConstructor
 	public IdRegistration(String code, UUID clientId, LocalDateTime expiration) {
 		this.code = code;
 		this.clientId = clientId;
@@ -31,7 +30,14 @@ public class IdRegistration {
 		this.clientId = clientId;
 		this.expiration = LocalDateTime.now().plusSeconds(secondsExpiring);
 	}
-		
+
+	// just for the Hibernate db layer
+	public IdRegistration() {
+		this.code = "";
+		this.clientId = null;
+		this.expiration = null;
+	}
+
 	public UUID getClientId( ) {
 		return this.clientId;
 	}
@@ -45,7 +51,7 @@ public class IdRegistration {
 	}
 	
 	public String toString() {
-		StringBuffer buf = new StringBuffer("{ ");
+		StringBuilder buf = new StringBuilder("{ ");
 		buf.append(String.format(" code: %s,", this.code));
 		buf.append(String.format(" clientId: %s,", this.clientId.toString()));
 		buf.append(String.format(" expiration: %s,", this.expiration.toString()));

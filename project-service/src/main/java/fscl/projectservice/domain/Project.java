@@ -6,8 +6,6 @@ import fscl.core.domain.ProjectCode;
 import fscl.messaging.events.ResultDomainEventsAggregate;
 import fscl.project.api.events.ProjectEvent;
 
-import org.bson.types.ObjectId;
-
 import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.Entity;
@@ -18,12 +16,12 @@ import java.util.List;
 import java.util.ArrayList;
 
 @Entity
-@Table(name="PROJECT")
+//@Table(name="PROJECT")
 public class Project extends EntityContent {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	protected ObjectId dbId;
+	protected Long dbId;
 	
 	private String code;
 	

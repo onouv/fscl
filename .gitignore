@@ -7,7 +7,7 @@ target/
 *.yml
 
 # node.js/ npm stuff
-node_module/
+node_modules/
 
 # IntelliJ IDEA stuff
 *.iml
