@@ -1,29 +1,32 @@
 package fscl.function.service.domain;
 
 
+import fscl.component.api.foreignkeys.Component;
+import fscl.core.db.DuplicateEntityException;
+import fscl.core.db.NoSuchCodedItemException;
+import fscl.core.domain.CodeFormat;
+import fscl.core.domain.Entity;
+import fscl.core.domain.EntityContent;
+import fscl.core.domain.EntityId;
 import fscl.function.api.messaging.FunctionCreatedEvent;
 import fscl.function.api.messaging.FunctionDeletedEvent;
 import fscl.function.api.messaging.FunctionRecodedEvent;
-import fscl.core.domain.CodeFormat;
-import fscl.core.domain.EntityId;
-import fscl.core.domain.EntityContent;
-import fscl.core.domain.Entity;
-import fscl.core.db.DuplicateEntityException;
-import fscl.core.db.NoSuchCodedItemException;
-import fscl.component.api.foreignkeys.Component;
 
-import java.lang.IllegalArgumentException;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 
-
-import org.springframework.data.mongodb.core.mapping.Document;
-
-@Document(collection="functions")
+@javax.persistence.Entity//(name = "Function")
+@Table(name = "fscl_function")
 public class Function extends Entity<Function> {
-		
-	@DBRef
+
+	@OneToMany
+	@JoinColumn(
+			name = "many_ref",
+			referencedColumnName = "db_id"
+	)
 	protected List<Component> components;
 	
 	public Function() {
@@ -33,14 +36,19 @@ public class Function extends Entity<Function> {
 		super.parent = null;
 	}
 	
-	public Function(Entity<Function> entity, CodeFormat cfg) {
+	public Function(
+			Entity<Function> entity,
+			CodeFormat cfg) {
+
 		super(entity, cfg);
 	}
 	
-	public Function(EntityId id, Function parent, EntityContent content)//, CodeConfig cfg) 
+	public Function(
+			EntityId id,
+			Function parent,
+			EntityContent content)
 		throws IllegalArgumentException {
-		
-		//this(cfg);
+
 		this();
 		
 		if(id ==null) {			
@@ -77,7 +85,6 @@ public class Function extends Entity<Function> {
 				newFunction.code.toEntityApiId());
 		
 		return new Aggregate(newFunction, event);
-		 
 	}
 	
 	/**

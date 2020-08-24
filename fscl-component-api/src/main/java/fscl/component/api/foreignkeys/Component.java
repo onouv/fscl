@@ -2,34 +2,52 @@ package fscl.component.api.foreignkeys;
 
 import fscl.core.domain.EntityId;
 
-import static org.springframework.data.util.CastUtils.cast;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.PersistenceConstructor;
-import org.springframework.data.mongodb.core.mapping.Document;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Id;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Embedded;
 
-@Document(collection="components")
-public class Component {
-	
+import static org.springframework.data.util.CastUtils.cast;
+
+@Entity
+@Table(name = "component_fk")
+public final class Component {
+
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "db_id")		// forcing name as so it can be used in @JoinColumn
+	private Long id;
+
+	@Embedded
 	private EntityId code;
+
+	// "many" end of unidirectional @OneToMany relation
+	@Column(name = "many_ref")
+	private Long manyRef;
 	
-	public Component() {
-		this.code = new EntityId("invalid!", "invalid!");
+	Component() {
+		//this.code = new EntityId("invalid!", "invalid!");
 	}
-	
-	@PersistenceConstructor
-	public Component(EntityId code) {
+
+	private Component(EntityId code) {
 		this.code = code;
 	}
-	
-	public void setCode(EntityId code) {
-		this.code = code;
+
+	public static Component newInstance(EntityId code) {
+		return new Component(code);
 	}
 
 	public EntityId getCode() {
 		return code;
 	}
-	
+
+	public Long getId() {
+		return id;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if(o==null)

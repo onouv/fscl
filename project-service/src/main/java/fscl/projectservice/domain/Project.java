@@ -6,7 +6,6 @@ import fscl.core.domain.ProjectCode;
 import fscl.messaging.events.ResultDomainEventsAggregate;
 import fscl.project.api.events.ProjectEvent;
 
-import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,7 +15,6 @@ import java.util.List;
 import java.util.ArrayList;
 
 @Entity
-//@Table(name="PROJECT")
 public class Project extends EntityContent {
 	
 	@Id

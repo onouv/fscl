@@ -1,13 +1,18 @@
 package fscl.core.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 
+@Embeddable
 public class ProjectCode {
-	
+
+	@Column(name = "project_code")
 	private String code;
-	
-	// NOTE : there must not be a default constructor (not even private)   
-	// since mongodb driver cannot then deal with final members anymore. 
-		
+
+	public ProjectCode() {
+		this.code = "";
+	}
+
 	public ProjectCode(String code) 
 		throws IllegalArgumentException {
 		

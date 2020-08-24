@@ -1,17 +1,24 @@
 package fscl.core.domain;
 
 import fscl.core.api.EntityApiId;
-
 import org.springframework.data.annotation.PersistenceConstructor;
-import org.springframework.data.annotation.Transient;
 
+import javax.persistence.Embeddable;
+import javax.persistence.Embedded;
+import javax.persistence.Transient;
+
+@Embeddable
 public class EntityId {
+
+	@Embedded
 	public final EntityCode entity;
+
+	@Embedded
 	public final ProjectCode project;
 	
 	@Transient
 	private boolean validated = false;
-	
+
 	@PersistenceConstructor
 	public EntityId(ProjectCode project, EntityCode entity) {
 		this.project = project;
@@ -55,10 +62,8 @@ public class EntityId {
 	}
 	
 	/**
-	 * validate if this instance is in compliance with the 
-	 * given code config rules. 
+	 * Return validation status.
 	 * 
-	 * @param config	the permitted conde configuration
 	 * @return true if compliant to config, otherwise false
 	 */
 	public boolean isValid() {
@@ -68,14 +73,14 @@ public class EntityId {
 	/**
 	 * Validate against CodeConfig provided.
 	 * 
-	 * @param 	config
+	 * @param 	config CodeConfig
 	 * @return 	a validated instance. May or may not be valid. 
 	 * 			Make sure to check this new instance with 
 	 * 			isValid() and to use that one henceforth.
 	 */
 	public EntityId validate(CodeFormat config) {
-		this.validated =(this.entity.isValid(config) && 
-						 this.project.isValid());
+		this.validated =this.entity.isValid(config) &&
+						 this.project.isValid();
 		EntityId ret=  new EntityId(
 				this.project, 
 				new EntityCode(this.entity, config));

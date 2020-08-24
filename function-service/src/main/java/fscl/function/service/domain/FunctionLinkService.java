@@ -119,7 +119,7 @@ public class FunctionLinkService extends EntityLinkService {
 			throw new NoSuchCodedItemException(validatedFunctionId);
 		}
 		
-		Component deletee = new Component(validatedComponentId);
+		Component deletee = Component.newInstance(validatedComponentId);
 		
 		function.unlinkComponent(deletee);
 		this.functionRepo.save(function);
@@ -147,7 +147,7 @@ public class FunctionLinkService extends EntityLinkService {
 	 */
 	public EntityId deleteComponent(EntityId id) {
 		
-		List<Function> linkedFunctions = this.functionRepo.findByLinkedComponent(id);
+		List<Function> linkedFunctions = this.functionRepo.findByComponents(id);
 		
 		if(linkedFunctions.isEmpty()) {		
 			return null;

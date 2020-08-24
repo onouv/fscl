@@ -40,10 +40,11 @@
 
 		<!-- this one is maintained only while transitioning to postgres,
 			 so that compilation is possible -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-mongodb</artifactId>
 		</dependency>
+		-->
 
 		<!-- this one is the new persistency layer - here to stay -->
 		<dependency>

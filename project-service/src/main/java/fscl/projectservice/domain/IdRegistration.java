@@ -8,12 +8,14 @@ import java.util.UUID;
 import java.time.LocalDateTime;
 
 @Entity
-//@Table(name="IDREGISTRATION")
+@Table(name="id_registration")
 public class IdRegistration {
 
 	@Id
+	@Column(name = "db_id")
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long dataBaseId;
+
 	private final String code;
 	private final UUID clientId;
 	private final LocalDateTime expiration;

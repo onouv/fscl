@@ -27,11 +27,33 @@
 
 	<dependencies>
 
+		<!-- PROJECT -->
+		<dependency>
+			<groupId>io.fscl</groupId>
+			<artifactId>fscl-core-lib</artifactId>
+			<version>2.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>io.fscl</groupId>
+			<artifactId>fscl-project-api</artifactId>
+			<version>2.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>io.fscl</groupId>
+			<artifactId>fscl-function-api</artifactId>
+			<version>2.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>io.fscl</groupId>
+			<artifactId>fscl-component-api</artifactId>
+			<version>2.0-SNAPSHOT</version>
+		</dependency>
+
+		<!-- EXTERNAL DEPS -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -47,51 +69,21 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
-		<!-- junit 5 -->
-        <dependency>
+        <dependency> <!-- junit 5 -->
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <!-- <version>${junit-jupiter.version}</version> -->
             <scope>test</scope>
         </dependency>
-
-        <!--
-        <dependency>
-		    <groupId>org.mockito</groupId>
-		    <artifactId>mockito-core</artifactId>
-		</dependency>
-		-->
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-mongodb</artifactId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
-		
 		<dependency>
-			<groupId>io.fscl</groupId>
-  			<artifactId>fscl-core-lib</artifactId>
-  			<version>1.0.0</version>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
 		</dependency>
-
-		<dependency>
-			<groupId>io.fscl</groupId>
-  			<artifactId>fscl-project-api</artifactId>
-  			<version>1.0.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>io.fscl</groupId>
-  			<artifactId>fscl-function-api</artifactId>
-  			<version>1.0.0</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>io.fscl</groupId>
-  			<artifactId>fscl-component-api</artifactId>
-  			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-
 	</dependencies>
 
 	<build>

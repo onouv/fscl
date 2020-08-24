@@ -1,4 +1,7 @@
 #!/bin/bash
+
+FSCL_HOME = /home/ono/projects/fscl
+
 buildFunctionApi() {
    cd $FSCLHOME/fscl-function-api
    mvn install

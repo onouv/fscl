@@ -2,38 +2,32 @@ package fscl.functionservice.domain;
 
 import fscl.core.db.IdRegistrationRepository;
 import fscl.core.db.NoSuchCodedItemException;
-import fscl.core.domain.ProjectCode;
-import fscl.core.domain.EntityId;
-import fscl.core.domain.EntityCode;
-import fscl.core.domain.EntityContent;
-import fscl.core.domain.CodeFormat;
-import fscl.core.domain.registration.IdRegistration;
+import fscl.core.domain.*;
 import fscl.core.domain.registration.CollidingClientForRegistrationException;
+import fscl.core.domain.registration.IdRegistration;
 import fscl.core.domain.registration.NoSuchRegistrationException;
 import fscl.function.service.adapters.db.FunctionRepository;
 import fscl.function.service.adapters.db.ProjectRepository;
 import fscl.function.service.domain.Function;
 import fscl.function.service.domain.FunctionIdManager;
 import fscl.project.foreignkeys.Project;
-
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.extension.ExtendWith;
-
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.ArgumentCaptor;
 import static org.mockito.Mockito.*;
-
-import java.util.List;
-import java.util.ArrayList;
-import java.util.UUID;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -285,7 +279,7 @@ public class FunctionIdManagerFastUnitTest {
 						registrations.add(this.regFromB);
 						
 						reset(registry);
-						when(registry.findByProjectCode(p1Code)).thenReturn(registrations);
+						when(registry.findByEntityIdIsContaining(p1Code)).thenReturn(registrations);
 					}
 					
 					@Nested
@@ -404,7 +398,7 @@ public class FunctionIdManagerFastUnitTest {
 						registrations.add(this.regFromB);
 						
 						reset(registry);
-						when(registry.findByProjectCode(p1Code)).thenReturn(registrations);
+						when(registry.findByEntityIdIsContaining(p1Code)).thenReturn(registrations);
 					}
 					
 					@Nested
@@ -526,7 +520,7 @@ public class FunctionIdManagerFastUnitTest {
 					@BeforeEach
 					void setup() {						
 						reset(registry);
-						when(registry.findByProjectCode(p1Code)).thenReturn(registrations);						
+						when(registry.findByEntityIdIsContaining(p1Code)).thenReturn(registrations);
 						when(registry.findByEntityId(any(EntityId.class))).thenReturn(null);						
 					}
 					
@@ -618,7 +612,7 @@ public class FunctionIdManagerFastUnitTest {
 						registrations.add(this.regFromB);
 						
 						reset(registry);
-						when(registry.findByProjectCode(p1Code)).thenReturn(registrations);
+						when(registry.findByEntityIdIsContaining(p1Code)).thenReturn(registrations);
 					}
 					
 					@Nested
@@ -735,7 +729,7 @@ public class FunctionIdManagerFastUnitTest {
 						registrations.add(this.regFromB);
 						
 						reset(registry);
-						when(registry.findByProjectCode(p1Code)).thenReturn(registrations);
+						when(registry.findByEntityIdIsContaining(p1Code)).thenReturn(registrations);
 					}
 					
 					@Nested
@@ -846,7 +840,7 @@ public class FunctionIdManagerFastUnitTest {
 					@BeforeEach
 					void setup() {						
 						reset(registry);
-						when(registry.findByProjectCode(p1Code)).thenReturn(registrations);						
+						when(registry.findByEntityIdIsContaining(p1Code)).thenReturn(registrations);
 						when(registry.findByEntityId(any(EntityId.class))).thenReturn(null);						
 					}
 					
@@ -972,7 +966,7 @@ public class FunctionIdManagerFastUnitTest {
 						registrations.add(this.regFromB);
 						
 						reset(registry);
-						when(registry.findByProjectCode(p1Code)).thenReturn(registrations);
+						when(registry.findByEntityIdIsContaining(p1Code)).thenReturn(registrations);
 					}
 					
 					@Nested
@@ -1093,7 +1087,7 @@ public class FunctionIdManagerFastUnitTest {
 						registrations.add(this.regFromB);
 						
 						reset(registry);
-						when(registry.findByProjectCode(p1Code)).thenReturn(registrations);
+						when(registry.findByEntityIdIsContaining(p1Code)).thenReturn(registrations);
 					}
 					
 					@Nested
@@ -1212,7 +1206,7 @@ public class FunctionIdManagerFastUnitTest {
 					@BeforeEach
 					void setup() {						
 						reset(registry);
-						when(registry.findByProjectCode(p1Code)).thenReturn(registrations);						
+						when(registry.findByEntityIdIsContaining(p1Code)).thenReturn(registrations);
 						when(registry.findByEntityId(any(EntityId.class))).thenReturn(null);						
 					}
 					
@@ -1312,7 +1306,7 @@ public class FunctionIdManagerFastUnitTest {
 						registrations.add(this.regFromB);
 						
 						reset(registry);
-						when(registry.findByProjectCode(p1Code)).thenReturn(registrations);
+						when(registry.findByEntityIdIsContaining(p1Code)).thenReturn(registrations);
 					}
 					
 					@Nested
@@ -1433,7 +1427,7 @@ public class FunctionIdManagerFastUnitTest {
 						registrations.add(this.regFromB);
 						
 						reset(registry);
-						when(registry.findByProjectCode(p1Code)).thenReturn(registrations);
+						when(registry.findByEntityIdIsContaining(p1Code)).thenReturn(registrations);
 					}
 					
 					@Nested
@@ -1548,7 +1542,7 @@ public class FunctionIdManagerFastUnitTest {
 					@BeforeEach
 					void setup() {						
 						reset(registry);
-						when(registry.findByProjectCode(p1Code)).thenReturn(registrations);						
+						when(registry.findByEntityIdIsContaining(p1Code)).thenReturn(registrations);
 						when(registry.findByEntityId(any(EntityId.class))).thenReturn(null);						
 					}
 					

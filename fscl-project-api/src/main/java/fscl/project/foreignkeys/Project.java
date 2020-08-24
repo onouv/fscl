@@ -1,20 +1,33 @@
 package fscl.project.foreignkeys;
 
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
 import fscl.core.domain.CodeFormat;
+import javax.persistence.Id;
 
-@Document(collection="projects")
+import javax.persistence.*;
+
+@Entity
+@Table(name = "project_fk")
 public class Project {	
 	
 	@Id
-	private ObjectId id;	
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "db_id")
+	private Long id;
+	//private ObjectId id;
+
+	@Column(name = "code")
 	private String code;
+
+	@Embedded
 	private CodeFormat functionConfig;
+
+	@Embedded
 	private CodeFormat systemConfig;
+
+	@Embedded
 	private CodeFormat componentConfig;
+
+	@Embedded
 	private CodeFormat locationConfig;
 	
 	public Project(

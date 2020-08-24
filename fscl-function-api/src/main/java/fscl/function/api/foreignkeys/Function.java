@@ -1,19 +1,26 @@
 package fscl.function.api.foreignkeys;
 
 import fscl.core.domain.EntityId;
+import org.springframework.data.annotation.PersistenceConstructor;
+
+import javax.persistence.*;
 
 import static org.springframework.data.util.CastUtils.cast;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.PersistenceConstructor;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-@Document(collection="functions")
+@Entity
+@Table(name = "functions_fk")
 public class Function {	
-	
-	
+
 	@Id
+	@Column(name = "db_id")
+	private Long id;
+
+	@Embedded
 	private EntityId code;
+
+	// "many" end of unidirectional @OneToMany relation
+	@Column(name = "many_ref")
+	private Long manyRef;
 	
 	public Function() {
 		this.code = new EntityId("", "");
