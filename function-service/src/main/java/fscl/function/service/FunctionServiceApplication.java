@@ -19,14 +19,15 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 })
 //@EntityScan(basePackages= {"fscl.core.domain"})
 @EntityScan(basePackages= {
-		"fscl.core.domain.registration",
-		"fscl.component.api.foreignkeys",
-		"fscl.project.foreignkeys",
+		"fscl.core.domain",
+		"fscl.component.api",
+		"fscl.project",
 		"fscl.function.service.domain"
 })
 @ComponentScan(basePackages= {
 		"fscl.core.domain",
-		"fscl.function.service"
+		"fscl.function.service",
+		"fscl.component.api"
 })
 @EnableBinding(Source.class)
 public class FunctionServiceApplication {
