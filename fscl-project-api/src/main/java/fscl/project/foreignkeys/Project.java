@@ -1,7 +1,6 @@
 package fscl.project.foreignkeys;
 
 import fscl.core.domain.CodeFormat;
-import javax.persistence.Id;
 
 import javax.persistence.*;
 
@@ -18,15 +17,31 @@ public class Project {
 	@Column(name = "code")
 	private String code;
 
+	@AttributeOverrides({
+		@AttributeOverride(name="prefix", column=@Column(name="func_prefix")),
+		@AttributeOverride(name="separator", column=@Column(name="func_separator")),
+	})
 	@Embedded
 	private CodeFormat functionConfig;
 
+	@AttributeOverrides({
+		@AttributeOverride(name="prefix", column=@Column(name="sys_prefix")),
+		@AttributeOverride(name="separator", column=@Column(name="sys_separator")),
+	})
 	@Embedded
 	private CodeFormat systemConfig;
 
+	@AttributeOverrides({
+		@AttributeOverride(name="prefix", column=@Column(name="comp_prefix")),
+		@AttributeOverride(name="separator", column=@Column(name="comp_separator")),
+	})
 	@Embedded
 	private CodeFormat componentConfig;
 
+	@AttributeOverrides({
+		@AttributeOverride(name="prefix", column=@Column(name="loc_prefix")),
+		@AttributeOverride(name="separator", column=@Column(name="loc_separator")),
+	})
 	@Embedded
 	private CodeFormat locationConfig;
 	

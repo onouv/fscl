@@ -279,7 +279,7 @@ public class FunctionIdManagerFastUnitTest {
 						registrations.add(this.regFromB);
 						
 						reset(registry);
-						when(registry.findByEntityIdIsContaining(p1Code)).thenReturn(registrations);
+						when(registry.findByProjectCode(p1Code)).thenReturn(registrations);
 					}
 					
 					@Nested
@@ -398,7 +398,7 @@ public class FunctionIdManagerFastUnitTest {
 						registrations.add(this.regFromB);
 						
 						reset(registry);
-						when(registry.findByEntityIdIsContaining(p1Code)).thenReturn(registrations);
+						when(registry.findByProjectCode(p1Code)).thenReturn(registrations);
 					}
 					
 					@Nested
@@ -520,7 +520,7 @@ public class FunctionIdManagerFastUnitTest {
 					@BeforeEach
 					void setup() {						
 						reset(registry);
-						when(registry.findByEntityIdIsContaining(p1Code)).thenReturn(registrations);
+						when(registry.findByProjectCode(p1Code)).thenReturn(registrations);
 						when(registry.findByEntityId(any(EntityId.class))).thenReturn(null);						
 					}
 					
@@ -612,7 +612,7 @@ public class FunctionIdManagerFastUnitTest {
 						registrations.add(this.regFromB);
 						
 						reset(registry);
-						when(registry.findByEntityIdIsContaining(p1Code)).thenReturn(registrations);
+						when(registry.findByProjectCode(p1Code)).thenReturn(registrations);
 					}
 					
 					@Nested
@@ -729,7 +729,7 @@ public class FunctionIdManagerFastUnitTest {
 						registrations.add(this.regFromB);
 						
 						reset(registry);
-						when(registry.findByEntityIdIsContaining(p1Code)).thenReturn(registrations);
+						when(registry.findByProjectCode(p1Code)).thenReturn(registrations);
 					}
 					
 					@Nested
@@ -840,7 +840,7 @@ public class FunctionIdManagerFastUnitTest {
 					@BeforeEach
 					void setup() {						
 						reset(registry);
-						when(registry.findByEntityIdIsContaining(p1Code)).thenReturn(registrations);
+						when(registry.findByProjectCode(p1Code)).thenReturn(registrations);
 						when(registry.findByEntityId(any(EntityId.class))).thenReturn(null);						
 					}
 					
@@ -966,7 +966,7 @@ public class FunctionIdManagerFastUnitTest {
 						registrations.add(this.regFromB);
 						
 						reset(registry);
-						when(registry.findByEntityIdIsContaining(p1Code)).thenReturn(registrations);
+						when(registry.findByProjectCode(p1Code)).thenReturn(registrations);
 					}
 					
 					@Nested
@@ -1087,7 +1087,7 @@ public class FunctionIdManagerFastUnitTest {
 						registrations.add(this.regFromB);
 						
 						reset(registry);
-						when(registry.findByEntityIdIsContaining(p1Code)).thenReturn(registrations);
+						when(registry.findByProjectCode(p1Code)).thenReturn(registrations);
 					}
 					
 					@Nested
@@ -1206,7 +1206,7 @@ public class FunctionIdManagerFastUnitTest {
 					@BeforeEach
 					void setup() {						
 						reset(registry);
-						when(registry.findByEntityIdIsContaining(p1Code)).thenReturn(registrations);
+						when(registry.findByProjectCode(p1Code)).thenReturn(registrations);
 						when(registry.findByEntityId(any(EntityId.class))).thenReturn(null);						
 					}
 					
@@ -1306,7 +1306,7 @@ public class FunctionIdManagerFastUnitTest {
 						registrations.add(this.regFromB);
 						
 						reset(registry);
-						when(registry.findByEntityIdIsContaining(p1Code)).thenReturn(registrations);
+						when(registry.findByProjectCode(p1Code)).thenReturn(registrations);
 					}
 					
 					@Nested
@@ -1427,7 +1427,7 @@ public class FunctionIdManagerFastUnitTest {
 						registrations.add(this.regFromB);
 						
 						reset(registry);
-						when(registry.findByEntityIdIsContaining(p1Code)).thenReturn(registrations);
+						when(registry.findByProjectCode(p1Code)).thenReturn(registrations);
 					}
 					
 					@Nested
@@ -1542,7 +1542,7 @@ public class FunctionIdManagerFastUnitTest {
 					@BeforeEach
 					void setup() {						
 						reset(registry);
-						when(registry.findByEntityIdIsContaining(p1Code)).thenReturn(registrations);
+						when(registry.findByProjectCode(p1Code)).thenReturn(registrations);
 						when(registry.findByEntityId(any(EntityId.class))).thenReturn(null);						
 					}
 					

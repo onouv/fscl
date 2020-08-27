@@ -30,7 +30,10 @@ public class EntityCode {
 		return state;
 	}
 
-	@PersistenceConstructor
+	public EntityCode() {
+		
+	}
+	
 	public EntityCode(String code) {
 		
 		if(code == null)

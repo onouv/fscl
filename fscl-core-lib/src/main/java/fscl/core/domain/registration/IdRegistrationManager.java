@@ -141,7 +141,7 @@ public abstract class IdRegistrationManager {
 	protected List<EntityId> listRegisteredRootsFor(ProjectCode project) {
 		
 		List<IdRegistration> registeredForProject = this.registrationRepo
-				.findByEntityIdIsContaining(project);
+				.findByProjectCode(project);
 		
 		List<EntityId> registeredRoots = new ArrayList<EntityId>();
 		registeredForProject.forEach((reg) -> {		
@@ -161,7 +161,7 @@ public abstract class IdRegistrationManager {
 		ProjectCode project = parent.project;
 		
 		List<IdRegistration> registeredForProject = this.registrationRepo
-				.findByEntityIdIsContaining(project);
+				.findByProjectCode(project);
 		
 		List<EntityId> registeredChilds = new ArrayList<EntityId>();
 		registeredForProject.forEach((reg) -> {
