@@ -1,6 +1,5 @@
 package fscl.projectservice.domain;
 
-import fscl.projectservice.domain.IdRegistration;
 import fscl.projectservice.adapters.db.ProjectRepository;
 import fscl.projectservice.adapters.db.ProjectCodeCacheRepository;
 
@@ -11,8 +10,6 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
-import org.springframework.data.domain.Sort;
 
 @Component()
 class CodeFactory {

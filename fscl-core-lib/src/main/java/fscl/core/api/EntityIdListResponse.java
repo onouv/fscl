@@ -1,6 +1,5 @@
 package fscl.core.api;
 
-import fscl.core.api.EntityApiId;
 import fscl.core.domain.EntityId;
 
 import java.util.ArrayList;
