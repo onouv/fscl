@@ -5,9 +5,9 @@
 
 	<groupId>io.fscl</groupId>
 	<artifactId>function-service</artifactId>
-	<version>1.0.0</version>
+	<version>2.0-SNAPSHOT</version>
 	<name>function-service</name>
-	<description>Demo function server for FSCL</description>
+	<description>Function aggregate microservice for FSCL</description>
 
 	<properties>
 		<java.version>1.8</java.version>

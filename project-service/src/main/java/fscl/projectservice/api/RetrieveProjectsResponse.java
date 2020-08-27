@@ -1,10 +1,10 @@
 package fscl.projectservice.api;
 
-import java.util.List;
-import java.util.ArrayList;
-
-import fscl.projectservice.domain.Project;
 import fscl.core.api.Response;
+import fscl.projectservice.domain.Project;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RetrieveProjectsResponse extends Response {
 
@@ -23,11 +23,12 @@ public class RetrieveProjectsResponse extends Response {
 	public RetrieveProjectsResponse(List<Project> projects) {
 
 		super();
+		this.projects = new ProjectData[projects.size()];
 		List<ProjectData> data  = new ArrayList<>();
+		int i = 0;
 		for(Project p : projects ) {
-			data.add(new ProjectData(p));
+			this.projects[i++] = new ProjectData(p);
 		}
-		this.projects = data.toArray(ProjectData[]::new);
 	}
 
 	public ProjectData[] getProjects() {
