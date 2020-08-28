@@ -1,7 +1,6 @@
 package fscl.core.domain;
 
 import fscl.core.api.EntityApiId;
-import org.springframework.data.annotation.PersistenceConstructor;
 
 import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
@@ -19,7 +18,11 @@ public class EntityId {
 	@Transient
 	private boolean validated = false;
 
-	@PersistenceConstructor
+	public EntityId() {
+		this.entity = null;
+		this.project = null;
+	}
+	
 	public EntityId(ProjectCode project, EntityCode entity) {
 		this.project = project;
 		this.entity = entity;

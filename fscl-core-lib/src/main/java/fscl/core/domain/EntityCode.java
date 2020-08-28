@@ -1,6 +1,5 @@
 package fscl.core.domain;
 
-import org.springframework.data.annotation.PersistenceConstructor;
 import javax.persistence.Transient;
 
 import javax.persistence.Column;

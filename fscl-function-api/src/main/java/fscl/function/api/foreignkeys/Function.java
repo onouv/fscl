@@ -1,7 +1,6 @@
 package fscl.function.api.foreignkeys;
 
 import fscl.core.domain.EntityId;
-import org.springframework.data.annotation.PersistenceConstructor;
 
 import javax.persistence.*;
 
@@ -23,10 +22,11 @@ public class Function {
 	private Long manyRef;
 	
 	public Function() {
-		this.code = new EntityId("", "");
+		this.id = null;
+		this.code = null;
+		this.manyRef = null;
 	}
 	
-	@PersistenceConstructor
 	public Function(EntityId code) {
 		this.code = code;
 	}

@@ -27,7 +27,7 @@ public abstract class Entity<T extends Entity<T>>
 	// *******************************************************
 	// Note: this.parent and this.children belong to the same
 	// bidirectional OneToMany relation
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "parent_id")
 	protected T parent;
 
@@ -173,25 +173,32 @@ public abstract class Entity<T extends Entity<T>>
 	 * Validate a given code as childcode:
 	 * 1) must have a child part
 	 * 2) parent part must match our own code
+	 * 3) project must match
 	 * 
 	 * @return true if given child code valid, otherwise false
 	 * @throws IllegalStateException if parent is not initialized
 	 */
 	public boolean isValidChildCode(EntityId childCode) throws IllegalStateException {
+		
+		if(childCode.project.equals(this.code.project)) {
+			
+			EntityCode otherParent = childCode.entity.getParent();
+			
+			if(otherParent.equals(this.code.entity)) {
 
-		EntityCode otherParent = childCode.entity.getParent();
-		if(otherParent.equals(this.code)) {
-
-			String otherTail = childCode.entity.getTail();
-			if( ! otherTail.equals(this.code.entity.getCode())) {
-				return true;
+				String otherTail = childCode.entity.getTail();
+				if( ! otherTail.equals(this.code.entity.getCode())) {
+					return true;
+				} else {
+					// has no child part, cannot become our child
+					return false;
+				}
 			} else {
-				// has no child part, cannot become our child
+				// parent part not matching
 				return false;
 			}
 		} else {
-
-			// parent part not matching
+			// project not matching
 			return false;
 		}
 	}

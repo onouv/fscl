@@ -1,7 +1,6 @@
 package fscl.core.domain.registration;
 
 import fscl.core.domain.EntityId;
-import org.springframework.data.annotation.PersistenceConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -25,7 +24,13 @@ public class IdRegistration {
 	@Column(name = "expires")
 	private final LocalDateTime expiration;
 
-	@PersistenceConstructor
+	public IdRegistration() {
+		this.dataBaseId = null;
+		this.entityId = null;
+		this.clientId = null;
+		this.expiration = null;
+	}
+	
 	public IdRegistration(EntityId entityId, UUID clientId, LocalDateTime expiration) {
 		this.entityId = entityId;
 		this.clientId = clientId;
