@@ -408,9 +408,10 @@ public class FunctionController extends FunctionControllerBase {
 			
 			id = new EntityId(project, function);
 			List<EntityApiId> deletedFunctions =  this.service.deleteFunction(id);
-			
-			log.info("deleted function: {}:{}",
-					project, function);
+			for(EntityApiId del: deletedFunctions) {
+				log.info("function-service: deleted function: {}:{}",
+						del.project.toString(), del.entity.toString());
+			}
 			return new ResponseEntity<>(
 					new EntityIdListResponse(deletedFunctions),
 					HttpStatus.OK);

@@ -1,7 +1,21 @@
-2020-08-13
+2020-08-13 ono
 * nesting Maven projects
 * making fscl-project-service and all dependencies build 
 * maintaining the IDEA module system (introducing *.iml, .idea/ into repo) 
 
-
-
+2020-08-26 ono
+* function-service: persisting in postgreSQL instead of MongoDB
+* returning to STS4 as IDE, since weird IDEA crash when starting debugger cannot be 
+  corrected - getting rid of all *.iml and .idea/ 
+  
+2020-08-27 ono 
+* function-service: getting rid of all @PersistenceConstructor annotations as Hibernate does not use these
+  (a NoSQL feature only). Implementing default constructors for Hibernate.  
+* client/ function: DELETE  with children - not expecting single deleted entity in reply
+  but checks instead, if requested entity is contained in the returned set. This avoids client-side
+  error "server returned ill-structured data"
+    
+2020-08-30 ono
+* client/function: DELETE  with children - deleting all functions returned from function-service/deleteFunction from state.
+  Previously, only the parent was deleted, visible children were left.
+* function-service: parent/child relations working in postgresql (not component links not yet tested) 

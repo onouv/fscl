@@ -11,6 +11,7 @@ import fscl.core.domain.ProjectCode;
 import fscl.core.domain.registration.NoSuchRegistrationException;
 import fscl.core.domain.registration.CollidingClientForRegistrationException;
 import fscl.function.service.adapters.messaging.DomainEventPublisher;
+import fscl.function.service.adapters.web.FunctionController;
 import fscl.project.foreignkeys.Project;
 import fscl.core.api.UpdateEntityContent;
 import fscl.function.api.messaging.FunctionDeletedEvent;
@@ -18,6 +19,8 @@ import fscl.function.api.messaging.FunctionRecodedEvent;
 import fscl.function.service.adapters.db.FunctionRepository;
 import fscl.function.service.adapters.db.ProjectRepository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +31,8 @@ import java.util.UUID;
 
 @Service
 public class FunctionService extends EntityService<Function>  {
+
+	private static final Logger log=LoggerFactory.getLogger(FunctionController.class);
 	
 	@Autowired
 	private FunctionRepository functionRepo;
@@ -259,8 +264,9 @@ public class FunctionService extends EntityService<Function>  {
 		
 		Function function = this.functionRepo.findByCode(validatedId);
 		
-		if(function != null) {
-			return super.deleteEntity(function, true);
+		if(function != null) {			
+			List<EntityApiId> deleted = super.deleteEntity(function, true);
+			return deleted;
 			
 		}
 		else {

@@ -4,6 +4,7 @@ import EntityCode from '../domain/EntityCode'
 import fscl from '../lib'
 import Error from '../Error'
 
+
 function DeleteEntityService(entitiesToDelete, baseUrl, dispatch) {
 
 
@@ -32,7 +33,7 @@ function DeleteEntityService(entitiesToDelete, baseUrl, dispatch) {
    Promise.all(deletions)
       .then(deleteResponses => {
 
-         // all good, dispatch them as they are...
+         // all good, dispatch them as they are...         
          dispatch(deleteResponses, deleteRequests)
       })
       .catch(failedResponse => {
@@ -53,6 +54,11 @@ function DeleteEntityService(entitiesToDelete, baseUrl, dispatch) {
             .then(response => response.json())
             .then(result => {
 
+               function illStructuredDataError() {
+                  const errMessage = 'server returned ill-structured data'
+                  return new Error(errName, errMessage)
+               }
+
                if(fscl.variable.exists(result.error)) {
 
                   // application error (e.g. 404, 500, etc.) ...
@@ -72,36 +78,32 @@ function DeleteEntityService(entitiesToDelete, baseUrl, dispatch) {
 
                   try {
 
-                     // we expect exacly one element in the array...
+                     // we expect a list of all deleted entities in the array,
+                     // while the requested entity should be part of that.
+                     // Note that we trust server has only deleted requested children, 
+                     // requested parents and their unrequested children.
                      if((fscl.variable.exists(result.entities)) &&
-                        (result.entities.length === 1)) {
+                        (result.entities.length >= 0)) {
 
-                        const id = result.entities[0]
-
-                        if((id.project === entity.self.project) &&
-                          (id.entity === entity.self.entity )) {
-
-                              // we're also good application-wise...
-                              const returner = {
-                                 self: id,
-                                 error: null
-                              }
-                              resolve(returner)
+                        const idx = result.entities.findIndex(id => (
+                            (id.project === entity.self.project) &&
+                            (id.entity === entity.self.entity))
+                        )
+                        if( idx > -1) {
+                           // we're also good application-wise...
+                           const returner = {
+                              self: entity.self,
+                              deletedIds: result.entities,
+                              error: null
+                           }
+                           resolve(returner)
 
                         } else {
-
-                           const errMessage = 'server returned inconsistent code for deleted entity'
-                           const error = new Error(errName, errMessage)
-                           throw error
+                           throw illStructuredDataError()
                         }
-
                      } else {
-                        const errMessage = 'server returned ill-structured data'
-                        const error = new Error(errName, errMessage)
-                        throw error
+                        throw illStructuredDataError()
                      }
-
-
 
                   } catch(applicationError) {
 

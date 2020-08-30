@@ -5,12 +5,12 @@ import Code from '../domain/Code'
 import entityList from '../domain/EntityList'
 
 
-/**
- * **********************************************************************
- * A set of helper functions to manage Entity state for a reducer
- *
- * **********************************************************************
- */
+//
+// **********************************************************************
+// A set of helper functions to manage Entity state for a reducer
+//
+// **********************************************************************
+//
 
 function setup(rawEntities, format) {
    const refined = rawEntities.map(e => {
@@ -243,7 +243,7 @@ function withoutChildrenOfParent(entitiesFromState, parent) {
  * Delete all those entities from the state which .self members are matching
  * the deletions unless there is an error indicated in deletion.
  * In that case, maintain the entity in the list and update its error member,
- * so it can be shown.
+ * so it can be shown. 
  *
  * Return the updated list
  */
@@ -270,21 +270,23 @@ function withoutDeletedEntities(
             })
 
          } else {
-            const i = fromState.findIndexOfEntity(deletion.self)
-            if(i >= 0) {
-               // remove the entity from state
-               fromState.splice(i, 1)
-            } else {
-               logError(deletion.self)
-            }
+
+            // server may have deleted unrequested children of a requested parent, so 
+            // we walk through all of the deletedIds of the current deletion object
+            deletion.deletedIds.forEach(id => {
+               const i = fromState.findIndexOfEntity(id)   
+               if(i >= 0) {
+                  // remove the entity from state
+                  fromState.splice(i, 1)
+               } else {
+                  logError(id)
+               }
+            })
          }
       })
 
       function logError(code) {
-         const msg =
-            `EntityManager.clone.withoutDeletedEntities: expected to \
-            find entity {${code.project} : ${code.entity}} \
-            in the state, but did not.`
+         const msg = `EntityManager.clone.withoutDeletedEntities: expected to find entity {${code.project} : ${code.entity}} in the state, but did not. This is okay in case server deleted children of requested parent which where not unfolded.`
          console.log(msg)
       }
 
