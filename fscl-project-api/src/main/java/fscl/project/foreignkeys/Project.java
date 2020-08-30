@@ -1,20 +1,48 @@
 package fscl.project.foreignkeys;
 
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
 import fscl.core.domain.CodeFormat;
 
-@Document(collection="projects")
+import javax.persistence.*;
+
+@Entity
+@Table(name = "project_fk")
 public class Project {	
 	
 	@Id
-	private ObjectId id;	
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "db_id")
+	private Long id;
+	//private ObjectId id;
+
+	@Column(name = "code")
 	private String code;
+
+	@AttributeOverrides({
+		@AttributeOverride(name="prefix", column=@Column(name="func_prefix")),
+		@AttributeOverride(name="separator", column=@Column(name="func_separator")),
+	})
+	@Embedded
 	private CodeFormat functionConfig;
+
+	@AttributeOverrides({
+		@AttributeOverride(name="prefix", column=@Column(name="sys_prefix")),
+		@AttributeOverride(name="separator", column=@Column(name="sys_separator")),
+	})
+	@Embedded
 	private CodeFormat systemConfig;
+
+	@AttributeOverrides({
+		@AttributeOverride(name="prefix", column=@Column(name="comp_prefix")),
+		@AttributeOverride(name="separator", column=@Column(name="comp_separator")),
+	})
+	@Embedded
 	private CodeFormat componentConfig;
+
+	@AttributeOverrides({
+		@AttributeOverride(name="prefix", column=@Column(name="loc_prefix")),
+		@AttributeOverride(name="separator", column=@Column(name="loc_separator")),
+	})
+	@Embedded
 	private CodeFormat locationConfig;
 	
 	public Project(

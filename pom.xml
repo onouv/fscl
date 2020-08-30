@@ -16,12 +16,17 @@
     <version>2.0-SNAPSHOT</version>
     <name>FSCL</name>
 
+    <properties>
+        <java-version>1.8</java-version>
+    </properties>
+
     <modules>
         <module>fscl-messaging-lib</module>
         <module>fscl-core-lib</module>
         <module>fscl-project-api</module>
         <module>fscl-function-api</module>
         <module>project-service</module>
+        <module>function-service</module>
     </modules>
 
     <packaging>pom</packaging>

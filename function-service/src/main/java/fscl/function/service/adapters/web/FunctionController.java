@@ -1,38 +1,24 @@
 package fscl.function.service.adapters.web;
 
+import fscl.core.api.*;
+import fscl.core.auxil.CommonConfig;
+import fscl.core.db.DuplicateEntityException;
+import fscl.core.db.NoSuchCodedItemException;
 import fscl.core.domain.EntityId;
-import fscl.core.api.EntityIdListResponse;
 import fscl.core.domain.ProjectCode;
-import fscl.function.service.api.*;
+import fscl.function.service.api.Url;
 import fscl.function.service.domain.Function;
 import fscl.function.service.domain.FunctionService;
-import fscl.core.api.NewEntityIdRequest;
-import fscl.core.api.EntityApiId;
-import fscl.core.api.EntityLifecycleResponse;
-import fscl.core.api.EntityResponse;
-import fscl.core.api.CreateEntityContent;
-import fscl.core.api.UpdateEntityContent;
-import fscl.core.auxil.CommonConfig;
-import fscl.core.db.NoSuchCodedItemException;
-import fscl.core.db.DuplicateEntityException;
-
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
-
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Optional;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -43,13 +29,9 @@ public class FunctionController extends FunctionControllerBase {
 	@Autowired	
 	private FunctionService service;
 	
-	/**
-	 * CREATE new entity id registration
-	 * @param projectCode
-	 * @param body
-	 * @return
-	 */
-	
+	//
+	//CREATE new entity id registration
+	//
 	@CrossOrigin(origins=CommonConfig.Web.allowedCorsClient)
 	@RequestMapping(
 			value= {
@@ -77,49 +59,43 @@ public class FunctionController extends FunctionControllerBase {
 					body.getTimeoutSeconds());
 			
 			log.info("CREATED function id reservation: {}", id.toString());			
-			return new ResponseEntity<EntityLifecycleResponse>(
-					new EntityLifecycleResponse(id), 
+			return new ResponseEntity<>(
+					new EntityLifecycleResponse(id),
 					HttpStatus.OK);		
 			
 		} catch (IllegalArgumentException e) {
 			String msg = this.buildIdMessage(projectCode, e);
 			log.error(msg);
-			return new ResponseEntity<EntityLifecycleResponse>(
+			return new ResponseEntity<>(
 					new EntityLifecycleResponse(
-						new EntityId(projectCode, "void"),
-						msg), 
+							new EntityId(projectCode, "void"),
+							msg),
 					HttpStatus.BAD_REQUEST);
 			
 		} catch (NoSuchCodedItemException e) {
 			String msg = this.buildIdMessage(projectCode, e);
 			log.error(msg);
-			return new ResponseEntity<EntityLifecycleResponse>(
-		    		new EntityLifecycleResponse(
-	    				new EntityId(projectCode, "void"),
-						msg),
-		    		HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(
+					new EntityLifecycleResponse(
+							new EntityId(projectCode, "void"),
+							msg),
+					HttpStatus.NOT_FOUND);
 			
 		} catch(Exception e) {
 			
 			String msg = this.buildIdMessage(projectCode, e);
 			log.error(msg);
-			return new ResponseEntity<EntityLifecycleResponse>(
-		    		new EntityLifecycleResponse(
-	    				new EntityId(projectCode, "void"),
-						msg),
-		    		HttpStatus.INTERNAL_SERVER_ERROR);			
+			return new ResponseEntity<>(
+					new EntityLifecycleResponse(
+							new EntityId(projectCode, "void"),
+							msg),
+					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
-	/**
-	 * CREATE function resource 
-	 * 
-	 * URI : 	/api/v4/functions/{project}/{entity}
-	 * VERB: 	POST
-	 * 
-	 * @param req the function content needed for creation
-	 * @return
-	 */
+	//
+	//CREATE function resource
+	//
 	@CrossOrigin(origins=CommonConfig.Web.allowedCorsClient)
 	@RequestMapping(value=Url.CREATE.Function.url, method=RequestMethod.POST)
 	public ResponseEntity<EntityLifecycleResponse> 
@@ -136,9 +112,9 @@ public class FunctionController extends FunctionControllerBase {
 			Function f = this.service.createFunction(id, body);
 			log.info("CREATE function: function={}", 
 					f.toString());
-			return new ResponseEntity<EntityLifecycleResponse>(
-				new EntityLifecycleResponse(id),
-				HttpStatus.OK);
+			return new ResponseEntity<>(
+					new EntityLifecycleResponse(id),
+					HttpStatus.OK);
 			
 			
 		} catch(IllegalArgumentException e) {
@@ -150,11 +126,11 @@ public class FunctionController extends FunctionControllerBase {
 					e);
 					
 			log.error(msg);
-			return new ResponseEntity<EntityLifecycleResponse>(
+			return new ResponseEntity<>(
 					new EntityLifecycleResponse(
-						project, 
-						entity, 
-						msg), 
+							project,
+							entity,
+							msg),
 					HttpStatus.BAD_REQUEST);			
 			
 		} catch(DuplicateEntityException e) {
@@ -165,11 +141,11 @@ public class FunctionController extends FunctionControllerBase {
 					"create function ", 
 					e);
 			log.error(msg);
-			return new ResponseEntity<EntityLifecycleResponse>(
+			return new ResponseEntity<>(
 					new EntityLifecycleResponse(
-						project, 
-						entity, 
-						msg), 
+							project,
+							entity,
+							msg),
 					HttpStatus.CONFLICT);
 		    
 		} catch(NoSuchCodedItemException e) {
@@ -180,11 +156,11 @@ public class FunctionController extends FunctionControllerBase {
 					"create function", 
 					e);
 			log.error(msg);
-			return new ResponseEntity<EntityLifecycleResponse>(
+			return new ResponseEntity<>(
 					new EntityLifecycleResponse(
-						project, 
-						entity, 
-						msg), 
+							project,
+							entity,
+							msg),
 					HttpStatus.NOT_FOUND);    
 			
 		} catch(Exception e) {
@@ -195,22 +171,18 @@ public class FunctionController extends FunctionControllerBase {
 					"create function ", 
 					e);
 			log.error(msg);
-			return new ResponseEntity<EntityLifecycleResponse>(
+			return new ResponseEntity<>(
 					new EntityLifecycleResponse(
-						project, 
-						entity, 
-						msg), 
+							project,
+							entity,
+							msg),
 					HttpStatus.INTERNAL_SERVER_ERROR);				
 		}
 	}
 	
-	/**
-	 * READ ONE Function entity if it exists
-	 * 
-	 * @param project
-	 * @param function
-	 * @return a list of Function entities containing the single found one or empty list
-	 */
+	//
+	// READ ONE Function entity if it exists
+	//
 	@CrossOrigin(origins=CommonConfig.Web.allowedCorsClient)
 	@RequestMapping(value=Url.READ.Function.url, method=RequestMethod.GET)
 	public ResponseEntity<EntityResponse<Function>> 
@@ -219,7 +191,7 @@ public class FunctionController extends FunctionControllerBase {
 			@PathVariable(value=Url.READ.Function.pathVarEntity) String function ) {
 		
 		EntityId id;
-		List<Function> functions = new ArrayList<Function>();
+		List<Function> functions = new ArrayList<>();
 		
 		try {
 			
@@ -235,9 +207,9 @@ public class FunctionController extends FunctionControllerBase {
 						id.toString());
 			}				
 			
-			return new ResponseEntity<EntityResponse<Function>>(
-				new EntityResponse<Function>(functions),
-				HttpStatus.OK);
+			return new ResponseEntity<>(
+					new EntityResponse<>(functions),
+					HttpStatus.OK);
 			
 			
 		} catch(IllegalArgumentException e) {
@@ -248,8 +220,8 @@ public class FunctionController extends FunctionControllerBase {
 					"read function ", 
 					e);					
 			log.error(msg);
-			return new ResponseEntity<EntityResponse<Function>>(
-					new EntityResponse<Function>(msg), 
+			return new ResponseEntity<>(
+					new EntityResponse<>(msg),
 					HttpStatus.BAD_REQUEST);
 			
 		} catch(NoSuchCodedItemException e) {
@@ -260,8 +232,8 @@ public class FunctionController extends FunctionControllerBase {
 					"read function ", 
 					e);					
 			log.error(msg);
-			return new ResponseEntity<EntityResponse<Function>>(
-					new EntityResponse<Function>(msg), 
+			return new ResponseEntity<>(
+					new EntityResponse<>(msg),
 					HttpStatus.NOT_FOUND);
 		    
 		} catch(Exception e) {
@@ -272,19 +244,16 @@ public class FunctionController extends FunctionControllerBase {
 					"read function ", 
 					e);					
 			log.error(msg);
-			return new ResponseEntity<EntityResponse<Function>>(
-					new EntityResponse<Function>(msg), 
+			return new ResponseEntity<>(
+					new EntityResponse<>(msg),
 					HttpStatus.INTERNAL_SERVER_ERROR);	
 		}
 	}
 	
 	
-	/**
-	 * READ ALL root-layer Function entities of project 
-	 * 
-	 * @param projectCode
-	 * @return list of function entities (spec name: "FunctionObject")
-	 */
+	//
+	// READ ALL root-layer Function entities of project
+	//
 	@CrossOrigin(origins=CommonConfig.Web.allowedCorsClient)
 	@RequestMapping(value=Url.READ.Function.Project.url, method=RequestMethod.GET)
 	public ResponseEntity<EntityResponse<Function>> 
@@ -293,14 +262,14 @@ public class FunctionController extends FunctionControllerBase {
 			
 			@PathVariable(value=Url.READ.Function.Project.pathVarProject) String projectCode ) {
 		
-		List<Function> functions = new ArrayList<Function>();
+		List<Function> functions;
 		
 		if(projectCode == null) {
 			
 			String msg = this.buildREADOfProjectMessage(projectCode, "cannot read project with null code");
 			log.error(msg);
-		    return new ResponseEntity<EntityResponse<Function>>(
-					new EntityResponse<Function>(msg), 
+		    return new ResponseEntity<>(
+					new EntityResponse<>(msg),
 					HttpStatus.BAD_REQUEST);
 						
 		}
@@ -308,8 +277,8 @@ public class FunctionController extends FunctionControllerBase {
 		if(projectCode.isEmpty()) {
 			String msg = this.buildREADOfProjectMessage(projectCode, "cannot read project with empty code");
 			log.error(msg);
-		    return new ResponseEntity<EntityResponse<Function>>(
-					new EntityResponse<Function>(msg), 
+		    return new ResponseEntity<>(
+					new EntityResponse<>(msg),
 					HttpStatus.BAD_REQUEST);
 		}
 		
@@ -317,23 +286,23 @@ public class FunctionController extends FunctionControllerBase {
 					
 			functions = this.service.readFunctions(projectCode);
 			log.info("READ list of functions for project: {}", projectCode);	
-			EntityResponse<Function> r = new EntityResponse<Function>(functions);
-			return new ResponseEntity<EntityResponse<Function>>(r, HttpStatus.OK);
+			EntityResponse<Function> r = new EntityResponse<>(functions);
+			return new ResponseEntity<>(r, HttpStatus.OK);
 			
 		} catch(NoSuchCodedItemException e) {
 			
 			String msg = this.buildREADOfProjectMessage(projectCode, e.getMessage());
 			log.error(msg);
-			return new ResponseEntity<EntityResponse<Function>>(
-					new EntityResponse<Function>(msg), 
+			return new ResponseEntity<>(
+					new EntityResponse<>(msg),
 					HttpStatus.NOT_FOUND);	
 			
 		} catch(Exception e) {
 			
 			String msg = this.buildREADOfProjectMessage(projectCode, e.getMessage());
 			log.error(msg);
-			return new ResponseEntity<EntityResponse<Function>>(
-					new EntityResponse<Function>(msg), 
+			return new ResponseEntity<>(
+					new EntityResponse<>(msg),
 					HttpStatus.INTERNAL_SERVER_ERROR);
 
 		}
@@ -378,8 +347,8 @@ public class FunctionController extends FunctionControllerBase {
 			log.info("updated function: function={}", 
 					f.toString());
 			
-			return new ResponseEntity<EntityLifecycleResponse>(
-				new EntityLifecycleResponse(f.getCode()),HttpStatus.OK);
+			return new ResponseEntity<>(
+					new EntityLifecycleResponse(f.getCode()), HttpStatus.OK);
 			
 			
 		} catch(IllegalArgumentException e) {
@@ -390,9 +359,9 @@ public class FunctionController extends FunctionControllerBase {
 				"update component ", 
 				e);
 			log.error(msg);
-			return new ResponseEntity<EntityLifecycleResponse>(
-						new EntityLifecycleResponse(project, function, msg), 
-						HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(
+					new EntityLifecycleResponse(project, function, msg),
+					HttpStatus.BAD_REQUEST);
 			
 		} catch(NoSuchCodedItemException e) {
 			
@@ -402,8 +371,8 @@ public class FunctionController extends FunctionControllerBase {
 				"update component ", 
 				e);
 			log.error(msg);
-			return new ResponseEntity<EntityLifecycleResponse>(
-					new EntityLifecycleResponse(project, function, msg), 
+			return new ResponseEntity<>(
+					new EntityLifecycleResponse(project, function, msg),
 					HttpStatus.NOT_FOUND);	
 			
 			
@@ -415,19 +384,15 @@ public class FunctionController extends FunctionControllerBase {
 				"update component ", 
 				e);
 			log.error(msg);
-			return new ResponseEntity<EntityLifecycleResponse>(
-					new EntityLifecycleResponse(project, function, msg), 
+			return new ResponseEntity<>(
+					new EntityLifecycleResponse(project, function, msg),
 					HttpStatus.INTERNAL_SERVER_ERROR);			
 		}
 	}
 	
-	/**
-	 * DELETE function resource
-	 * 
-	 * @param project
-	 * @param code
-	 * @return
-	 */
+	//
+	// DELETE function resource
+	//
 	@CrossOrigin(origins=CommonConfig.Web.allowedCorsClient)
 	@RequestMapping(value=Url.DELETE.Function.url, method=RequestMethod.DELETE)
 	public ResponseEntity<EntityIdListResponse> 
@@ -443,12 +408,13 @@ public class FunctionController extends FunctionControllerBase {
 			
 			id = new EntityId(project, function);
 			List<EntityApiId> deletedFunctions =  this.service.deleteFunction(id);
-			
-			log.info("deleted function: {}:{}",
-					project, function);
-			return new ResponseEntity<EntityIdListResponse>(
-				new EntityIdListResponse(deletedFunctions), 
-				HttpStatus.OK);
+			for(EntityApiId del: deletedFunctions) {
+				log.info("function-service: deleted function: {}:{}",
+						del.project.toString(), del.entity.toString());
+			}
+			return new ResponseEntity<>(
+					new EntityIdListResponse(deletedFunctions),
+					HttpStatus.OK);
 			
 		} catch(IllegalArgumentException e) {
 						
@@ -458,8 +424,8 @@ public class FunctionController extends FunctionControllerBase {
 				"delete component ", 
 				e);
 			log.error(msg);
-			return new ResponseEntity<EntityIdListResponse>(
-					new EntityIdListResponse(msg), 
+			return new ResponseEntity<>(
+					new EntityIdListResponse(msg),
 					HttpStatus.BAD_REQUEST);
 			
 			
@@ -471,8 +437,8 @@ public class FunctionController extends FunctionControllerBase {
 				"delete component ", 
 				e);		
 			log.error(msg);
-			return new ResponseEntity<EntityIdListResponse>(
-					new EntityIdListResponse(msg), 
+			return new ResponseEntity<>(
+					new EntityIdListResponse(msg),
 					HttpStatus.NOT_FOUND);
 			
 		} catch(Exception e) {
@@ -483,8 +449,8 @@ public class FunctionController extends FunctionControllerBase {
 				"delete component ", 
 				e);
 			log.error(msg);
-			return new ResponseEntity<EntityIdListResponse>(
-					new EntityIdListResponse(msg), 
+			return new ResponseEntity<>(
+					new EntityIdListResponse(msg),
 					HttpStatus.INTERNAL_SERVER_ERROR);
 		    
 		}		
@@ -492,7 +458,7 @@ public class FunctionController extends FunctionControllerBase {
 	
 	@RequestMapping(value="/api/v4/functions/ping", method=RequestMethod.GET)
 	public ResponseEntity<String> getLifePing() {
-		return new ResponseEntity<String>("fscl.function-service:alive.", 
+		return new ResponseEntity<>("fscl.function-service:alive.",
 				HttpStatus.OK);
 	}
 	

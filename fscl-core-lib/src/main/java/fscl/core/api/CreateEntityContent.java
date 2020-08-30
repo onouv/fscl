@@ -1,7 +1,6 @@
 package fscl.core.api;
 
 import fscl.core.domain.EntityContent;
-import fscl.core.api.EntityApiId;
 
 import java.util.UUID;
 

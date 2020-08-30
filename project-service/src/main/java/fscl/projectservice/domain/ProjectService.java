@@ -8,8 +8,6 @@ import fscl.core.domain.ProjectCode;
 import fscl.messaging.DomainEventPublisher;
 import fscl.messaging.events.ResultDomainEventsAggregate;
 import fscl.project.api.events.ProjectEvent;
-import fscl.projectservice.domain.IdRegistration;
-import fscl.projectservice.domain.Project;
 import fscl.projectservice.api.ProjectData;
 import fscl.projectservice.adapters.db.ProjectRepository;
 import fscl.projectservice.adapters.db.ProjectCodeCacheRepository;

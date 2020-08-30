@@ -1,18 +1,18 @@
 package fscl.core.db;
 
-import fscl.core.domain.registration.IdRegistration;
 import fscl.core.domain.EntityId;
 import fscl.core.domain.ProjectCode;
+import fscl.core.domain.registration.IdRegistration;
+
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.stereotype.Repository;
-import org.springframework.data.mongodb.repository.Query;
-
 @Repository
 public interface IdRegistrationRepository 
-	extends MongoRepository<IdRegistration, EntityId> {
+	extends CrudRepository<IdRegistration, EntityId> {
 
 	/*
 	//public List<IdRegistration> findByClientId(UUID clientId);
@@ -24,8 +24,10 @@ public interface IdRegistrationRepository
 	*/
 	public IdRegistration findByEntityId(EntityId entityId);
 	
-	@Query("{'entityId.project': ?0}")
+	//@Query("{'entityId.project': ?0}")
+	@Query("select r from #{#entityName} r where r.entityId.project = ?1")
 	public List<IdRegistration> findByProjectCode(ProjectCode code);
+	//findByProjectCode(ProjectCode code);
 	
 	public List<IdRegistration> deleteByEntityId(EntityId entityId);
 }

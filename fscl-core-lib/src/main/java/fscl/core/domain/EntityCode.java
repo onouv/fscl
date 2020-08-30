@@ -1,12 +1,14 @@
 package fscl.core.domain;
 
-import fscl.core.domain.CodeFormat;
+import javax.persistence.Transient;
 
-import org.springframework.data.annotation.Transient;
-import org.springframework.data.annotation.PersistenceConstructor;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 
+@Embeddable
 public class EntityCode {
-	
+
+	@Column(name = "entity_code")
 	private String code;
 	
 	@Transient
@@ -27,7 +29,10 @@ public class EntityCode {
 		return state;
 	}
 
-	@PersistenceConstructor
+	public EntityCode() {
+		
+	}
+	
 	public EntityCode(String code) {
 		
 		if(code == null)
@@ -69,7 +74,11 @@ public class EntityCode {
 	}
 	
 	public String getSeparator() {
-		return separator;
+		return this.separator;
+	}
+
+	public String getCode() {
+		return this.code;
 	}
 			
 	/**
@@ -97,11 +106,10 @@ public class EntityCode {
 		}
 		
 		return tail;
-		
 	}
-	
+
 	public int getTailValue(String prefix) {
-		
+
 		if(this.state == STATE.CREATED) 
 			throw new IllegalStateException(
 				"EntityCode: getTailValue() called on state CREATED instead of INITIALIZED. Recommend calling init(CodeConfig config) first");

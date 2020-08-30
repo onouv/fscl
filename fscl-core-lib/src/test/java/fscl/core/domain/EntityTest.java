@@ -1,7 +1,6 @@
 package fscl.core.domain;
 
 import de.bechte.junit.runners.context.HierarchicalContextRunner;
-import fscl.core.domain.Entity;
 
 import org.junit.runner.RunWith;
 import org.junit.Test;

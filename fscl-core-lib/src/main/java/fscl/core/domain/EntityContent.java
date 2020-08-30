@@ -1,11 +1,15 @@
 package fscl.core.domain;
 
+import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 public class EntityContent {
-	
+
+	@Column(name = "entity_name")
 	protected String name;
+
+	@Column(name = "entity_desc")
 	protected String description;
 	
 	protected EntityContent() {}

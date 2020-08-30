@@ -52,7 +52,7 @@ public class ComponentEventHandler {
 		
 		Component preExisting = this.componentRepository.findByCode(validatedCode);
 		if(preExisting == null) {
-			Component newBie = new Component(validatedCode);
+			Component newBie = Component.newInstance(validatedCode);
 			this.componentRepository.save(newBie);
 			logger.info("function service : created component-ref={}", validatedCode);
 			

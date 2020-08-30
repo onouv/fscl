@@ -13,3 +13,11 @@ node_modules/
 *.iml
 .idea/
 
+
+#eclipse stuff
+.project
+.settings/
+.classpath
+fscl-component-api/.classpath
+.attach*
+

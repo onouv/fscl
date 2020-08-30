@@ -2,9 +2,7 @@ package fscl.project.api.events;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-//import static org.assertj.core.api.Assertions.assertThat;
 
-import fscl.project.api.events.ProjectEvent;
 
 @SpringBootTest(classes=ProjectEvent.class)
 class FsclProjectApiApplicationTests {

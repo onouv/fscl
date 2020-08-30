@@ -1,17 +1,36 @@
 package fscl.core.domain.registration;
 
 import fscl.core.domain.EntityId;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.PersistenceConstructor;
-import java.util.UUID;
-import java.time.LocalDateTime;
 
-@Document(collection="idregistrations")
+import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+@Entity
+@Table(name="id_registration")
 public class IdRegistration {
+
+	@Id
+	@Column(name = "db_id")
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private Long dataBaseId;
+
+	@Embedded
+	private final EntityId entityId;
+
+	@Column(name = "client")
+	private final UUID clientId;
+
+	@Column(name = "expires")
+	private final LocalDateTime expiration;
+
+	public IdRegistration() {
+		this.dataBaseId = null;
+		this.entityId = null;
+		this.clientId = null;
+		this.expiration = null;
+	}
 	
-	@PersistenceConstructor
 	public IdRegistration(EntityId entityId, UUID clientId, LocalDateTime expiration) {
 		this.entityId = entityId;
 		this.clientId = clientId;
@@ -31,7 +50,7 @@ public class IdRegistration {
 	public EntityId getId() {
 		return this.entityId;
 	}
-		
+
 	public boolean hasExpired(LocalDateTime now) {
 		return (expiration.isBefore(now));
 	}
@@ -63,13 +82,5 @@ public class IdRegistration {
 	public LocalDateTime getExpiration() {
 		return expiration;
 	}
-	
-	@Id
-	private ObjectId dataBaseId;
-	
-	private final EntityId entityId;
-	private final UUID clientId;
-	private final LocalDateTime expiration;
-	
-	
+
 }
