@@ -24,7 +24,7 @@ import org.openqa.selenium.WebDriver;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @EnableConfigurationProperties(value = FunctionTestConfig.class)
-//@TestPropertySource("classpath:application.yml")
+@TestPropertySource("test.properties")
 public class EmptyFunctionPageTest {
 	
 	@Autowired
