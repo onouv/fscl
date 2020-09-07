@@ -24,4 +24,4 @@
 
 2020-09-07 ono
 * client: "npm run start.silent" to run without browser for selenium tests
-* tests: implementing EmptyFunctionPageTest.GivenProjectWithoutFunctions.WhenCallingFunctionPage.thenShouldDisplayProjectNumber and ..thenShouldShowNoFunctionsFoundBanner
+* tests: implementing EmptyFunctionPageTest.GivenProjectWithoutFunctions.WhenCallingFunctionPage
