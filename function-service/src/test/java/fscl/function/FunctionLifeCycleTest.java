@@ -25,21 +25,21 @@ public class FunctionLifeCycleTest {
 			public void setup() {
 				WebDriver aut = new ChromeDriver();
 				page = new FunctionPage(aut);
+				page.ClickNew();
 			}
 			
 			@Test
-			public void thenShouldShowLinkButtonGroup() {
-				
-			}
-			
-			@Test 
-			public void thenOnly_C_ButtonShouldBeEnabled() {
-				
+			public void thenShouldShowFunctionLine() {				
 			}
 			
 			@Test 
 			public void thenCodeFieldShouldShowValue() {
 				final String INITIAL_FUNCTION_CODE = "=001";
+			}
+			
+			@Test 
+			public void thenOnly_C_ButtonShouldBeEnabled() {
+				
 			}
 			
 			@Test

@@ -11,9 +11,11 @@ const LinkButton =({
    isEntityHome = false,
    onClick}) => {
       const variant = isEntityHome ? "primary" : "secondary"
+      const buttonId = `${mark}${entity.self.entity}`
       if(enabled) {
          return (
             <Button
+               id={buttonId}  // to enable Selenium testing
                variant={variant}
                size="sm"
                onClick={() => {onClick(entity)}}>
@@ -23,6 +25,7 @@ const LinkButton =({
       } else {
          return (
             <Button
+               id={buttonId} // to enable Selenium testing
                variant={variant}
                size="sm"
                disabled>

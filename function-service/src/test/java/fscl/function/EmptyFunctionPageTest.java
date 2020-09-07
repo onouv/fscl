@@ -1,11 +1,10 @@
-package fscl.function.service;
+package fscl.function;
 
 import fscl.function.pageobjects.*;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.BeforeAll;
 
@@ -14,12 +13,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.AfterAll;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.openqa.selenium.WebDriver;
 
-//@ExtendWith(SpringExtension.class)
-//@SpringBootTest
 public class EmptyFunctionPageTest {
 	
 	static final String PROJECT_NO = "20200902-001";
@@ -59,15 +54,15 @@ public class EmptyFunctionPageTest {
 			}
 			
 			@Test
-			public void thenFunctionsNavigatorFieldShouldBeEnabled() {
-				
+			public void thenFunctionsNavigatorFieldShouldBeActive() {
+				assertTrue(page.getFunctionsNavigationField().isActive());
 			}
 			
 			@Test
-			public void thenAllOtherNavigatorFieldsShouldBeDisabled() {
-				assertFalse(page.systemsNavigatorFieldEnabled());
-				assertFalse(page.componentsNavigatorFieldEnabled());
-				assertFalse(page.locationsNavigatorFieldEnabled());
+			public void thenAllOtherNavigatorFieldsShouldBeAsExcpected() {
+				assertTrue(page.getSystemsNavigationField().isDisabled());
+				assertTrue(page.getComponentsNavigationField().isEnabled());
+				assertTrue(page.getLocationsNavigationField().isDisabled());
 			}
 			
 			@Test

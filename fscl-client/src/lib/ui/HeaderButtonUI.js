@@ -15,10 +15,10 @@ const HeaderButton = ({
    }) => {
       return (
          enabled
-         ?  <Button size="sm" variant="secondary" onClick={onClick}>
+         ?  <Button id={caption} size="sm" variant="secondary" onClick={onClick}>
                {caption}
             </Button>
-         :  <Button size="sm" variant="secondary" disabled>
+         :  <Button id={caption} size="sm" variant="secondary" disabled>
                {caption}
             </Button>
       );
