@@ -21,3 +21,7 @@
 * function-service: parent/child relations working in postgresql (not component links not yet tested) 
 * function: successful testing of deleting all functions for deleted project (event handling). Functions
   are deleted and FunctionDeletedEvents are shot out. 
+
+2020-09-07 ono
+* client: "npm run start.silent" to run without browser for selenium tests
+* tests: implementing EmptyFunctionPageTest.GivenProjectWithoutFunctions.WhenCallingFunctionPage.thenShouldDisplayProjectNumber and ..thenShouldShowNoFunctionsFoundBanner

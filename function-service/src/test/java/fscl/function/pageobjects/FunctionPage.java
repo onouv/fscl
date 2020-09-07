@@ -10,7 +10,13 @@ public class FunctionPage {
 	
 	private WebDriver driver;
 	
-	private final static String URL = "http://localhost:8081/functions";
+	private final static String URL = "http://localhost:3000/functions/20200902-001";
+	
+	@FindBy(id="project-code")
+	private WebElement projectNo;
+	
+	@FindBy(id = "no-functions-found-alert")
+	private WebElement noFunctionsFoundAlert;
 	
 	public FunctionPage(WebDriver driver) {
 		this.driver = driver;
@@ -43,11 +49,15 @@ public class FunctionPage {
 	}
 	
 	public boolean displaysProjectNo(String projectNo) {
-		return false;
+		String text = this.projectNo.getText();
+		String[] splits = text.split("Project: ");
+		return (splits[0].equals("") && splits[1].equals(projectNo));
 	}
 	
 	public boolean displaysNoFunctionsBanner() {
-		return false;
+		String actualText = this.noFunctionsFoundAlert.getText();
+		String expectedText = "No functions found";
+		return actualText.equals(expectedText);
 	}
 	
 	public boolean functionsNavigatorFieldEnabled() {

@@ -12,57 +12,50 @@ import org.junit.jupiter.api.BeforeAll;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.AfterAll;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.openqa.selenium.WebDriver;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest
-@EnableConfigurationProperties(value = FunctionTestConfig.class)
-@TestPropertySource("test.properties")
+//@ExtendWith(SpringExtension.class)
+//@SpringBootTest
 public class EmptyFunctionPageTest {
 	
-	@Autowired
-	FunctionTestConfig config;
+	static final String PROJECT_NO = "20200902-001";
 	
 	@Nested
 	public class GivenProjectWithoutFunctions {
-		
-		
-		static final String PROJECT_NO = "20200101-001";
 		
 		@Nested
 		@TestInstance(Lifecycle.PER_CLASS)		
 		public class WhenCallingFunctionPage {
 			
-			@Autowired
-			FunctionTestConfig config;
-			
+			private WebDriver driver; 
 			private FunctionPage page;
 			
 			@BeforeAll
 			public void setup() {
 				System.setProperty(
-						config.getName(), // "webdriver.chrome.driver" 
-						config.getPath());// "/opt/selenium/chromedriver/chromedriver"
-				WebDriver aut = new ChromeDriver();
-				this.page = new FunctionPage(aut);
-				
+						"webdriver.chrome.driver", 
+						"/opt/selenium/chromedriver/chromedriver");
+				this.driver = new ChromeDriver();
+				this.page = new FunctionPage(this.driver);
+			}
+			
+			@AfterAll
+			public void tearDown() {
+				this.driver.close();
 			}
 			
 			@Test
 			public void thenShouldDisplayProjectNumber() {
-				assertTrue(this.page.displaysProjectNo(PROJECT_NO));
+				assertTrue(page.displaysProjectNo(PROJECT_NO));
 			}
 			
 			@Test
 			public void thenShouldShowNoFunctionsFoundBanner() {
-				assertTrue(this.page.displaysNoFunctionsBanner());
+				assertTrue(page.displaysNoFunctionsBanner());
 			}
 			
 			@Test
@@ -72,24 +65,24 @@ public class EmptyFunctionPageTest {
 			
 			@Test
 			public void thenAllOtherNavigatorFieldsShouldBeDisabled() {
-				assertFalse(this.page.systemsNavigatorFieldEnabled());
-				assertFalse(this.page.componentsNavigatorFieldEnabled());
-				assertFalse(this.page.locationsNavigatorFieldEnabled());
+				assertFalse(page.systemsNavigatorFieldEnabled());
+				assertFalse(page.componentsNavigatorFieldEnabled());
+				assertFalse(page.locationsNavigatorFieldEnabled());
 			}
 			
 			@Test
 			public void thenSaveButtonShouldBeDisabled() {
-				assertFalse(this.page.saveButtonEnabled());
+				assertFalse(page.saveButtonEnabled());
 			}
 			
 			@Test 
 			void thenDeleteButtonShouldBeDisabled() {
-				assertFalse(this.page.deleteButtonEnabled());
+				assertFalse(page.deleteButtonEnabled());
 			}
 			
 			@Test
 			void thenNewButtonShouldBeEnabled() {
-				assertTrue(this.page.newButtonEnabled());
+				assertTrue(page.newButtonEnabled());
 			}
 		}
 	}
