@@ -8,10 +8,10 @@ const ProjectLine = ({project="", name=""}) =>
       <Navbar>
          <Row>
             <Col>
-               <Navbar.Brand>Project: {project}</Navbar.Brand>
+               <Navbar.Brand id="project-code">Project: {project}</Navbar.Brand>
             </Col>
             <Col>
-               <Navbar.Brand> {name}</Navbar.Brand>
+               <Navbar.Brand id="project-name"> {name}</Navbar.Brand>
             </Col>
          </Row>
       </Navbar>

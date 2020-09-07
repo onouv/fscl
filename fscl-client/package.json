@@ -17,6 +17,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start.silent": "BROWSER=none react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --silent",
     "test.debug": "react-scripts --inspect-brk test --runInBand --no-cache",

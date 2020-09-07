@@ -60,7 +60,7 @@ export const FunctionList = ({
             <div>
                {headers()}
                <Container fluid>
-                  <Alert variant='primary'>No functions found</Alert>
+                  <Alert id="no-functions-found-alert" variant='primary'>No functions found</Alert>
                </Container>
             </div>
          )
