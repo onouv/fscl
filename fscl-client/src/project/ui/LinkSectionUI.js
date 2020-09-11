@@ -3,7 +3,7 @@ import { ButtonGroup, Col } from 'react-bootstrap';
 import { useHistory } from "react-router-dom";
 import PropTypes from 'prop-types';
 
-import LinkButton from '../../lib/ui/LinkButtonUI'
+import LinkButton from './LinkButtonUI'
 import links from '../../lib/links.js'
 
 
@@ -21,7 +21,7 @@ const LinkSection =
                <ButtonGroup name="links">
                   <LinkButton
                      mark="F"
-                     entity={projectCode}
+                     project={projectCode}
                      enabled={true}
                      isEntityHome={true}
                      onClick={
@@ -32,7 +32,7 @@ const LinkSection =
                   />
                   <LinkButton
                      mark="S"
-                     entity={projectCode}
+                     project={projectCode}
                      enabled={false}
                      onClick={
                         (project) => {
@@ -42,7 +42,7 @@ const LinkSection =
                   />
                   <LinkButton
                      mark="C"
-                     entity={projectCode}
+                     project={projectCode}
                      enabled={true}
                      isEntityHome={true}
                      onClick={
@@ -53,7 +53,7 @@ const LinkSection =
                   />
                   <LinkButton
                      mark="L"
-                     entity={projectCode}
+                     project={projectCode}
                      enabled={false}
                      onClick={
                         (project) => {

@@ -23,8 +23,10 @@ const FunctionLineUI = ({
       errorPending = true
    }
 
+   const elementId = () => `function-line${entityDisplayed.self.entity}`
+
    return (
-      <Row>
+      <Row id={elementId()}>
          <LinkSectionConstrainedLocation
             entity={entityDisplayed}
             active={!errorPending}

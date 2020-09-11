@@ -1,0 +1,11 @@
+#!/bin/bash
+home='/home/ono'
+repo="$home/.m2/repository"
+project="$home/projects/fscl/function-service"
+tests="$project/java -jar ~/.m2/repository/org/junit/platform/junit-platform-console-standalone/1.7.0-RC1/junit-platform-console-standalone-1.7.0-RC1.jar --classpath /home/ono/.m2/repository/org/seleniumhq/selenium/selenium-api/3.141.59 -c fscl.function.FunctionLifeCycleTestfscl
+src/test/java/fscl/function"
+testrunner="$repo/org/junit/platform/junit-platform-console-standalone/1.7.0-RC1/junit-platform-console-standalone-1.7.0-RC1.jar"
+classpath='$repo/org/seleniumhq/selenium/selenium-api/3.141.59:$tests'
+class='fscl.function.FunctionLifeCycleTestfscl'
+java -jar $testrunner --classpath=$classpath -c=$class
+
