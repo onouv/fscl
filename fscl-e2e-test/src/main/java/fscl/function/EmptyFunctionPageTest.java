@@ -46,6 +46,7 @@ public class EmptyFunctionPageTest {
 			@Test
 			public void thenShouldDisplayProjectNumber() {
 				assertTrue(page.displaysProjectNo(PROJECT_NO));
+				// assertFalse(page.displaysProjectNo(PROJECT_NO));  // DEBUG: force failure 
 			}
 			
 			@Test

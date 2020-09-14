@@ -25,3 +25,7 @@
 2020-09-07 ono
 * client: "npm run start.silent" to run without browser for selenium tests
 * tests: implementing EmptyFunctionPageTest.GivenProjectWithoutFunctions.WhenCallingFunctionPage
+
+2020-09-14 ono
+* tests: moving all e2e test classes into a new project fscl-e2e-test so they can be launched as a jar file.
+  Currently running EmptyFunctionPageTest.
