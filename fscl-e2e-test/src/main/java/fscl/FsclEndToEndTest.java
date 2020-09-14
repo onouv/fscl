@@ -13,18 +13,19 @@ import static org.junit.platform.engine.discovery.DiscoverySelectors.selectClass
 import java.io.PrintWriter;
 
 import fscl.function.EmptyFunctionPageTest;
+import fscl.function.FunctionLifeCycleTest;
+
 
 
 public class FsclEndToEndTest {
 	
-	SummaryGeneratingListener summaryListener = new SummaryGeneratingListener();	
-	
-	
-	
+	SummaryGeneratingListener summaryListener = new SummaryGeneratingListener();
+		
 	public static void main(String[] args) {
 		
 		FsclEndToEndTest test = new FsclEndToEndTest();		
 		test.run(EmptyFunctionPageTest.class);
+		test.run(FunctionLifeCycleTest.class);
 		
 		TestExecutionSummary summary = test.summaryListener.getSummary();
 		PrintWriter writer = new PrintWriter(System.out);
