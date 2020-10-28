@@ -1,5 +1,6 @@
 package fscl.function;
 
+import fscl.FsclEndToEndTest;
 import fscl.function.pageobjects.*;
 
 import org.junit.jupiter.api.Test;
@@ -15,7 +16,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.WebDriver;
 
-public class EmptyFunctionPageTest {
+public class EmptyFunctionPageTest extends FsclEndToEndTest {
 	
 	static final String PROJECT_NO = "20200902-001";
 	
@@ -24,23 +25,20 @@ public class EmptyFunctionPageTest {
 		
 		@Nested
 		@TestInstance(Lifecycle.PER_CLASS)		
-		public class WhenCallingFunctionPage {
+		public class WhenCallingFunctionPage extends FsclEndToEndTest {
 			
-			private WebDriver driver; 
+			
 			private FunctionPage page;
 			
 			@BeforeAll
 			public void setup() {
-				System.setProperty(
-						"webdriver.chrome.driver", 
-						"/opt/selenium/chromedriver/chromedriver");
-				this.driver = new ChromeDriver();
+				this.setupSelenium();
 				this.page = new FunctionPage(this.driver);
 			}
 			
 			@AfterAll
 			public void tearDown() {
-				this.driver.close();
+				this.tearDownSelenium();
 			}
 			
 			@Test

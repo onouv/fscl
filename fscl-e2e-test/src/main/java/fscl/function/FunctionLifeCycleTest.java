@@ -1,8 +1,6 @@
 package fscl.function;
 
-import org.testcontainers.containers.Container;
-import org.testcontainers.containers.PostgreSQLContainer;
-
+import fscl.FsclEndToEndTest;
 import fscl.function.pageobjects.*;
 
 import org.junit.jupiter.api.Test;
@@ -21,47 +19,24 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.By;
 
-import javax.sql.DataSource;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.jdbc.core.JdbcTemplate;
-
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class FunctionLifeCycleTest {	
+public class FunctionLifeCycleTest extends FsclEndToEndTest {
 	
-	private JdbcTemplate template;
-	private PostgreSQLContainer<?> testDb = new PostgreSQLContainer<>("postgres:12.4")
-			.withDatabaseName("fscl_functions");
-	
-	//
-	// Set up an empty test database 
-	//
 	@BeforeAll
-	public void setup() {
-		
-		this.testDb.start();
-		
-		DataSource dataSource = DataSourceBuilder.create()
-				.driverClassName("org.postgresql.Driver")
-				.username(testDb.getUsername())
-                .password(testDb.getPassword())
-                .url(testDb.getJdbcUrl())
-                .build();
-		
-		this.template = new JdbcTemplate(dataSource);
-		this.template.execute("DELETE FROM fscl_functions;");
-		
+	public void setup() {		
+		this.startEmptyDB("fscl_functions");
+		this.setupSelenium();
 	}
 	
 	@AfterAll
 	public void tearDown() {
-		this.testDb.stop();
+		this.stopDB();
 	}
 	
 	@Nested	
-	public class GivenEmptyFunctionPage {
+	public class GivenEmptyFunctionPage  {
 		
-		private FunctionPage page;		
-		private WebDriver driver;
+		private FunctionPage page;	
 		
 		@Nested
 		@TestInstance(Lifecycle.PER_CLASS)
@@ -77,9 +52,8 @@ public class FunctionLifeCycleTest {
 			}
 						
 			@BeforeAll
-			public void setup() {
-				driver = new ChromeDriver();				
-				page = new FunctionPage(driver);				
+			public void setup() {	
+				page = new FunctionPage(driver);
 				page.ClickNew();				
 			}			
 			

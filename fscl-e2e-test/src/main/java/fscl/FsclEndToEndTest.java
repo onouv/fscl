@@ -1,50 +1,50 @@
 package fscl;
 
-import org.junit.platform.launcher.Launcher;
-import org.junit.platform.launcher.TestExecutionListener;
-import org.junit.platform.launcher.LauncherDiscoveryRequest;
-import org.junit.platform.launcher.core.LauncherDiscoveryRequestBuilder;
-import org.junit.platform.launcher.core.LauncherFactory;
-import org.junit.platform.launcher.listeners.SummaryGeneratingListener;
-import org.junit.platform.launcher.listeners.TestExecutionSummary;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.testcontainers.containers.PostgreSQLContainer;
 
-import static org.junit.platform.engine.discovery.DiscoverySelectors.selectClass;
+import fscl.function.pageobjects.FunctionPage;
 
-import java.io.PrintWriter;
-
-import fscl.function.EmptyFunctionPageTest;
-import fscl.function.FunctionLifeCycleTest;
+import javax.sql.DataSource;
 
 
-
-public class FsclEndToEndTest {
+public abstract class FsclEndToEndTest {
 	
-	SummaryGeneratingListener summaryListener = new SummaryGeneratingListener();
+	
+	private JdbcTemplate template;
+	private PostgreSQLContainer<?> testDb = new PostgreSQLContainer<>("postgres:12.4")
+			.withDatabaseName("fscl_functions");
+	
+	protected WebDriver driver; 
 		
-	public static void main(String[] args) {
+	protected void startEmptyDB(String databaseName) {
 		
-		FsclEndToEndTest test = new FsclEndToEndTest();		
-		test.run(EmptyFunctionPageTest.class);
-		test.run(FunctionLifeCycleTest.class);
-		
-		TestExecutionSummary summary = test.summaryListener.getSummary();
-		PrintWriter writer = new PrintWriter(System.out);
-		summary.printTo(writer);
-		summary.printFailuresTo(writer);		
+		this.testDb.start();		
+		DataSource dataSource = DataSourceBuilder.create()
+				.driverClassName("org.postgresql.Driver")
+				.username(testDb.getUsername())
+                .password(testDb.getPassword())
+                .url(testDb.getJdbcUrl())
+                .build();		
+		this.template = new JdbcTemplate(dataSource);
+		this.template.execute("DELETE FROM fscl_functions;");
 	}
 	
-	protected void run(Class testClass) {
-		
-		LauncherDiscoveryRequest request = LauncherDiscoveryRequestBuilder.request()
-          .selectors(selectClass(testClass))
-          .build();
-        Launcher launcher = LauncherFactory.create();
-        TestExecutionListener[] listeners = new TestExecutionListener[] { 
-        		this.summaryListener
-        };
-        
-        launcher.registerTestExecutionListeners(listeners);
-        launcher.execute(request);        
-        
+	protected void stopDB() {
+		this.testDb.stop();
+	}
+	
+	protected void setupSelenium() {
+		System.setProperty(
+				"webdriver.chrome.driver", 
+				"/opt/selenium/chromedriver/chromedriver");
+		this.driver = new ChromeDriver();
+	}
+	
+	protected void tearDownSelenium() {
+		this.driver.close();
 	}
 }
