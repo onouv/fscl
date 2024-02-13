@@ -1,3 +1,0 @@
-#!/bin/bash
-mvn deploy:deploy-file -Durl=file:///home/ono/projects/fscl/project-service/repo/ -Dfile=target/fscl-core-lib-0.2.1.jar -DgroupId=io.fscl -DartifactId=fscl-core-lib -Dpackaging=jar -Dversion=0.2.1
-mvn deploy:deploy-file -Durl=file:///home/ono/projects/fscl/function-service/repo/ -Dfile=target/fscl-core-lib-0.2.1.jar -DgroupId=io.fscl -DartifactId=fscl-core-lib -Dpackaging=jar -Dversion=0.2.1
