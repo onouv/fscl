@@ -55,4 +55,4 @@ A **Location** may hold one or more **Components**, i.e. Components may be insta
 
 ## Locations
 
-![Locations](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/fscl/newgen/doc/fscl/uml/core-domain-model/components.puml)
+![Locations](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/fscl/newgen/doc/fscl/uml/core-domain-model/locations.puml)
