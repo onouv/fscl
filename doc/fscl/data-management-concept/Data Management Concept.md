@@ -13,7 +13,7 @@ We want to  **avoid a centralized data storage** for this complex information:
 * to avoid a reliability problem (single point of failure)
 * to allow easy addition and changing of views without having to change existing code bases of existing views or of a central service
 
-We must **ensure all views are eventually updated** about all changes in all views, so they can *decide if a change is relevant for them*. This decision may or may not involve the view user.
+We must **ensure all views are eventually updated** about all changes in all views, so they can *decide if a change is relevant for them*. This decision ideally should not even bother the view user, but it may have to in many cases.
 
 Each view must maintain its view specific model (**view model**) and a complete copy of the common model (**shadow model**). The latter is eventually maintained consistent with all other views. There is no central copy of the common model.
 
