@@ -15,7 +15,8 @@ FSCL is a tool to model industrial systems from the following simple artefacts:
 
 * ***Locations***   - places where *components* are installed
   * *for example, in an elevator system "Machine Room", "Shaft Floor 1", "Concourse Floor 1"*  
-    
+
+Find more details on the motivation [here](doc/fscl/Intro.md) 
   
 Find a more detailed explanation of this **core domain model** [here](doc/fscl/core-domain-model/Core%20Domain%20Model.md).
 
