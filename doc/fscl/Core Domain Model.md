@@ -2,7 +2,7 @@
 
 ## Overview
 
-![UML-diagram-name](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/fscl/newgen/doc/fscl/uml/core-domain-model/overview.puml)
+![Overview](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/fscl/newgen/doc/fscl/uml/core-domain-model/overview.puml)
 
 
  A **Function** represents a well described purpose, performance or purposeful behavior of a technical unit or process.  Example: Controlled Deceleration of a Train (Braking).
@@ -17,25 +17,9 @@ All **Entities** may carry **Parameters**. These allow to attach Metainfo to the
 
 Any Entity can be referenced by **Views**. **Views** are collections of entities which are enriched by additional view-specific semantics and to allow modeling of a specific aspect when engineering a system. Examples: Automation View, Electrical Engineering View, Safety and Reliability View.   
 
-## Relations of Function 
-```plantuml
-class Function
-class System
+## Functions 
 
-Function "*" <-- "*" System: implements <
-Function "*" <-- "*" Component: implements <
-
-abstract class FunctionLink
-FunctionLink <|-- Trigger
-FunctionLink <|-- Inhibit
-FunctionLink <|-- Enable
-FunctionLink <|-- Require
-
-Function "1" *--> "*" Function: parent >
-Function "1" -- FunctionLink: target <
-Function "1" -- FunctionLink: source <
-```
-
+![Functions](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/fscl/newgen/doc/fscl/uml/core-domain-model/functions.puml)
 
 
 **Parent**: indicates that a Function owns another one as an integral part. The owned Function may also be called a sub function of its owner. Semantically it means that a parent function may use a sub function at any time during its own execution. 
@@ -56,23 +40,8 @@ Use of Trigger, Require, Inhibit and Enable is mutually exclusive.
 
 ### Components
 
-```plantuml
-class Component
-class Function
-class System
-class Location
+![Components](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/fscl/newgen/doc/fscl/uml/core-domain-model/components.puml)
 
-Function "*" <-- "*" Component: implements <
-System "1" o--> "*" Component: consists of >
-Location "1" o--> "*" Component: holds >
-
-Component  "1" *--> "*" Component
-
-class ComponentLink
-ComponentLink "1" -- "1" Component: source >
-ComponentLink "1" -- "1" Component: target >
-
-```
 
 One or more **Components** may implement one or more **Functions**.
 
@@ -86,17 +55,4 @@ A **Location** may hold one or more **Components**, i.e. Components may be insta
 
 ## Locations
 
-```plantuml
-class Component
-class Location
-
-Location  "1" *--> "*" Location: parent >
-Location "1" o--> "*" Component: holds >
-
-
-class Adjacent
-
-Adjacent "1" -- "1" Location : source >
-Adjacent "1" -- "1" Location : target > 
-
-```
+![Locations](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/fscl/newgen/doc/fscl/uml/core-domain-model/components.puml)

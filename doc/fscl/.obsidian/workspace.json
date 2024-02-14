@@ -148,6 +148,10 @@
   },
   "active": "b11709e87d638551",
   "lastOpenFiles": [
+    "uml/core-domain-model/locations.puml",
+    "uml/core-domain-model/components.puml",
+    "uml/core-domain-model/functions.puml",
+    "uml/core-domain-model/function-relations.puml",
     "uml/core-domain-model/overview.puml",
     "uml/core-domain-model/core-domain-model.iuml",
     "uml/core-domain-model",
@@ -168,7 +172,6 @@
     "fscl-shadow-lib/Implementation Notes.md",
     "fscl-shadow-lib/implementation notes/Untitled.md",
     "fscl-shadow-lib/implementation notes",
-    "fscl-shadow-lib",
     "karate.png"
   ]
 }

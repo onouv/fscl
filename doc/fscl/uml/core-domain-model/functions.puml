@@ -1,0 +1,17 @@
+@startuml
+class Function
+class System
+
+Function "*" <-- "*" System: implements <
+Function "*" <-- "*" Component: implements <
+
+abstract class FunctionLink
+FunctionLink <|-- Trigger
+FunctionLink <|-- Inhibit
+FunctionLink <|-- Enable
+FunctionLink <|-- Require
+
+Function "1" *--> "*" Function: parent >
+Function "1" -- FunctionLink: target <
+Function "1" -- FunctionLink: source <
+@enduml
