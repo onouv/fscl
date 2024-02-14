@@ -14,7 +14,7 @@ A system of microservices connected by a Kafka backbone. Each service supports a
 * View front ends will be served from a separate ui server linode per view 
 * All common functionality in the backend as well as in the frontend will be factored out into library artefacts (e.g. core data management, kafka messaging)
 
-The system now is cut differently from the original prototype: the views are disjunct application domains now rather than simply parts of the common domain meta model. All inter-view data exchange is expected to happen in terms of  the core metamodel ([[Data Management Concept]], see also next section). Therefore, the need for view-specific inter-service messaging is expected to be not necessary anymore, and view-specific libraries for messaging API classes/ interfaces (DTO) should become obsolete. 
+The system now is cut differently from the original prototype: the views are disjunct application domains now rather than simply parts of the common domain meta model. All inter-view data exchange is expected to happen in terms of  the core metamodel ([Data Management Concept](./data-management-concept/Data%20Management%20Concept.md), see also next section). Therefore, the need for view-specific inter-service messaging is expected to be not necessary anymore, and view-specific libraries for messaging API classes/ interfaces (DTO) should become obsolete. 
 
 I can drive the implementation only infrequently, so versioning of specific elements in the technology stacks at this point doesn't make much sense: 
 
@@ -44,7 +44,7 @@ Ansible playbooks will be used to manage the linode setups.
 
 ## Core Data Management Llibrary
 
-As each view-specific service must maintain a copy of a common Shadow Model as defined in the [[Data Management Concept]],  a shared library supporting this feature set is needed. This library can be used by any view specific service to implement the shadow model. 
+As each view-specific service must maintain a copy of a common Shadow Model as defined in the [Data Management Concept](./data-management-concept/Data%20Management%20Concept.md),  a shared library supporting this feature set is needed. This library can be used by any view specific service to implement the shadow model. 
 
 Handles authoritative reference data for the following domain entities, see [[Core Domain Model]]:
 * Functions
@@ -59,8 +59,8 @@ Features:
 * Create child of Domain Item (same type) and publish associated event
 * Create Domain Item Link and publish associated event
 * allow to publish event for Deletion of a Domain Item or Domain Item Link in the view model and mark element in shadow model
-* handle Domain Item created and Domain Item Link created events according to [[Data Management Concept]]
-* handle domain item deleted and domain item link deleted events according to [[Data Management Concept]]
+* handle Domain Item created and Domain Item Link created events according to [Data Management Concept](./data-management-concept/Data%20Management%20Concept.md)
+* handle domain item deleted and domain item link deleted events according to [Data Management Concept](./data-management-concept/Data%20Management%20Concept.md)
 * Initialize a database instance for shadow model
 
 
