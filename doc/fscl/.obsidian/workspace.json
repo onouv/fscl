@@ -4,16 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "bf3d64cc30a5d570",
+        "id": "00f579bdf6a9dee0",
         "type": "tabs",
         "children": [
           {
-            "id": "6984020978e8abf6",
+            "id": "b11709e87d638551",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Views.md",
+                "file": "Architecture.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Views.md",
+                "file": "Architecture.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Views.md",
+                "file": "Architecture.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Views.md"
+                "file": "Architecture.md"
               }
             }
           }
@@ -146,13 +146,18 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "6e43666762680e15",
+  "active": "b11709e87d638551",
   "lastOpenFiles": [
+    "uml/core-domain-model.iuml",
+    "uml",
+    "Intro.md",
     "Data Management Concept.md",
-    "Core Domain Model.md",
-    "Architecture.md",
+    "data_management_concept.md",
     "Project Plan.md",
     "Views.md",
+    "Core Domain Model.md",
+    "Architecture.md",
+    "Features.md",
     "fscl-process-service/Example.md",
     "fscl-process-service/Process Domain Model.md",
     "fscl-process-service/Project Layout.md",

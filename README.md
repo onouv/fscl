@@ -1,9 +1,7 @@
 ![](github/pics/master-logo.png)
 
 
-[Get Started](github/get-started.md)
-
-
+# What is FSCL ?
 FSCL is a tool to model industrial systems from the following simple artefacts:
 
 * ***Functions*** - specifications of distinct elements of performance or behaviour
@@ -16,31 +14,30 @@ FSCL is a tool to model industrial systems from the following simple artefacts:
   * *for example, in an elevator system "Drive Motor" "Brake Magnet"*
 
 * ***Locations***   - places where *components* are installed
-  * *for example, in an elevator system "Machine Room", "Shaft Floor 1", "Concourse Floor 1"*
+  * *for example, in an elevator system "Machine Room", "Shaft Floor 1", "Concourse Floor 1"*  
+    
+  
+Find a more detailed explanation of this **core domain model** [here](doc/fscl/Core%20Domain%20Model.md).
 
-It is built as a distributed set of microservices and a web client to :
+Find an outline of the new **architecture** [here](doc/fscl/Architecture.md).
 
-* model industrial systems out of the *core object model*  mentioned above
 
-* build value-added services around this core object model, accessible via a RESTful API with HTTP
-      
-Please note FSCL is currently a concept demonstrator for private purposes and provided here without any license or any liability. If anybody is interested in contributing, please contact me and I'd be happy to consider picking one of the open source licenses.
+Please note I have refactored the concept by defining a set of application views and I am in the process of implementing a **NewGen of FSCL** based on that refactoring, which you will find in this repo. If the views before have been simply the Functions, Systems, Components and Locations described above, they are now defined much more purposeful and the four core concepts (FSCL) have now become elements of a common distributed [data management concept](doc/fscl/Data%20Management%20Concept.md).  
 
-## Motivation
-Industrial systems such as factories, refineries, chemical plants, power stations, power transmission systems, automatic transport systems, sea ships and many more examples are pretty complex. Many different components must be skillfully designed and combined by many engineering disciplines to work together in countless different relationships.
-- Electrical,  Mechanical and Civil Engineers are using advanced tools like CAD and CAE systems to create the phyiscal design of the systems.
-- Automation Software Engineers use advanced simulation and programming tool chains.
-- Production and supply chain use systems such as ERP and MES to manufacture or procure the systems and components
+Find the [original FSCL demonstrator here](https://github.com/onouv/fscl/tree/master).
 
-**Functional requirements**, however, often are managed in documents and in the mind only. There is no link in the various tools between the artifacts of engineering and the functional model of the system. In most cases, there is no explicit functional model for a project at all. This means, they are often missed or lost along the way and cause trouble downstream of a project.
-The success of a technical design is based on the *complete* understanding of just these functional requirements and their correct and complete *mapping to artefacts* in the physical and software design. FSCL is a demonstrator of a software system to bring this capability into the hands of project engineers and project managers.
 
-**IoT Applications** may benefit in various ways from a simple straightforward but consistent information model. Just a few examples:
-- establishing the relation between *components* and *functions* enables deducting availablity of *functions* from operational state of the *components*, to continously assess availability of *functions*
-- streaming apps could track process events (e.g. from [OPC UA protocols](https://opcfoundation.org/about/opc-technologies/opc-ua/) and assign them to the histories of either *functions* or *components*
+# Artefacts
 
-## Architecture
-FSCL is built in a microservices architecture based on Spring Boot and MongoDB with a common React web client as user interface. [Learn More...](github/architecture.md)
+FSCL NewGen is currently in development. It will consist of various artefacts. Please also refer to the [Project Plan](doc/fscl/Project%20Plan.md)
 
-## Development
-Ideas and plans for the future, open items, etc. [Learn More...](github/development.md)
+## Supporting Artefacts
+[fscl-core-lib](https://github.com/onouv/fscl-core-lib/tree/newgen)
+
+## Process Technology View
+[fscl-process-service](https://github.com/onouv/fscl-process-service)  
+[fscl-process-ui]() (TO BE DONE)
+
+## Automation View
+TO BE DONE
+

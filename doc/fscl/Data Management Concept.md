@@ -12,11 +12,11 @@ We want to  **avoid a centralized data storage** for this complex information:
 * to avoid a reliability problem (single point of failure)
 * to allow easy addition and changing of views without having to change existing code bases of existing views or of a central service
 
-We must **ensure all views are eventually updated** about all changes in all views, so they can *decide if a change is relevant for them*.
+We must **ensure all views are eventually updated** about all changes in all views, so they can *decide if a change is relevant for them*. This decision may or may not involve the view user.
 
 Each view must maintain its view specific model (**view model**) and a complete copy of the common model (**shadow model**). The latter is eventually maintained consistent with all other views. There is no central copy of the common model.
 
-Different Views  maintain a different selection (subtrees and link sets) of these elements, i.e. a view model may choose only a subset of all elements in the shadow model. However, the relations of the elements that are picked must be maintained consistent on both models (e.g a is parent of b in both models):
+Different Views  maintain a different selection (sub trees and link sets) of these elements, i.e. a view model may choose only a subset of all elements in the shadow model. However, the relations of the elements that are picked must be maintained consistent on both models (e.g a is parent of b in both models):
 
 ```mermaid
 flowchart TD
@@ -44,7 +44,7 @@ bS -.- bV
 
 When a view wants to create a new element, 
 
-(1) it must check in the shadow model if there is an appropriate candidat.  If there is, it must decide if that should be used 
+(1) it must check in the shadow model if there already is an appropriate candidate.  If there is, it must decide if that should be used 
 
 If there is no such candidate or if it shall not be used, the view must
 (2) create a new element in the view model

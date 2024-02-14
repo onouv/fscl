@@ -1,4 +1,6 @@
-FSCL is a system of services and web clients built around a common information meta model ([[Core Domain Model]]). The meta model can be basis for many different application views. A view is a set of functionalities and extensions to the meta model. This document describes the  application views which are planned to be initially implemented as microservices and associated web clients.
+FSCL is a system of services and web clients built around a common information meta model ([[Core Domain Model]]). The meta model can be basis for many different application views. A view is a set of functionalities and extensions to the meta model. 
+
+This document collects ideas of features for the application views which are planned to be initially implemented as micro services and associated web clients.
 
 # Automation Control Spec
 F: Allow entering free text into a prepared form for specification of control software for a function

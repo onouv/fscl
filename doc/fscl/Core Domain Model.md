@@ -1,4 +1,8 @@
+# Core Domain Model
+
 ## Overview
+
+[core model](![UML-diagram-name](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/fscl/doc/uml/core-domain-model.iuml))
 
 ```plantuml
 hide empty members
@@ -32,15 +36,15 @@ Component  "1" *--> "*" Component
 Location  "1" *--> "*" Location
 ```
 
- A **Function** represents a well described purpose, performance or purposeful behaviour of a technical unit or process.  Example: Controlled Deceleration of a Train (Braking).
+ A **Function** represents a well described purpose, performance or purposeful behavior of a technical unit or process.  Example: Controlled Deceleration of a Train (Braking).
 
-A **Component** represents a tangible piece of equipment or a unit of software which can independently deployed and tested. In both cases, the Component must be designed to fulfill a specific purpose (implement Functions). Example:  Driver Brake Valve.
+A **Component** represents a tangible piece of equipment or a unit of software which can independently deployed and tested. In both cases, the Component must be designed to fulfill a specific purpose (implement Functions). Example:  Driver Brake Valve in a Train.
 
 A **System** represent a conglomerate of components and subsystems and is designed to fulfill a specific purpose (Function). Example: Train Brake System.    
 
 A **Location** - well, yeah. Exactly
 
-All **Entities** may carry **Parameters**. These allow to attach Metainfo to them which can be used for parametric design purposes or just as an explicit expression of design assumptions or results.
+All **Entities** may carry **Parameters**. These allow to attach Metainfo to them which can be used for future parametric design features or just as an explicit expression of design assumptions or results.
 
 Any Entity can be referenced by **Views**. **Views** are collections of entities which are enriched by additional view-specific semantics and to allow modeling of a specific aspect when engineering a system. Examples: Automation View, Electrical Engineering View, Safety and Reliability View.   
 

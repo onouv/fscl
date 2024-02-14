@@ -1,10 +1,9 @@
 
-
 # Proof of Concept
 
 ## Goal
 
-To prove all core concepts, use of toolchains, gain insight from implementing a first service
+To prove all core concepts, use of tool chains, gain insight from implementing a first service
 * Details of the [[Core Domain Model]] implementation
 * shadow model library concept ([[Data Management Concept]])
 * Postgres - Debezium - Kafka coupling
