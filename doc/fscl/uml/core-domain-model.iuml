@@ -14,10 +14,10 @@ class View
 Entity "1" *-- "*" Parameter
 Parameter "*" --> "*" Parameter
 View "*" ---> "*" Entity
-Function <|-- Entity
-Component <|-- Entity
-System <|-- Entity
-Location <|-- Entity
+Function --|> Entity
+Component --|> Entity
+System --|> Entity
+Location --|> Entity
 
 Function "*" <-- "*" System: implements <
 Function "*" <-- "*" Component: implements <
