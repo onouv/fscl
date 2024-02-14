@@ -62,7 +62,6 @@ flowchart TD
 	
 subgraph ViewA
 User
-end
 
 subgraph ViewModel
 aV(a)
@@ -89,6 +88,7 @@ end
 User -. 3 .-> ShadowModel
 User -. 2 .-> eV
 eV -. 4 .- eS
+end
 eS -- 5 --> Bus
 Bus -- 6 --> ig
 Bus -- 7 --> ViewB
