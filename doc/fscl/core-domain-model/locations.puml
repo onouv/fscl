@@ -1,0 +1,13 @@
+@startuml
+class Component
+class Location
+
+Location  "1" *--> "*" Location: parent >
+Location "1" o--> "*" Component: holds >
+
+
+class Adjacent
+
+Adjacent "1" -- "1" Location : source >
+Adjacent "1" -- "1" Location : target > 
+@enduml

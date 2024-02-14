@@ -1,0 +1,180 @@
+{
+  "main": {
+    "id": "98f76f340c03f531",
+    "type": "split",
+    "children": [
+      {
+        "id": "00f579bdf6a9dee0",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "b11709e87d638551",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Project Plan.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "ac2ad1771f9f02bd",
+    "type": "split",
+    "children": [
+      {
+        "id": "143c195a32e627cd",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "6e43666762680e15",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "a770434957129484",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "ff1e16e619c99a88",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 234.5
+  },
+  "right": {
+    "id": "1aa7bbd42a38ee04",
+    "type": "split",
+    "children": [
+      {
+        "id": "2d7e739e9ce85754",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "b68ca02d158179d7",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Project Plan.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "981224d519796186",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Project Plan.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "a902e5fca787a77b",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "2bba2e6e74c53f37",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Project Plan.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "b11709e87d638551",
+  "lastOpenFiles": [
+    "architecture/deployment.puml",
+    "data-management-concept/create-new-element.puml",
+    "data-management-concept/Data Management Concept.md",
+    "data-management-concept",
+    "core-domain-model/Core Domain Model.md",
+    "core-domain-model/overview.puml",
+    "core-domain-model/locations.puml",
+    "core-domain-model/functions.puml",
+    "core-domain-model/components.puml",
+    "core-domain-model",
+    "Architecture.md",
+    "architecture/Architecture.md",
+    "architecture/service-overview.puml",
+    "architecture",
+    "uml/architecture/service-overview.puml",
+    "Intro.md",
+    "Data Management Concept.md",
+    "data_management_concept.md",
+    "Project Plan.md",
+    "Views.md",
+    "Core Domain Model.md",
+    "Features.md",
+    "fscl-process-service/Example.md",
+    "fscl-process-service/Process Domain Model.md",
+    "fscl-process-service/Project Layout.md",
+    "fscl-shadow-lib/Implementation Notes.md",
+    "fscl-shadow-lib/implementation notes/Untitled.md",
+    "karate.png"
+  ]
+}

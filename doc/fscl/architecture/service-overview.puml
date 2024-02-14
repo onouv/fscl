@@ -1,0 +1,41 @@
+@startuml
+component fscl-core-lib <<library>>
+component fscl-ui-core <<library>>
+component fscl-automation-service <<microservice>>
+interface "fscl/automation" as automation <<REST API>>
+component fscl-automation-ui <<web client>>
+component automation_db <<RDBMS>>
+
+interface "fscl/safety" as safety <<REST API>>
+component fscl-safety-service <<microservice>>
+component fscl-safety-ui <<web client>>
+component safety_db <<RDBMS>>
+
+interface "fscl/process" as process <<REST API>>
+component fscl-process-service <<microservice>>
+component fscl-process-ui <<web client>>
+component process_db <<RDBMS>>
+
+component event_bus <<kafka-broker>>
+
+fscl-process-ui --> process
+fscl-process-ui --> fscl-ui-core
+process --- fscl-process-service
+fscl-process-service --> fscl-core-lib
+fscl-process-service --> process_db
+fscl-process-service --> event_bus
+
+fscl-automation-ui --> automation
+fscl-automation-ui --> fscl-ui-core
+automation --- fscl-automation-service
+fscl-automation-service --> fscl-core-lib
+fscl-automation-service --> automation_db
+fscl-automation-service --> event_bus
+
+fscl-safety-ui --> safety
+fscl-safety-ui --> fscl-ui-core
+safety --- fscl-safety-service
+fscl-safety-service --> fscl-core-lib
+fscl-safety-service --> safety_db
+fscl-safety-service --> event_bus
+@enduml
