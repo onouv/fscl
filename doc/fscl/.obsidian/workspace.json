@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Architecture.md",
+                "file": "Project Plan.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Architecture.md",
+                "file": "Project Plan.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Architecture.md",
+                "file": "Project Plan.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Architecture.md"
+                "file": "Project Plan.md"
               }
             }
           }
@@ -148,30 +148,33 @@
   },
   "active": "b11709e87d638551",
   "lastOpenFiles": [
-    "uml/core-domain-model/locations.puml",
-    "uml/core-domain-model/components.puml",
-    "uml/core-domain-model/functions.puml",
-    "uml/core-domain-model/function-relations.puml",
-    "uml/core-domain-model/overview.puml",
-    "uml/core-domain-model/core-domain-model.iuml",
-    "uml/core-domain-model",
-    "uml/core-domain-model.iuml",
-    "uml",
+    "data-management-concept/create-new-element.puml",
+    "data-management-concept/Data Management Concept.md",
+    "data-management-concept",
+    "core-domain-model/Core Domain Model.md",
+    "core-domain-model/overview.puml",
+    "core-domain-model/locations.puml",
+    "core-domain-model/functions.puml",
+    "core-domain-model/components.puml",
+    "core-domain-model",
+    "Architecture.md",
+    "architecture/Architecture.md",
+    "architecture/service-overview.puml",
+    "architecture",
+    "uml/architecture/service-overview.puml",
+    "uml/architecture",
     "Intro.md",
     "Data Management Concept.md",
     "data_management_concept.md",
     "Project Plan.md",
     "Views.md",
     "Core Domain Model.md",
-    "Architecture.md",
     "Features.md",
     "fscl-process-service/Example.md",
     "fscl-process-service/Process Domain Model.md",
     "fscl-process-service/Project Layout.md",
-    "fscl-process-service",
     "fscl-shadow-lib/Implementation Notes.md",
     "fscl-shadow-lib/implementation notes/Untitled.md",
-    "fscl-shadow-lib/implementation notes",
     "karate.png"
   ]
 }

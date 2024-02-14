@@ -2,7 +2,7 @@
 
 ## Overview
 
-![Overview](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/fscl/newgen/doc/fscl/uml/core-domain-model/overview.puml)
+![Overview](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/fscl/newgen/doc/fscl/core-domain-model/overview.puml)
 
 
  A **Function** represents a well described purpose, performance or purposeful behavior of a technical unit or process.  Example: Controlled Deceleration of a Train (Braking).
@@ -19,7 +19,7 @@ Any Entity can be referenced by **Views**. **Views** are collections of entities
 
 ## Functions 
 
-![Functions](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/fscl/newgen/doc/fscl/uml/core-domain-model/functions.puml)
+![Functions](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/fscl/newgen/doc/fscl/core-domain-model/functions.puml)
 
 
 **Parent**: indicates that a Function owns another one as an integral part. The owned Function may also be called a sub function of its owner. Semantically it means that a parent function may use a sub function at any time during its own execution. 
@@ -40,7 +40,7 @@ Use of Trigger, Require, Inhibit and Enable is mutually exclusive.
 
 ### Components
 
-![Components](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/fscl/newgen/doc/fscl/uml/core-domain-model/components.puml)
+![Components](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/fscl/newgen/doc/fscl/core-domain-model/components.puml)
 
 
 One or more **Components** may implement one or more **Functions**.
@@ -55,4 +55,4 @@ A **Location** may hold one or more **Components**, i.e. Components may be insta
 
 ## Locations
 
-![Locations](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/fscl/newgen/doc/fscl/uml/core-domain-model/locations.puml)
+![Locations](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/fscl/newgen/doc/fscl/core-domain-model/locations.puml)

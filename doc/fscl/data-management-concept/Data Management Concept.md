@@ -55,6 +55,7 @@ If there is no such candidate or if it shall not be used, the view must
 (6 When a view subsequently receives the creation event from the bus (by means of its subscription), it must ignore it, since it already finds the  element in its shadow
 
 (7) When one of the other views receives the creation event, they will not find the element in their shadow model copy and will introduce it to its shadow model. They must eventually propose the new element for decision wether or not it should be introduced to the view model. 
+
 ```mermaid
 flowchart TD
 	
@@ -97,6 +98,10 @@ Bus -- (7) --> ViewB
 ```
 
 =======================
+The overall workflow looks like this:
+
+![Components](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/fscl/newgen/doc/fscl/data-management-concept/create-new-element.puml)
+
 ```plantuml
 !pragma useVerticalIf on
 |c| Web Client
