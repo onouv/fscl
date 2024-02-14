@@ -1,5 +1,5 @@
 
-There is a [[Core Domain Model]] containing certain domain entities and links between them. Both of these things we call elements. The main characteristics of this core model are:
+There is a [Core Domain Model](doc/fscl/core-domain-model/Core%20Domain%20Model.md) containing certain domain entities and links between them. Both of these things we call elements. The main characteristics of this core model are:
 * the entities are structured in deep hierarchy trees (parent-child in 1-n)
 * the entities may be linked within and across these trees 
 
@@ -97,77 +97,10 @@ Bus -- (6) --> ig
 Bus -- (7) --> ViewB
 ```
 
-=======================
-The overall workflow looks like this:
+The overall workflow looks like this:  
 
-![Components](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/fscl/newgen/doc/fscl/data-management-concept/create-new-element.puml)
 
-```plantuml
-!pragma useVerticalIf on
-|c| Web Client
-start
-:Enter Element; <<input>>
-:Click SAVE; <<input>>
-:POST CreateRequest to Server; <<output>>
-|s| Server
-:Look Up Shadow-Element by ID;
-if (element in shadow) then (yes)
-	if (Diff Content of Request and Shadow) then (identical)
-		:Respond 409 (CONTENT_IDENTICAL); <<output>>
-	else (different)
-		:Respond 409 (CONTENT_DIFFERENT, Shadow-Element); <<output>>
-	endif
-	|c|
-	:409; <<input>>
-	if (Response) then (CONTENT_IDENTICAL)
-		:Show Cancel Option;
-		if (User) then 
-			:Click CANCEL;<<input>>
-			:Clean UI;
-			stop
-		else 
-			:Click OK; <<input>>
-			:MergeRequest(SHADOW);
-		endif
-	else (CONTENT_DIFFERENT)
-		:Show Content Decision Page from reponse data and original data;
-		if (User) then 
-			:Click OVERWRITE; <<input>>
-			:MergeRequest(CLIENT, original data);
-		else
-			:Click KEEP SERVER; <<input>>
-			:MergeRequest(SHADOW);
-		endif
-		
-	endif
-	:PUT MergeRequest; <<output>>
-	|s|
-	:Look Up Shadow-Element by ID;
-	if (MergeRequest) then (CLIENT)
-		:Overwrite Shadow-Element with request data (Flag MODIFIED);
-		:Create View-Element from request data;
-		:Link Shadow-Element and View-Element;
-		:publish ModifiedEvent; <<output>>
-		:Respond 201; <<output>>
-	else (SHADOW)		
-		:Copy Shadow-Element to ViewModel;
-		:Merge additional view Content from request data into View-Element;
-		:Link Shadow-Element and View-Element;		
-		:Respond 204; <<output>>	
-	endif
-else (no)
-	|s|
-	:Create Shadow-Element from request data (Flag MODIFIED);	
-	:Create View-Element from request data;
-	:Link Shadow-Element and View-Element;
-	:publish CreatedEvent; <<output>>
-	:Respond 201; <<output>>	
-endif
-|c|
-:Response 201 or 204; <<input>>
-:Udate UI;
-stop
-```
+![Components](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/fscl/newgen/doc/fscl/data-management-concept/create-new-element.puml)  
 
 
 ## View Deletes an Element
