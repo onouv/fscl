@@ -4,8 +4,8 @@
 ## Goal
 
 To prove all core concepts, use of tool chains, gain insight from implementing a first service
-* Details of the [Core Domain Model](../core-domain-model/Core%20Domain%20Model.md) implementation
-* shadow model library concept ([Data Management Concept](../data-management-concept/Data%20Management%20Concept.md))
+* Details of the [Core Domain Model](./core-domain-model/Core%20Domain%20Model.md) implementation
+* shadow model library concept ([Data Management Concept](./data-management-concept/Data%20Management%20Concept.md))
 * Postgres - Debezium - Kafka coupling
 * general deployment concept
 
@@ -13,7 +13,7 @@ To prove all core concepts, use of tool chains, gain insight from implementing a
 
 ### fscl-process-service 0.1.0
 
-> A microservice implementing the backend for the process technology view, featuring the entire [Core Domain Model](../core-domain-model/Core%20Domain%20Model.md) with minimal extensions to adapt for process view specifics. Should be deployed as a Docker container on a linode by an Ansible playbook
+> A microservice implementing the backend for the process technology view, featuring the entire [Core Domain Model](./core-domain-model/Core%20Domain%20Model.md) with minimal extensions to adapt for process view specifics. Should be deployed as a Docker container on a linode by an Ansible playbook
 
 * open Java latest 
 * Spring Boot
@@ -35,7 +35,7 @@ This deliverable may shrink down to a postgres server instance pulled and config
 
 ### fscl-core-lib 0.1.0
 
-> Shared library for shadow model management ([Data Management Concept](../data-management-concept/Data%20Management%20Concept.md))
+> Shared library for shadow model management ([Data Management Concept](./data-management-concept/Data%20Management%20Concept.md))
 
 * open Java latest
 * Spring Boot
