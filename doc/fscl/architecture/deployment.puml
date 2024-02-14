@@ -12,8 +12,8 @@ cloud linode {
 	node process_server {
 		node process_container <<docker>> {
 			interface process <<REST>>
-			component process_service
-			process -- process_service
+			component fscl-process-service
+			process -- fscl-process-service
 		}
 	}
 	node process_db {
@@ -25,7 +25,7 @@ cloud linode {
 	}
 	node process_ui_server {
 		node process_ui_container <<docker>> {
-			component process_ui <<Next server>>
+			component fscl-process-ui <<Next server>>
 		}
 	}
 	node bus_server {
@@ -35,18 +35,18 @@ cloud linode {
 	}
 	
 	node automation_server {
-		node automation-service_container <<docker>> {
-			component automation_service
+		node automation_container <<docker>> {
+			component fscl-automation-service
 		}
 	}
 }
 
-process_ui_app --> process_ui
-process_ui --> process: https
+process_ui_app --> fscl-process-ui
+fscl-process-ui --> process: https
 bash --> automation_service: ssh
 process_ui_app --> process: https
-process_service -- kafka: tcp
+fscl-process-service -- kafka: tcp
 debezium -- kafka: tcp
-process_service -- postgres: tcp
-automation_service -- kafka: tcp
+fscl-process-service -- postgres: tcp
+automatifscl-automation-serviceon_service -- kafka: tcp
 @enduml
