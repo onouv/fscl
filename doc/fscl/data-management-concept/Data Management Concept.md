@@ -60,34 +60,34 @@ If there is no such candidate or if it shall not be used, the view must
 ```mermaid
 flowchart TD
 	
-	subgraph ViewA
-		User
-		
-		subgraph ViewModel
-			aV(a)
-			bV(b)
-			eV(e)
-			
-			aV --> eV
-			aV --> bV
-		end
-		
-		subgraph ShadowModel
-			aS(a)
-			bS(b)
-			cS(c)
-			dS(d)
-			eS(e)
-			
-			ig{{ignore}}
-			aS --> bS
-			bS --> dS
-			aS --> cS
-			aS --> eS
-			ig -.-> eS
-		end
-		User -. (3) .-> eS
-	end
+subgraph ViewA
+User
+
+subgraph ViewModel
+aV(a)
+bV(b)
+eV(e)
+
+aV --> eV
+aV --> bV
+end
+
+subgraph ShadowModel
+aS(a)
+bS(b)
+cS(c)
+dS(d)
+eS(e)
+
+ig{{ignore}}
+aS --> bS
+bS --> dS
+aS --> cS
+aS --> eS
+ig -.-> eS
+end
+User -. (3) .-> eS
+end
 
 User -. (1) .-> ShadowModel
 User -. (2) .-> eV
