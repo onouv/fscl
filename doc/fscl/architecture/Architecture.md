@@ -93,47 +93,7 @@ For serving a web client with primitives for the View Model, each view-specific 
 
 ## Service Overview
 
-```plantuml
-component core_model <<library>>
-component ui_core <<library>>
-component automation_service <<microservice>>
-interface "fscl/automation" as automation <<REST API>>
-component automation_ui <<web client>>
-component automation_db <<RDBMS>>
-
-interface "fscl/safety" as safety <<REST API>>
-component safety_service <<microservice>>
-component safety_ui <<web client>>
-component safety_db <<RDBMS>>
-
-interface "fscl/process" as process <<REST API>>
-component process_service <<microservice>>
-component process_ui <<web client>>
-component process_db <<RDBMS>>
-
-component event_bus <<kafka-broker>>
-
-process_ui --> process
-process_ui --> ui_core
-process --- process_service
-process_service --> core_model
-process_service --> process_db
-process_service --> event_bus
-
-automation_ui --> automation
-automation_ui --> ui_core
-automation --- automation_service
-automation_service --> core_model
-automation_service --> automation_db
-automation_service --> event_bus
-
-safety_ui --> safety
-safety_ui --> ui_core
-safety --- safety_service
-safety_service --> core_model
-safety_service --> safety_db
-safety_service --> event_bus
-```
+![Service Overview](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/fscl/newgen/doc/fscl/architecture/service-overview.puml)
 
 
 
