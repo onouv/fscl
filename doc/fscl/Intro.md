@@ -14,8 +14,5 @@ The success of a technical design is based on the *complete* understanding of ju
 - establishing the relation between *components* and *functions* enables deducting availablity of *functions* from operational state of the *components*, to continously assess availability of *functions*
 - streaming apps could track process events (e.g. from [OPC UA protocols](https://opcfoundation.org/about/opc-technologies/opc-ua/) and assign them to the histories of either *functions* or *components* to generate insight on performance, reliability, usage patterns, etc.
 
-## Architecture
-FSCL newgen will be built in a microservices architecture based on Spring Boot and postgres with Next.JS React web clients as user interfaces. [Learn More...](doc/fscl/architecture/Architecture.md)
-
 ## Development
 Ideas and plans for the future, open items, etc. [Learn More...](github/development.md)
