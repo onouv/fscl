@@ -8,22 +8,22 @@ component automation_db <<RDBMS>>
 
 interface "fscl/safety" as safety <<REST API>>
 component fscl-safety-service <<microservice>>
-component safety_ui <<web client>>
+component fscl-safety-ui <<web client>>
 component safety_db <<RDBMS>>
 
 interface "fscl/process" as process <<REST API>>
-component process_service <<microservice>>
-component process_ui <<web client>>
+component fscl-process-service <<microservice>>
+component fscl-process-ui <<web client>>
 component process_db <<RDBMS>>
 
 component event_bus <<kafka-broker>>
 
-process_ui --> process
-process_ui --> fscl-ui-core
-process --- process_service
-process_service --> fscl-core-lib
-process_service --> process_db
-process_service --> event_bus
+fscl-process-ui --> process
+fscl-process-ui --> fscl-ui-core
+process --- fscl-process-service
+fscl-process-service --> fscl-core-lib
+fscl-process-service --> process_db
+fscl-process-service --> event_bus
 
 fscl-automation-ui --> automation
 fscl-automation-ui --> fscl-ui-core
