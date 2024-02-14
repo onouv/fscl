@@ -148,6 +148,7 @@
   },
   "active": "b11709e87d638551",
   "lastOpenFiles": [
+    "architecture/deployment.puml",
     "data-management-concept/create-new-element.puml",
     "data-management-concept/Data Management Concept.md",
     "data-management-concept",
@@ -162,7 +163,6 @@
     "architecture/service-overview.puml",
     "architecture",
     "uml/architecture/service-overview.puml",
-    "uml/architecture",
     "Intro.md",
     "Data Management Concept.md",
     "data_management_concept.md",

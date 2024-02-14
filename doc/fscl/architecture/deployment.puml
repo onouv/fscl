@@ -1,0 +1,52 @@
+@startuml
+node dev_host {
+	component Intellij
+	component Browser {
+		artifact process_ui_app <<Next app>>
+	}
+	component bash
+	component Ansible
+}
+
+cloud linode {
+	node process_server {
+		node process_container <<docker>> {
+			interface process <<REST>>
+			component process_service
+			process -- process_service
+		}
+	}
+	node process_db {
+		node process_db_container <<docker>> {
+			component debezium
+			component postgres
+			postgres --> debezium
+		}
+	}
+	node process_ui_server {
+		node process_ui_container <<docker>> {
+			component process_ui <<Next server>>
+		}
+	}
+	node bus_server {
+		node bus_container <<docker>> {
+			component kafka
+		}
+	}
+	
+	node automation_server {
+		node automation-service_container <<docker>> {
+			component automation_service
+		}
+	}
+}
+
+process_ui_app --> process_ui
+process_ui --> process: https
+bash --> automation_service: ssh
+process_ui_app --> process: https
+process_service -- kafka: tcp
+debezium -- kafka: tcp
+process_service -- postgres: tcp
+automation_service -- kafka: tcp
+@enduml

@@ -96,6 +96,8 @@ For serving a web client with primitives for the View Model, each view-specific 
 ![Service Overview](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/fscl/newgen/doc/fscl/architecture/service-overview.puml)
 
 
+# Deployment for Dev
 
+![Deployment](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/fscl/newgen/doc/fscl/architecture/deployment.puml)
 
  
