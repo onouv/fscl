@@ -2,7 +2,7 @@
 
 ## Overview
 
-![UML-diagram-name](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/fscl/doc/uml/core-domain-model.iuml)
+![UML-diagram-name](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/fscl/newgen/doc/fscl/uml/core-domain-model.iuml)
 
 ```plantuml
 hide empty members
