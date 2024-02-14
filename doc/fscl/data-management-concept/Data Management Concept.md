@@ -62,6 +62,7 @@ flowchart TD
 	
 subgraph ViewA
 User
+end
 
 subgraph ViewModel
 aV(a)
@@ -78,7 +79,6 @@ bS(b)
 cS(c)
 dS(d)
 eS(e)
-
 ig{{ignore}}
 aS --> bS
 bS --> dS
@@ -86,16 +86,12 @@ aS --> cS
 aS --> eS
 ig -.-> eS
 end
-User -. (3) .-> eS
-end
-
-User -. (1) .-> ShadowModel
-User -. (2) .-> eV
-
-eV -. (4) .- eS
-eS -- (5) --> Bus
-Bus -- (6) --> ig
-Bus -- (7) --> ViewB
+User -. 3 .-> ShadowModel
+User -. 2 .-> eV
+eV -. 4 .- eS
+eS -- 5 --> Bus
+Bus -- 6 --> ig
+Bus -- 7 --> ViewB
 ```
 
 The overall workflow looks like this:  
