@@ -68,9 +68,9 @@ In the latter case, a pair of the entities concerned must be present in both vie
 
 >[!NOTE]
 > Example
->within the [Process View](../Views/process-view.md), a Function F1 "Feed Water Supply" may be implemented by a High-Level Component C1 of the same name. The latter is broken down into sub components by the process specialist such as a C1.1 electrical drive and a C1.2 actual pump and giving them some performance parameters.
-In an [Electrical View](../Views/electrical-view.md), the drive component will be broken down further into a C1.1.1 Circuit breaker, C1.1.2 Variable Frequency Converter and C1.1.3 Electrical Motor.
-The Electrical View will hold the similar instances to the process view, but in addition will hold children of the component. The Electrical View may also refine the functions into specific sub functions such as "Protect Pump Drive" and may link this function as implemented by the Circuit Breaker component. From that Circuit Breaker component though, it will not be possible to  link directly back to anything in the process view, as this link belongs to the components parent. 
+>within the [Process View](../Views/process-view.md), a Function F1 "Feed Water Supply" may be implemented by a High-Level Component C1 of the same name. The latter is broken down into sub components by the process specialist such as a C1.1 Drive and an actual C1.2 Pump, and given some performance parameters.
+In an [Electrical View](../Views/electrical-view.md), the Drive component will be broken down further into a C1.1.1 CB (circuit breaker), C1.1.2 VFC (Variable Frequency Converter) and C1.1.3 MOT (Electrical Motor).
+The Electrical View will hold the similar instances to the process view, but in addition will hold children of the component. The Electrical View may also refine the functions into specific sub functions such as "Protect Drive" and may link this function as implemented by the Circuit Breaker component. From that Circuit Breaker component though, it will not be possible to  link directly back to anything in the process view, as this link belongs to the components parent. 
 ```mermaid
 flowchart TD 
 	subgraph Process View

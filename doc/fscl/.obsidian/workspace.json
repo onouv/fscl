@@ -1,0 +1,181 @@
+{
+  "main": {
+    "id": "98f76f340c03f531",
+    "type": "split",
+    "children": [
+      {
+        "id": "9a88b4a38af75741",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "b3f69697bdd671bd",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "ac2ad1771f9f02bd",
+    "type": "split",
+    "children": [
+      {
+        "id": "143c195a32e627cd",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "6e43666762680e15",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "a770434957129484",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "ff1e16e619c99a88",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 234.5
+  },
+  "right": {
+    "id": "1aa7bbd42a38ee04",
+    "type": "split",
+    "children": [
+      {
+        "id": "2d7e739e9ce85754",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "b68ca02d158179d7",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "981224d519796186",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "a902e5fca787a77b",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "2bba2e6e74c53f37",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "b3f69697bdd671bd",
+  "lastOpenFiles": [
+    "core-domain-model/Core Domain Model.md~",
+    "architecture/cqrs/shadow-as-entity.puml",
+    "architecture/cqrs/shadow-as-entity.md",
+    "architecture/cqrs/shadow-as-aggregate.puml",
+    "architecture/cqrs",
+    "Views/process-view.md",
+    "Views/electrical-view.md",
+    "Views/automation.puml",
+    "Views/automation-view.md",
+    "Views/Views.md",
+    "Views",
+    "Views.md",
+    "architecture/Architecture.md~",
+    "architecture/cqrs/shadow-as-entity.md~",
+    "Views/automation.puml~",
+    "Views/Views.md~",
+    "architecture/Architecture.md",
+    "core-domain-model/Core Domain Model.md",
+    "architecture/api-ui/REST API to UI.md",
+    "data-management-concept/Data Management Concept.md",
+    "architecture/api-ui",
+    "Project Plan.md",
+    "Views/Electrical View.md",
+    "Views/Process View.md",
+    "Views/Automation View.md",
+    "Intro.md",
+    "Architecture.md",
+    "Data Management Concept.md",
+    "data_management_concept.md",
+    "Core Domain Model.md",
+    "Features.md",
+    "fscl-process-service/Example.md",
+    "fscl-process-service/Process Domain Model.md",
+    "fscl-process-service/Project Layout.md",
+    "fscl-shadow-lib/Implementation Notes.md",
+    "fscl-shadow-lib/implementation notes/Untitled.md",
+    "karate.png"
+  ]
+}
