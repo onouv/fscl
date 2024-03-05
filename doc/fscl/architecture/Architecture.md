@@ -2,47 +2,32 @@
 
 Outline of the FSCL architecture - an experimental system under implementation.
 
+## Views
+The system now is cut differently from the original prototype: the views are disjunct application domains now rather than simply parts of the common domain meta model. 
+
+All inter-view data exchange is expected to happen in terms of  the core metamodel ([Data Management Concept](../data-management-concept/Data%20Management%20Concept.md), see also next section). Therefore, the need for view-specific inter-service messaging is expected to be not necessary anymore, and view-specific libraries for messaging API classes/ interfaces (DTO) should become obsolete.
+
+
 ## General Outline
 
-A system of microservices connected by a Kafka backbone. Each service supports a specific domain view on the overall system under design (see [Views](../Views.md) for details). The system will be built as a prototype for gathering experience with the management of distributed deeply structured engineering data following a common meta model (FSCL). Therefore, features like authentication/ authorization, scaling of performance and volume, advanced deployment options are postponed. Unit tests will be implemented only for critical elements. Integration or end-to-end testing will be implemented sparingly only for most critical features. Import and export of data/ adaptation to engineering tools is postposed but will gain a higher priority after the core concept has been implemented and evaluated.   A build pipeline will be implemented when it appears necessary.
+A system of microservices connected by a Kafka backbone. Each service supports a specific domain view on the overall system under design (see [Views](Views.md) for details). The system will be built as a prototype for gathering experience with the management of distributed deeply structured engineering data following a common meta model (FSCL). Therefore, features like authentication/ authorization, scaling of performance and volume, advanced deployment options are postponed. Unit tests will be implemented only for critical elements. Integration or end-to-end testing will be implemented sparingly only for most critical features. Import and export of data/ adaptation to engineering tools is postposed but will gain a higher priority after the core concept has been implemented and evaluated.   A build pipeline will be implemented when it appears necessary.
 
-* Each service has its own database management system (one database server per view, i.e. 1 DB to n view service instances) 
-* The view services will provide RESTful interfaces to the view front end web clients and will communicate by publish / subscribe pattern over a Kafka messaging backbone
-* To allow for transactional consistency between the state that a view service injects into its associated database and the other view services connected via Kafka, the outbox pattern is implemented with Debezium
+* Each view is represented as a separate microservice
+* Each service will be built folowing the CQRS pattern, based on the [Axon framework](https://developer.axoniq.io/axon-framework/overview) 
+* Inter-service messaging will happen by means of  [Axon Server](https://developer.axoniq.io/axon-server/overview)
+* Each Function, System, Component, Location will be a separate Aggregate in each views service. The _Shadow entities_ as described in the [Data Management Concept](../data-management-concept/Data%20Management%20Concept.md) are modelled by the [Shadow as Entity pattern](./cqrs/shadow-as-entity.md) 
+* The view services will provide RESTful interfaces to the view front end web clients and willcommunicate by publish / subscribe pattern over a Kafka messaging backbone
 * Each service type will be deployed on a separate linode
 * Each Views UI will be implemented by a Next.js Web Client
 * View front ends will be served from a separate ui server linode per view 
 * All common functionality in the backend as well as in the frontend will be factored out into library artefacts (e.g. core data management, kafka messaging)
 
-The system now is cut differently from the original prototype: the views are disjunct application domains now rather than simply parts of the common domain meta model. All inter-view data exchange is expected to happen in terms of  the core metamodel ([Data Management Concept](../data-management-concept/Data%20Management%20Concept.md), see also next section). Therefore, the need for view-specific inter-service messaging is expected to be not necessary anymore, and view-specific libraries for messaging API classes/ interfaces (DTO) should become obsolete. 
 
 I can drive the implementation only infrequently, so versioning of specific elements in the technology stacks at this point doesn't make much sense: 
 
-* Back end stack : 
-	* Java 17, 
-	* Spring Boot
-	* JPA 
-	* postgres + Debezium postgres adapter
-	* ubuntu linux
-	* linode nanode (or bigger as required)
+Each service will be deployed on a linode nano (or bigger, as necessary), Ansible playbooks will be used to manage the linode setups.
 
-* Front end stack
-	* React
-	* Material UI
-	* Next.JS
-	* nginx
-	* ubuntu linux
-	* linode nanode (or bigger as required)
-
-* Messaging stack
-	* Kafka
-	* zookeeper (?)
-	* ubuntu linux
-	* linode nanode (or bigger as required)
-
-Ansible playbooks will be used to manage the linode setups.
-
-## Core Data Management Llibrary
+## Core Data Management Library
 
 As each view-specific service must maintain a copy of a common Shadow Model as defined in the [Data Management Concept](../data-management-concept/Data%20Management%20Concept.md),  a shared library supporting this feature set is needed. This library can be used by any view specific service to implement the shadow model. 
 
@@ -94,7 +79,6 @@ For serving a web client with primitives for the View Model, each view-specific 
 ## Service Overview
 
 ![Service Overview](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/fscl/newgen/doc/fscl/architecture/service-overview.puml)
-
 
 # Deployment for Dev
 

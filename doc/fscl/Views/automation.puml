@@ -1,0 +1,12 @@
+@startuml
+hide empty members
+
+package automation {
+	package function {
+		class Function <<AggregateRoot>>
+	}
+	class ControlSpec <<Entity>>
+	Function *--> "1" ControlSpec
+}
+
+@enduml
