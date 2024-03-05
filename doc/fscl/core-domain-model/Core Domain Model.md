@@ -38,7 +38,7 @@ Use of Require and Exclude is mutually exclusive.
 
 ### Components
 
-![Components](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/fscl/newgen/doc/fscl/core-domain-model/components.puml)
+![Components](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/fscl/axon-cqrs/doc/fscl/core-domain-model/components.puml)
 
 
 One or more **Components** may implement one or more **Functions**.
@@ -53,7 +53,7 @@ A **Location** may hold one or more **Components**, i.e. Components may be insta
 
 ## Locations
 
-![Locations](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/fscl/newgen/doc/fscl/core-domain-model/locations.puml)
+![Locations](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/fscl/axon-cqrs/doc/fscl/core-domain-model/locations.puml)
 
 
 
@@ -66,7 +66,8 @@ To represent a link in the first case, the entities concerned simply hold refere
 ### Links Across Views
 In the latter case, a pair of the entities concerned must be present in both views to represent the link. They must have the same id. Both views may further detail their respective trees in different ways. 
 
->[!info] Example
+>[!NOTE]
+> Example
 >within the [Process View](../Views/process-view.md), a Function F1 "Feed Water Supply" may be implemented by a High-Level Component C1 of the same name. The latter is broken down into sub components by the process specialist such as a C1.1 electrical drive and a C1.2 actual pump and giving them some performance parameters.
 In an [Electrical View](../Views/electrical-view.md), the drive component will be broken down further into a C1.1.1 Circuit breaker, C1.1.2 Variable Frequency Converter and C1.1.3 Electrical Motor.
 The Electrical View will hold the similar instances to the process view, but in addition will hold children of the component. The Electrical View may also refine the functions into specific sub functions such as "Protect Pump Drive" and may link this function as implemented by the Circuit Breaker component. From that Circuit Breaker component though, it will not be possible to  link directly back to anything in the process view, as this link belongs to the components parent. 
