@@ -148,6 +148,9 @@
   },
   "active": "b3f69697bdd671bd",
   "lastOpenFiles": [
+    "architecture/Architecture.md~",
+    "architecture/cqrs/shadow-as-entity.md~",
+    "architecture/cqrs/shadow-as-entity.md",
     "core-domain-model/Core Domain Model.md~",
     "Views/automation.puml~",
     "Views/automation.puml",
@@ -169,8 +172,6 @@
     "core-domain-model/functions.puml~",
     "architecture/cqrs/shadow-as-entity.puml~",
     "architecture/cqrs/shadow-as-entity.puml",
-    "architecture/cqrs/shadow-as-aggregate.puml~",
-    "architecture/cqrs/shadow-as-aggregate.puml",
     "Intro.md",
     "Architecture.md",
     "Data Management Concept.md",
