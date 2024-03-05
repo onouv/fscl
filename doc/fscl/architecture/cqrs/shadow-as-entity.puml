@@ -1,0 +1,64 @@
+@startuml
+hide empty members
+
+package fscl {
+    package core {
+
+        abstract class Entity<T extends Entity<T>>  {
+            #id
+        }
+
+        note left of Entity::id
+            elaborate type system
+            for identifiers
+            not shown
+        end note
+
+        class Parameter
+
+        Entity "1" *--> "0..*" Entity: child
+        Entity *--> "0..*" Parameter
+
+        package function {
+            abstract class FunctionBase  {
+
+                {abstract} +getId()
+            }
+
+            note left of FunctionBase
+                binds function code
+                (special formatting)
+                to Entity.id
+            end note
+
+            FunctionBase --|> Entity
+        }
+    }
+
+    package shadow {
+        class ShadowFunction <<@Entity>> {
+            +getId() <<@EntityIdentifier>>
+        }
+        note right of ShadowFunction::getId()
+            "(=100.001)"
+        end note
+        ShadowFunction --|> FunctionBase
+    }
+
+    package process.service {
+
+        package function {
+            class Function <<@Aggregate>> {
+                +getId()  <<@AggregateIdentifier>>
+            }
+            note right of Function::getId()
+                "=100.001"
+            end note
+            Function --|> FunctionBase
+            Function *--> "1" ShadowFunction
+            note on link: perfectly fine
+        }
+
+    }
+}
+@enduml

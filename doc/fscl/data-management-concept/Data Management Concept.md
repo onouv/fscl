@@ -4,9 +4,56 @@ There is a [Core Domain Model](../core-domain-model/Core%20Domain%20Model.md) co
 * the entities are structured in deep hierarchy trees (parent-child in 1-n)
 * the entities may be linked within and across these trees 
 
-For brevity we do not show links but only parent-child reations in the diagrams below but they are equally treated as *elements* and are  managed by the same concepts. 
+## Links
+In general, Links may be spanning between different trees within the same view but also across different views, within the semantics exressed by the [[Core Domain Model]].  
 
-Also, the core domain model has Functions, Components, Systems, Locations. All nodes shown below can be of any kind of the four types, in their respective hierachies. Links therefore can be spanning between different types of nodes as well, as they are all treated as *elements*, it makes no difference for the data management concept.  
+### Links Within Same View
+To represent a link in the first case, the entities concerned simply hold references to each other.
+
+### Links Across Views
+In the latter case, there must be a pair of the entities concerned present in both views to represent the link. They must have the same id. Both views may further detail their respective trees in a different way. 
+
+>[!info] For example, 
+>within the [[Process View]], a Function F1 "Feed Water Supply" may be implemented by a High-Level Component C1 of the same name. The latter is broken down into sub components by the process specialist such as an C1.1 electrical drive and an C1.2 actual pump and giving them some performance parameters.
+In an [[Electrical View]], the drive component will be broken down further into a  C1.1.1 Circuit breaker, C1.1.2 Variable Frequency Converter and C1.1.3 Electrical Motor.
+The Electrical View will hold the similar instances to the process view, but in addition will hold children of the component. The Electrical View may also refine the functions into specific sub functions such as "Protect Pump Drive" and may link this function as implemented by the Circuit Breaker component. From that Circuit Breaker component though, it will not be possible to  link directly back to anything in the process view, as this link belongs to the components parent. 
+```mermaid
+flowchart TD 
+	subgraph Process View
+		PF1(F1: Feed Water Supply)
+		PC1(C1: Feed Water Supply)
+		PC1.1(C1.1: Drive)
+		PC1.2(C1.2: Pump)
+		PF1 -. by ref .-> PC1
+		PC1 --> PC1.2
+		PC1 --> PC1.1
+	end
+
+	subgraph Electrical View
+		EF1(F1: Feed Water Supply)
+		EF1.1(F1.1: Protect Drive)
+		EC1(C1: Feed Water Supply)
+		EC1.1(C1.1: Drive)
+		EC1.1.1(C1.1.1: CB)
+		EC1.1.2(C1.1.2: VFC)
+		EC1.1.3(C1.1.3: MOT)
+		EF1 --> EF1.1
+		EF1 -. by ref .-> EC1
+		EC1 --> EC1.1
+		EC1.1 --> EC1.1.1
+		EC1.1 --> EC1.1.2
+		EC1.1 --> EC1.1.3
+		EF1.1 -. by ref .-> EC1.1.1	
+	end
+
+	PF1 -. by id .- EF1
+	PC1 -. by id .- EC1
+	PC1.1 -. by id .- EC1.1
+```
+
+For brevity we do not show links but only parent-child relations in the diagrams below but they are conceptually equally treated as *elements*. In an implementation, this responsibility may be mapped on to different artifacts. For example, Links may be represented as either a separate class or as references within the link partners.  
+
+## Key Requirements
 
 We want to  **avoid a centralized data storage** for this complex information:
 * to avoid a performance bottleneck
@@ -14,6 +61,9 @@ We want to  **avoid a centralized data storage** for this complex information:
 * to allow easy addition and changing of views without having to change existing code bases of existing views or of a central service
 
 We must **ensure all views are eventually updated** about all changes in all views, so they can *decide if a change is relevant for them*. This decision ideally should not even bother the view user, but it may have to in many cases.
+
+
+## Concept
 
 Each view must maintain its view specific model (**view model**) and a complete copy of the common model (**shadow model**). The latter is eventually maintained consistent with all other views. There is no central copy of the common model.
 
@@ -122,7 +172,5 @@ The bus spreads the DELETE event to all views
 (7) any view that is NOT using the element in its view model must  **create it in shadow model with eventual proposal for view model**  and
 
 (8) the view which originally initated the deletion can trigger a **reset the DELETED flag in the shadow element without eventual proposal for view model** 
-
-
 
 

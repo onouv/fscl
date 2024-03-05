@@ -1,8 +1,8 @@
 {
-  "server_url": "https://www.plantuml.org/server",
+  "server_url": "",
   "header": "",
   "debounce": 3,
-  "localJar": "",
+  "localJar": "/usr/bin/plantuml",
   "javaPath": "java",
   "dotPath": "dot",
   "defaultProcessor": "svg",

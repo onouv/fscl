@@ -1,10 +1,9 @@
 # Architecture
 
 Outline of the FSCL architecture - an experimental system under implementation.
-
 ## General Outline
 
-A system of microservices connected by a Kafka backbone. Each service supports a specific domain view on the overall system under design (see [Views](../Views.md) for details). The system will be built as a prototype for gathering experience with the management of distributed deeply structured engineering data following a common meta model (FSCL). Therefore, features like authentication/ authorization, scaling of performance and volume, advanced deployment options are postponed. Unit tests will be implemented only for critical elements. Integration or end-to-end testing will be implemented sparingly only for most critical features. Import and export of data/ adaptation to engineering tools is postposed but will gain a higher priority after the core concept has been implemented and evaluated.   A build pipeline will be implemented when it appears necessary.
+A system of microservices connected by a Kafka backbone. Each service supports a specific domain view on the overall system under design (see [Views](Views.md) for details). The system will be built as a prototype for gathering experience with the management of distributed deeply structured engineering data following a common meta model (FSCL). Therefore, features like authentication/ authorization, scaling of performance and volume, advanced deployment options are postponed. Unit tests will be implemented only for critical elements. Integration or end-to-end testing will be implemented sparingly only for most critical features. Import and export of data/ adaptation to engineering tools is postposed but will gain a higher priority after the core concept has been implemented and evaluated.   A build pipeline will be implemented when it appears necessary.
 
 * Each service has its own database management system (one database server per view, i.e. 1 DB to n view service instances) 
 * The view services will provide RESTful interfaces to the view front end web clients and will communicate by publish / subscribe pattern over a Kafka messaging backbone
@@ -94,7 +93,6 @@ For serving a web client with primitives for the View Model, each view-specific 
 ## Service Overview
 
 ![Service Overview](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/fscl/newgen/doc/fscl/architecture/service-overview.puml)
-
 
 # Deployment for Dev
 

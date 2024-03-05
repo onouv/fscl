@@ -6,9 +6,7 @@ Function "*" <-- "*" System: implements <
 Function "*" <-- "*" Component: implements <
 
 abstract class FunctionLink
-FunctionLink <|-- Trigger
-FunctionLink <|-- Inhibit
-FunctionLink <|-- Enable
+FunctionLink <|-- Exclude
 FunctionLink <|-- Require
 
 Function "1" *--> "*" Function: parent >
