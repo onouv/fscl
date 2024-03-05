@@ -4,19 +4,15 @@
     "type": "split",
     "children": [
       {
-        "id": "00f579bdf6a9dee0",
+        "id": "9a88b4a38af75741",
         "type": "tabs",
         "children": [
           {
-            "id": "b11709e87d638551",
+            "id": "b3f69697bdd671bd",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Project Plan.md",
-                "mode": "source",
-                "source": false
-              }
+              "type": "graph",
+              "state": {}
             }
           }
         ]
@@ -85,7 +81,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Project Plan.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +97,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Project Plan.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -124,9 +118,7 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {
-                "file": "Project Plan.md"
-              }
+              "state": {}
             }
           }
         ]
@@ -146,28 +138,36 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "b11709e87d638551",
+  "active": "b3f69697bdd671bd",
   "lastOpenFiles": [
-    "architecture/deployment.puml",
-    "data-management-concept/create-new-element.puml",
-    "data-management-concept/Data Management Concept.md",
-    "data-management-concept",
-    "core-domain-model/Core Domain Model.md",
-    "core-domain-model/overview.puml",
-    "core-domain-model/locations.puml",
-    "core-domain-model/functions.puml",
-    "core-domain-model/components.puml",
-    "core-domain-model",
-    "Architecture.md",
+    "Views/Views.md",
+    "Views.md",
+    "architecture/Architecture.md~",
+    "architecture/cqrs/shadow-as-entity.md~",
+    "architecture/cqrs/shadow-as-entity.md",
+    "core-domain-model/Core Domain Model.md~",
+    "Views/automation.puml~",
+    "Views/automation.puml",
+    "Views/process-view.md",
+    "Views/automation-view.md",
+    "Views/Views.md~",
+    "Views/electrical-view.md",
     "architecture/Architecture.md",
-    "architecture/service-overview.puml",
-    "architecture",
-    "uml/architecture/service-overview.puml",
+    "core-domain-model/Core Domain Model.md",
+    "architecture/api-ui/REST API to UI.md",
+    "data-management-concept/Data Management Concept.md",
+    "architecture/api-ui",
+    "Project Plan.md",
+    "Views/Electrical View.md",
+    "Views/Process View.md",
+    "Views/Automation View.md",
+    "data-management-concept/Data Management Concept.md~",
+    "core-domain-model/functions.puml~",
+    "architecture/cqrs/shadow-as-entity.puml~",
     "Intro.md",
+    "Architecture.md",
     "Data Management Concept.md",
     "data_management_concept.md",
-    "Project Plan.md",
-    "Views.md",
     "Core Domain Model.md",
     "Features.md",
     "fscl-process-service/Example.md",
