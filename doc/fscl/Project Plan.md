@@ -3,46 +3,39 @@
 
 ## Goal
 
-To prove all core concepts, use of tool chains, gain insight from implementing a first service
+To prove all core concepts, use of tool chains, gain insight from implementing a first service on a modernized basis
 * Details of the [Core Domain Model](./core-domain-model/Core%20Domain%20Model.md) implementation
 * shadow model library concept ([Data Management Concept](./data-management-concept/Data%20Management%20Concept.md))
-* Postgres - Debezium - Kafka coupling
+* Abandon CQRS and Event Sourcing paradigm --> classical JPA 
+	* high complexity not directly contributing to the proof of concept
+	* Axon Server too limited in non-commercial versions
+* Platform Quarkus instead of Spring Boot
+* Messaging through Redpanda instead of Kafka/ Zookeeper
+* Postgres - Debezium - Redpanda coupling
 * general deployment concept
 
 ## Deliverables
 
+For PoC, all artifacts will be executed in quarkus dev mode, i.e. on dev host, utilizing the relavant extensions of Quarkus DevServices for postgres and redpanda (quarkus uses redpanda as a kafka stand-in in dev mode). 
+
+This probably means data persistancy will be erased between sessions and must rely on import.sql start data as part of the code base, which appears acceptable for a PoC.
+
 ### fscl-process-service 0.1.0
 
-> A microservice implementing the backend for the process technology view, featuring the entire [Core Domain Model](./core-domain-model/Core%20Domain%20Model.md) with minimal extensions to adapt for process view specifics. Should be deployed as a Docker container on a linode by an Ansible playbook
+> A microservice implementing the backend for the process technology view, featuring the entire [Core Domain Model](./core-domain-model/Core%20Domain%20Model.md) with minimal extensions to adapt for process view specifics. 
 
 * open Java latest 
-* Spring Boot
-* Spring Cloud (reuse of fscl-messaging-lib ?)
+* Quarkus
+	* postgres extension
+	* kafka extension
 * OpenAPI
-* Docker/-compose
-* Ansible
-
-### fscl-process-db 0.1.0
-
-> The PostgreSQL database server for the process view. Should be deployed as a Docker container either locally by Docker-Compose or on a linode by an Ansible playbook. 
-
-This deliverable may shrink down to a postgres server instance pulled and configured by its Docker file in a repo of that name. To keep the cost of the devsetup low, the data may be lost between node instances.
-
-* postgres
 * Debezium
-* Docker/ -componse
-* Ansible
 
 ### fscl-core-lib 0.1.0
 
 > Shared library for shadow model management ([Data Management Concept](./data-management-concept/Data%20Management%20Concept.md))
-
 * open Java latest
-* Spring Boot
-* Spring Cloud
-* Maven
-* Debezium (?)
-* (Kafka)
+* Quarkus
 * OpenAPI (?)
 
 ### fscl-process-ui 0.1.0
