@@ -1,0 +1,48 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+floating note: SERVICE
+
+start
+split
+    :POST CreateFunctionCmdDto(ID, data)<
+    :Look up View-Element by ID; <<load>>
+    if (element in View) then (yes)
+        :409 (ID, VIEW_PREEXISTING)>
+    else (no)
+        :Look up Shadow-Element by ID; <<load>>
+        if (element in shadow) then (yes)
+            if(Diff request vs shadow) then (identical)
+                :409 (ID, SHADOW_IDENTICAL)>
+            else (different)
+                :409 (ID, SHADOW_DIFFERENT)>
+            end if
+        else (no)
+            :create Shadow-Element(MODIFIED) from cmd;
+            :create View-Element from cmd;
+            :link Shadow-Element and View-Element;
+            :Save Shadow-Element and View-Element; <<save>>
+            :publish CreatedEvent(ID)>
+            :201 (ID)>
+        end if
+    end if
+split again
+    :POST MergeCmdDto(ID, CLIENT)<
+    :Load Shadow-Element by ID; <<load>>
+    :Overwrite Shadow-Element from cmd;
+    :Flag Shadow-Element as MODIFIED;
+    :create View-Element from cmd;
+    :link Shadow-Element and View-Element;
+    :Save Shadow-Element and View-Element; <<save>>
+    :publish ModifiedEvent(ID, cmd data)>
+    :200 (ID)>
+split again
+    :POST MergeCmdDto(ID, SHADOW)<
+    :Load Shadow-Element by ID; <<load>>
+    :Create new View-Element from Shadow-Element;
+    :Merge addtnl content from cmd;
+    :link Shadow-Element and View-Element;
+    :Save Shadow-Element and View-Element; <<save>>
+    :200 (ID)>
+end split
+stop
+@enduml
