@@ -1,14 +1,14 @@
 # Application Views  
 
-FSCL is a system of services and web clients built around a common information [meta model](Core%20Domain%20Model.md). The meta model can be basis for many different application views. A view is a set of functionalities and extensions to the meta model. 
+FSCL is a system of services and web clients built around a common information [meta model](../core-domain-model/index.md). The meta model can be basis for many different application views. A view is a set of functionalities and extensions to the meta model. 
 
 This document collects ideas of features for the application views which are planned to be initially implemented as micro services and associated web clients.
 
-## [Automation View](automation-view)
+## [Automation View](automation-view/automation-view.md)
 
-## [Process View](process-view)
+## [Process View](process-view/index.md)
 
-## [Electrical View](electrical-view)
+## [Electrical View](electrical-view/index.md)
 # Mechanical View
 F: Allow specifying component weights and dimensions  
 F: Allow specifying Component mechanical interface points (foundations, flanges, hinges, fastening points…). This may be done by assigning registered drawings  
