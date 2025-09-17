@@ -27,7 +27,10 @@ A system of microservices connected by a Kafka backbone. Each service supports a
     * webserver for the frontend, exposed to an external http port
 * The Kafka messaging backbone will be deployed into the k8s cluster by means of the Strimzi Operator system
 * For development, Minikube will be used as a local k8s cluster 
-* Each Views UI will be implemented by a Next.js Web Client
+
+## Web Front Ends
+
+* Each Views UI will be implemented by a React web client
 * All common functionality in the backend as well as in the frontend will be factored out into library artefacts (e.g. core data management, kafka messaging)
   
 ## Artefacts
