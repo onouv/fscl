@@ -1,0 +1,40 @@
+@startuml
+hide empty members
+package fscl {
+
+	package shadow{ 
+		package component {
+			class Component
+		}
+		
+		package function {
+			class Function
+		}
+		abstract class Parameter {
+			name
+			value
+		}		
+		Parameter --> "0..*" Parameter
+	}
+
+	package process.domain {
+	
+		package function {
+			class Function <<Aggregate Root>>
+		
+			Function --|> Function
+			Function *--> "0..*" Parameter	
+			
+		}
+		
+		package component {
+			class Component <<Aggregate Root>>
+		
+			Component --|> Component
+			Component *--> "0..*" Parameter	
+			
+		}
+		
+	}
+}
+@enduml
