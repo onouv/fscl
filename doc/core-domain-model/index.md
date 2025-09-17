@@ -26,7 +26,7 @@ Any Entity can be referenced by **Views**. **Views** are collections of entities
 
 **FunctionLinks**: (Abstract) may connect Functions in different sub trees and on different levels of decomposition. 
 
-**Exclude** indicates that activity of the source  Function implies the execution of the target.
+**Exclude** indicates that activity of the source  Function prevents/ inhibits the execution of the target.
 Example: Braking Excludes Accelerating, Opening Doors excludes Closing Doors
 
 **Require**:  like the parent-child relation, require indicates that a Function needs another one to execute and may use it at any time during its own activity, but it doesn't imply ownership, just dependency.
