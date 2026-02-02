@@ -38,7 +38,7 @@ I can drive the implementation only infrequently, so versioning of specific elem
 
 The logical dependency tree for the overall system looks like this:  
 
-![Service Overview](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/fscl/newgen/doc/architecture/service-overview.puml)
+![Service Overview](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/fscl/main/doc/architecture/service-overview.puml)
 
 [image-src](service-overview.puml)  
 

@@ -3,7 +3,7 @@
 
 A view to represented the design thinking of the technological expert (i.e. Hot Rolling Specialist, Chemical Process Engineer). Will contain mostly high-level functions and main components/ systems. 
 
-![Overview](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/fscl/refs/heads/main/doc/views/process-view/process-domain.puml)
+![Overview](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/fscl/main/doc/views/process-view/process-domain.puml)
 
 [Overview source](process-domain.puml)
   

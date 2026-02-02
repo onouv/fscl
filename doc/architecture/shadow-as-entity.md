@@ -6,7 +6,7 @@ Currently the Shadow elements shall be modelled as Domain Entities rather than a
 
 
 
-![Shadow as Entity](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/fscl/doc/fscl/architecture/cqrs/shadow-as-entity.puml)
+![Shadow as Entity](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/fscl/main/doc/architecture/shadow-as-entity.puml)
 
 A similar structure would derive for _System_, _Component_, _Location_ by extending from `FunctionBase`.
 
