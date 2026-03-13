@@ -1,57 +1,56 @@
 @startuml
-'https://plantuml.com/sequence-diagram
+!pragma useVerticalIf on
 floating note: CLIENT
 
 start
-:User enters Element<
-:User clicks SAVE<
-:POST CreateFunctionRequest(id, original_data)>
+:User enters Element; <<input>>
+:User clicks SAVE; <<input>>
+:POST CreateFunctionRequest(id, original_data); <<output>>
 split
-    :201 (id)<
+    :201 (id); <<output>>
     :update client view;
     stop
 split again
-    :409 (id, SHADOW_DIFFERENT(shadow_data))<
+    :409 (id, SHADOW_DIFFERENT(shadow_data)); <<input>>
     :Show Content Decision Page;
     split
-        :User clicks OVERWRITE<
-        :POST MergeRequest(id, MergeCmd::Client(original_data))>
+        :User clicks OVERWRITE; <<input>>
+        :POST MergeRequest(id, MergeCmd::Client(original_data)); <<output>>
     split again
-        :User clicks KEEP SERVER<
-        :POST MergeRequest(id, MergeCmd::Shadow(shadow_data))>
+        :User clicks KEEP SERVER; <<input>>
+        :POST MergeRequest(id, MergeCmd::Shadow(shadow_data)); <<output>>
     end split
 split again
-    :409 (ID, SHADOW_IDENTICAL)<
+    :409 (ID, SHADOW_IDENTICAL); <<input>>
     :Show Cancel Option;
     split
-        :User clicks CANCEL<
+        :User clicks CANCEL; <<input>>
         stop
     split again
-        :Use clicks OK<
-        :POST MergeRequest(id, MergeCmd::Shadow(shadow_data))>
+        :Use clicks OK; <<input>>
+        :POST MergeRequest(id, MergeCmd::Shadow(shadow_data)); <<output>>
     end split
 split again
     split 
-        :409 (ID, VIEW_PREEXISTING)<
+        :409 (ID, VIEW_PREEXISTING); <<input>>
     split again
         :500<
     end split
     :Show Error Page;
-    :User clicks OK<
+    :User clicks OK; <<input>>
     stop
 end split
 split
-    :200<
+    :200; <<input>>
     stop
 split again
     split
-        :500<
+        :500; <<input>>
     split again
-        :422<
+        :422; <<input>>
     end split
     :Show Error Page
-    :User Clicks OK<
+    :User Clicks OK; <<input>>
     stop
 end split
-
 @enduml

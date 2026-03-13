@@ -1,42 +1,41 @@
 @startuml
 'https://plantuml.com/activity-diagram-beta
 floating note: SERVICE
-
 start
 split
-    :POST CreateFunctionRequest(id, req_data)<
+    :POST CreateFunctionRequest(id, req_data); <<input>>
     :Look up View-Element by id; <<load>>
     if (element in View) then (yes)
-        :409 (ID, VIEW_PREEXISTING)>
+        :409 (ID, VIEW_PREEXISTING); <<output>>
     else (no)
         :Look up Shadow-Element by id; <<load>>
         if (element in shadow) then (yes)
             if(Diff request vs shadow) then (identical)
-                :409 (id, SHADOW_IDENTICAL(shadow_data))>
+                :409 (id, SHADOW_IDENTICAL(shadow_data)); <<output>>
             else (different)
-                :409 (ID, SHADOW_DIFFERENT(shadow_data))>
+                :409 (ID, SHADOW_DIFFERENT(shadow_data)); <<output>>
             end if
         else (no)
             :create Shadow-Element(MODIFIED) from req_data;
             :create View-Element from req_data;
             :link Shadow-Element and View-Element;
             :Save Shadow-Element and View-Element; <<save>>
-            :publish CreatedEvent(id, req_data)>
-            :201 (id)>
+            :publish CreatedEvent(id, req_data); <<output>>
+            :201 (id); <<output>>
         end if
     end if
 split again
-    :POST MergeRequest(id, MergeCmd::Client(merge_data))<
+    :POST MergeRequest(id, MergeCmd::Client(merge_data)); <<input>>
     :Load Shadow-Element by id; <<load>>
     :Overwrite Shadow-Element with merge_data;
     :Flag Shadow-Element as MODIFIED;
     :create View-Element from merge_data;
     :link Shadow-Element and View-Element;
     :Save Shadow-Element and View-Element; <<save>>
-    :publish ModifiedEvent(ID, merge_data)>
-    :200 (id)>
+    :publish ModifiedEvent(ID, merge_data); <<output>>
+    :200 (id); <<output>>
 split again
-    :POST MergeRequest(id, MergeCmd::Shadow(merge_data))<
+    :POST MergeRequest(id, MergeCmd::Shadow(merge_data)); <<input>>
     :Load Shadow-Element by ID; <<load>>
     if (Shadow-Element exists) then (loaded)
         if (Shadow-Element equals merge_data) then (yes)
@@ -44,15 +43,15 @@ split again
             :Merge addtnl content from merge_data;
             :link Shadow-Element and View-Element;
             :Save Shadow-Element and View-Element; <<save>>
-            :200 (id)>
+            :200 (id); <<output>>
         else (no)
-            :422 (id, SHADOW_HAS_BEEN_CHANGED)>
+            :422 (id, SHADOW_HAS_BEEN_CHANGED); <<output>>
         endif
     else (id not found)
-        :404 (id)>
+        :404 (id); <<output>>
     end if
 split again 
-    :subscriber received CreatedEvent(id, resource_data)<
+    :subscriber received CreatedEvent(id, resource_data); <<input>>
     :Look up Shadow-Element by ID; <<load>>
     if (element in shadow) then (yes)
         :ignore the event, this is bus echo;
