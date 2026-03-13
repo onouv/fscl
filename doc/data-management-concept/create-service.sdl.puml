@@ -1,0 +1,65 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+floating note: SERVICE
+
+start
+split
+    :POST CreateFunctionRequest(id, req_data)<
+    :Look up View-Element by id; <<load>>
+    if (element in View) then (yes)
+        :409 (ID, VIEW_PREEXISTING)>
+    else (no)
+        :Look up Shadow-Element by id; <<load>>
+        if (element in shadow) then (yes)
+            if(Diff request vs shadow) then (identical)
+                :409 (id, SHADOW_IDENTICAL(shadow_data))>
+            else (different)
+                :409 (ID, SHADOW_DIFFERENT(shadow_data))>
+            end if
+        else (no)
+            :create Shadow-Element(MODIFIED) from req_data;
+            :create View-Element from req_data;
+            :link Shadow-Element and View-Element;
+            :Save Shadow-Element and View-Element; <<save>>
+            :publish CreatedEvent(id, req_data)>
+            :201 (id)>
+        end if
+    end if
+split again
+    :POST MergeRequest(id, MergeCmd::Client(merge_data))<
+    :Load Shadow-Element by id; <<load>>
+    :Overwrite Shadow-Element with merge_data;
+    :Flag Shadow-Element as MODIFIED;
+    :create View-Element from merge_data;
+    :link Shadow-Element and View-Element;
+    :Save Shadow-Element and View-Element; <<save>>
+    :publish ModifiedEvent(ID, merge_data)>
+    :200 (id)>
+split again
+    :POST MergeRequest(id, MergeCmd::Shadow(merge_data))<
+    :Load Shadow-Element by ID; <<load>>
+    if (Shadow-Element exists) then (loaded)
+        if (Shadow-Element equals merge_data) then (yes)
+            :Create new View-Element from Shadow-Element;
+            :Merge addtnl content from merge_data;
+            :link Shadow-Element and View-Element;
+            :Save Shadow-Element and View-Element; <<save>>
+            :200 (id)>
+        else (no)
+            :422 (id, SHADOW_HAS_BEEN_CHANGED)>
+        endif
+    else (id not found)
+        :404 (id)>
+    end if
+split again 
+    :subscriber received CreatedEvent(id, resource_data)<
+    :Look up Shadow-Element by ID; <<load>>
+    if (element in shadow) then (yes)
+        :ignore the event, this is bus echo;
+    else (no)
+        :Create new Shadow-Element from resource_data; <<save>>
+        :TODO: Trigger decision wether to merge into view model;
+    end if
+end split
+stop
+@enduml

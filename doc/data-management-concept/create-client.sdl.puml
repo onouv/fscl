@@ -1,0 +1,57 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+floating note: CLIENT
+
+start
+:User enters Element<
+:User clicks SAVE<
+:POST CreateFunctionRequest(id, original_data)>
+split
+    :201 (id)<
+    :update client view;
+    stop
+split again
+    :409 (id, SHADOW_DIFFERENT(shadow_data))<
+    :Show Content Decision Page;
+    split
+        :User clicks OVERWRITE<
+        :POST MergeRequest(id, MergeCmd::Client(original_data))>
+    split again
+        :User clicks KEEP SERVER<
+        :POST MergeRequest(id, MergeCmd::Shadow(shadow_data))>
+    end split
+split again
+    :409 (ID, SHADOW_IDENTICAL)<
+    :Show Cancel Option;
+    split
+        :User clicks CANCEL<
+        stop
+    split again
+        :Use clicks OK<
+        :POST MergeRequest(id, MergeCmd::Shadow(shadow_data))>
+    end split
+split again
+    split 
+        :409 (ID, VIEW_PREEXISTING)<
+    split again
+        :500<
+    end split
+    :Show Error Page;
+    :User clicks OK<
+    stop
+end split
+split
+    :200<
+    stop
+split again
+    split
+        :500<
+    split again
+        :422<
+    end split
+    :Show Error Page
+    :User Clicks OK<
+    stop
+end split
+
+@enduml

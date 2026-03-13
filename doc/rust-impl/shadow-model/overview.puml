@@ -1,38 +1,35 @@
-@startuml
+@startuml overview
 hide empty members
 package core {
-    package adapters {
-        struct ShadowRepository {
-            + load(id: ResourceId) -> Result<Option<impl Resource>, Err>
-            + save(resource: impl Resource) -> Result<(), Err>
-        }
-    }
+    
 
     package domain {
         
-        struct ResourceContent {
+        struct Resource{
             id: ResourceId,
             name: String,
             desc: Option<String>,
             state: ResourceState
         }
-        interface Resource << (T,Darkorange) >> {
+        interface Shadow << (T,Darkorange) >> {
             + id() -> ResourceId
             + name() -> String
             + desc() -> String
             + state() -> ResourceState
+            + merge(resource: Resource) -> Result<(), Err>
         }
         struct ResourceId
         enum ResourceState
 
-        ResourceContent ..> ResourceId
-        ResourceContent ..> ResourceState
-        Resource ..> ResourceId
-        Resource ..> ResourceState
+            }
+    
+    package adapters {
+        struct ShadowRepository {
+            + load(id: ResourceId) -> Result<Option<Resource>, Err>
+            + save(resource: Resource) -> Result<(), Err>
+        }
     }
-
-    ShadowRepository ..> ResourceId
-    ShadowRepository ..> Resource
+    ShadowRepository .left.> Resource
 }
 
 
@@ -52,11 +49,11 @@ package process {
 
     package domain {
         struct Component {
-            + new(req: NewComponentRequest) -> Result<Component, Err> 
+            + new(req: NewComponentRequest, Option<Resource>) -> Result<Component, Err> 
         } 
 
-        Component o--> ResourceContent
-        Component ..|> Resource
+        Component o--> Resource
+        Component ..|> Shadow
     }
 
     Service o--> ComponentRepository
