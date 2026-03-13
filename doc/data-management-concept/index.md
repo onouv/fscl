@@ -209,11 +209,15 @@ Bus -- 6 --> ig
 Bus -- 7 --> ViewB
 ```
 
-The overall workflow looks like this:  
+The associated **workflow in the webclient** looks like this:  
 
+![Components](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/fscl/main/doc/data-management-concept/create-client.sdl.puml)  
+[Components src](create-client.sdl.puml)
 
-![Components](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/fscl/main/doc/data-management-concept/create-new-element.puml)  
-[Components src](create-new-element.puml)
+The associated **workflow in the service** looks like this:  
+
+![Components](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/fscl/main/doc/data-management-concept/create-service.sdl.puml)  
+[Components src](create-service.sdl.puml)
 
 ## View Deletes an Element
 
