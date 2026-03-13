@@ -1,0 +1,28 @@
+@startuml "create component (no shadow)"
+note across: Create component (no shadow in database)
+actor Bob
+Bob -> Service: POST { request: NewComponentRequest }
+
+Service -> Service: Start Tx
+activate Service
+Service -> ComponentRepo: load(id: ResourceId)
+alt no such id
+    Service <-- ComponentRepo: Ok(None)
+
+    Service -> ShadowRepo: let shadow = load(id: ResourceId)?;
+    
+        Service <-- ShadowRepo: Ok(None)
+        Service -> Resource: let shadow = new(request);
+        Service -> Component: let component = new(request, None);
+        Component -> Component: self.resource = None;
+        Service -> ShadowRepo: save(shadow)
+        Service -> ComponentRepo: save(component)
+    Bob <-- Service: 201 { CreateComponentResponse }    
+else id 
+    Service <-- ComponentRepo: Ok(Some(component))
+    Bob <-- Service: 409 { error: RESOURCE_PREEXISTING } 
+end 
+Service -> Service: End Tx
+deactivate    
+
+@enduml
