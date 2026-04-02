@@ -1,4 +1,5 @@
 @startuml
+title "FSCL Outbox Relay Container"
 node "outbox-relay" as outbox <<container>> {
     
     component "fscl-outbox-relay" as relay

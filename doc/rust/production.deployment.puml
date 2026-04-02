@@ -1,5 +1,4 @@
 @startuml
-title FSCL Deployment Production
 node client_browser {
     component "fscl-frontend" <<SPA>> as frontend_instance
 }
@@ -7,19 +6,19 @@ node frontend-server {
     !include frontend.container.puml
 
     port "8080/fscl/v2/process" as fe_svr_port
-    fe_svr_port -- frontend_cnt_port
+    fe_svr_port - frontend_cnt_port
 }
 
 node "process-server" as proc_server {
     !include process-svc.container.puml
     port "3000/fscl/v2/process" as process_svc_port
-    process_svc_port -- process_cnt_port
+    process_svc_port - process_cnt_port
 }
 
 node "message-bus" as bus {
     !include message-bus.container.puml
     port 4222 as nats_svc_port
-    nats_svc_port -- nats_cnt_port
+    nats_svc_port - nats_cnt_port
 }
 
 node "process-database" as proc_db {
@@ -28,9 +27,11 @@ node "process-database" as proc_db {
     database "fscl-process" <<volume>> as volume
     volume -- processdb
     port 5432 as db_svc_port
-    db_svc_port -- db_cnt_port
+    db_svc_port - db_cnt_port
     processdb -r-> relay: SQL NOTIFY
 }
+
+title FSCL Deployment Production
 
 client_browser --> fe_svr_port: http: GET
 frontend_instance --> process_svc_port: http: { GET, POST, PUT, DELETE }
