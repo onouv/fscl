@@ -1,0 +1,11 @@
+@startuml nats
+node msg-bus <<container>> {
+    interface nats
+    port 4222 as nats_cnt_port
+    component NATS {
+        port "localhost:4222" as nats_cmp_port
+    }
+    nats_cmp_port -up- nats
+    nats_cnt_port -down-> nats
+}
+@enduml

@@ -1,0 +1,20 @@
+
+@startuml 
+title Process Database Container
+skinparam packageStyle rectangle
+node process-db <<container>> {
+    port 5432 as db_cnt_port
+    interface postgres
+    
+    component "postgres:17" as processdb {
+        port "localhost:5432" as db_port
+    }
+    
+    component "outbox-relay" as outbox
+    
+    db_port -up- postgres
+    processdb -right-> outbox: SQL NOTIFY
+    outbox -up-> postgres 
+    db_cnt_port --> postgres
+}
+@enduml
