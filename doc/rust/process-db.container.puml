@@ -8,13 +8,10 @@ node process-db <<container>> {
     
     component "postgres:17" as processdb {
         port "localhost:5432" as db_port
+        artifact "fscl-process" <<schema>> as schema
     }
-    
-    component "outbox-relay" as outbox
-    
+     
     db_port -up- postgres
-    processdb -right-> outbox: SQL NOTIFY
-    outbox -up-> postgres 
     db_cnt_port --> postgres
 }
 @enduml

@@ -24,8 +24,12 @@ node "message-bus" as bus {
 
 node "process-database" as proc_db {
     !include process-db.container.puml
+    !include outbox.container.puml
+    database "fscl-process" <<volume>> as volume
+    volume -- processdb
     port 5432 as db_svc_port
     db_svc_port -- db_cnt_port
+    processdb -r-> relay: SQL NOTIFY
 }
 
 client_browser --> fe_svr_port: http: GET
@@ -34,5 +38,6 @@ frontend_instance --> process_svc_port: http: { GET, POST, PUT, DELETE }
 
 process_svc --> nats_svc_port: subscribe
 process_svc --> db_svc_port: sqlx
-outbox --> nats_svc_port: publish
+relay -r-> nats_svc_port: publish
+relay --> db_cnt_port: sqlx
 @enduml 

@@ -1,0 +1,6 @@
+@startuml
+node "outbox-relay" as outbox <<container>> {
+    
+    component "fscl-outbox-relay" as relay
+}
+@enduml

@@ -6,7 +6,7 @@ node "process-service" as procsvc <<container>> {
     interface "fscl/v2/process" as process_api
     component "fscl-process-svc" as process_svc {
         port "localhost:3000" as process_port
-        process_port -up- process_api
+        process_port -u- process_api
     }
     process_api <-- process_cnt_port 
 }
