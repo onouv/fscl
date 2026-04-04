@@ -45,6 +45,7 @@ spec:
     metadata:
       labels:
         app: process-api
+        fscl.io/nats-client: "true"
     spec:
       containers:
         - name: process-api
@@ -89,6 +90,40 @@ spec:
             limits:
               cpu: 500m
               memory: 512Mi
+        - name: outbox-publisher
+          image: your-registry/fscl-outbox-publisher:latest
+          envFrom:
+            - configMapRef:
+                name: outbox-publisher-config
+            - secretRef:
+                name: outbox-publisher-secret
+          env:
+            - name: DB_HOST
+              value: postgres-svc
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: process-db-secret
+                  key: POSTGRES_DB
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: process-db-secret
+                  key: POSTGRES_USER
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: process-db-secret
+                  key: POSTGRES_PASSWORD
+          resources:
+            requests:
+              cpu: 25m
+              memory: 64Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
 ---
 apiVersion: v1
 kind: Service
