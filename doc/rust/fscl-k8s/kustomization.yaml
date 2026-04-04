@@ -1,0 +1,11 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - 00-namespaces.yaml
+  - 10-frontend.yaml
+  - 20-process-api.yaml
+  - 25-nats.yaml
+  - 27-jetstream-bootstrap.yaml
+  - 30-postgres.yaml
+  - 35-network-policies.yaml
+  - 40-openshift-local-gateway.yaml
