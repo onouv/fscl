@@ -1,0 +1,21 @@
+@startuml
+actor Bob
+note across: Merge a create request for Shadow Model
+
+Bob -> Service: POST { id: ResourceId, request: MergeRequest::Shadow }
+Service -> Service: Start Tx
+activate Service
+Service -> ComponentRepo: let component = load(id)?;
+Service <-- ComponentRepo: Ok(Some(component))
+Service -> ShadowRepo: let shadow = load(id)?;
+Service <-- ShadowRepo: Ok(Some(shadow))
+Service -> Component: merge(shadow)
+Service <-- Component: Ok()
+Service -> ComponentRepo: save(component)
+Service <-- ComponentRepo: Ok(())
+Service -> MessageBus: publish(ComponentCreatedEvent(id))
+Bob <-- Service: 204 { ComponentMergeResponse(id, ResponseStatus::OK) }
+
+Service -> Service: Commit Tx
+deactivate
+@enduml

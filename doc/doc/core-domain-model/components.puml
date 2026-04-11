@@ -1,0 +1,16 @@
+@startuml
+class Component
+class Function
+class System
+class Location
+
+Function "*" <-- "*" Component: implements <
+System "1" o--> "*" Component: consists of >
+Location "1" o--> "*" Component: holds >
+
+Component  "1" *--> "*" Component
+
+class ComponentLink
+ComponentLink "1" -- "1" Component: source >
+ComponentLink "1" -- "1" Component: target >
+@enduml

@@ -1,0 +1,30 @@
+@startuml
+note across: Create Component, Shadow with Identical Content in Database 
+
+actor Bob
+Bob -> Service: POST { request: NewComponentRequest }
+
+Service -> Service: Start Tx
+activate Service
+Service -> ComponentRepo: load(id: ResourceId)
+alt no such id
+    Service <-- ComponentRepo: Ok(None)
+
+    Service -> ShadowRepo: let shadow = load(id: ResourceId)?;
+        Service <-- ShadowRepo: Ok(Some(Resource));
+        Service -> Component: new(request, Some(shadow))
+        activate Component
+        Component -> ResourceContent: diff_content(self)
+        Component <-- ResourceContent: None
+        Service <-- Component: Ok(component)
+        Bob <-- Service: 409 { state: CONTENT_IDENTICAL }
+        note over Service: shadow and component go out of scope again
+       deactivate
+else id 
+    Service <-- ComponentRepo: Ok(Some(component))
+    Bob <-- Service: 409 { error: RESOURCE_PREEXISTING } 
+end 
+Service -> Service: End Tx
+deactivate    
+
+@enduml

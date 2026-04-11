@@ -1,0 +1,56 @@
+@startuml
+hide empty members
+
+package fscl {
+    package core {
+
+        abstract class Entity<T extends Entity<T>>  {
+            #id
+        }
+
+        class Parameter
+
+        Entity "1" *--> "0..*" Entity: child
+        Entity *--> "0..*" Parameter
+
+        package function {
+            abstract class FunctionBase <<@Aggregate>> {
+
+                {abstract} +getId() <<@AggregateIdentifier>>
+            }
+
+            FunctionBase --|> Entity
+        }
+    }
+
+    package shadow {
+        class ShadowFunction {
+            +getId()
+        }
+        note right of ShadowFunction::getId()
+            "(=100.001)"
+        end note
+        ShadowFunction --|> FunctionBase
+    }
+
+    package process.service {
+
+        package function {
+            class Function {
+                +getId()
+            }
+            note right of Function::getId()
+                "=100.001"
+            end note
+            Function --|> FunctionBase
+            Function *--> "1" ShadowFunction
+            note on link #red
+                Inter-aggregate
+                should be done by
+                messaging
+            end note
+        }
+
+    }
+}
+@enduml

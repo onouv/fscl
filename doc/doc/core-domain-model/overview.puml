@@ -1,0 +1,31 @@
+@startuml
+hide empty members
+abstract class Entity
+class Function
+class Component
+class System
+class Location
+class Parameter {
+	name
+	value
+}
+class View
+
+Entity "1" *-- "*" Parameter
+Parameter "*" --> "*" Parameter
+View "*" ---> "*" Entity
+Function --|> Entity
+Component --|> Entity
+System --|> Entity
+Location --|> Entity
+
+Function "*" <-- "*" System: implements <
+Function "*" <-- "*" Component: implements <
+System "1" o--> "*" Component: consists of >
+Location "1" o--> "*" Component: holds >
+
+Function "1" *--> "*" Function 
+System  "1" *--> "*" System
+Component  "1" *--> "*" Component
+Location  "1" *--> "*" Location
+@enduml

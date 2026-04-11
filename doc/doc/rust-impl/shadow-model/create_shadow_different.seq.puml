@@ -1,0 +1,28 @@
+@startuml
+note across: Create Component, Shadow with Different Content in Database 
+actor Bob
+Bob -> Service: POST { request: NewComponentRequest }
+
+Service -> Service: Start Tx
+activate Service
+Service -> ComponentRepo: load(id: ResourceId)
+alt no such id
+    Service <-- ComponentRepo: Ok(None)
+
+    Service -> ShadowRepo: let shadow = load(id: ResourceId)?;
+    Service <-- ShadowRepo: Ok(Some(resource))
+    Service -> Component: new(request, Some(resource))
+        activate Component
+        Component -> ResourceContent: diff_content(self)
+        Component <-- ResourceContent: Some(Hashmap<prop, val>)
+        Component -> Component: self.state: ComponentState::ShadowDifferent(Hashmap<prop, val>)
+        Service <-- Component: Ok(component)
+    Bob <-- Service: 409 { state: ComponentState::ShadowDifferent(Hashmap<prop, val> }    
+else id 
+    Service <-- ComponentRepo: Ok(Some(component))
+    Bob <-- Service: 409 { error: RESOURCE_PREEXISTING } 
+end 
+Service -> Service: End Tx
+deactivate     
+
+@enduml

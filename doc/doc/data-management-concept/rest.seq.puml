@@ -1,0 +1,32 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+Client -> Service: POST (FsclEntityIdDto)
+alt not preexisting
+    Service -> Others: FunctionCreatedEvent
+    Client <- Service: 201 ({ "id": ..., "status": "CREATED" })
+else preexisting identical
+    Client <- Service: 409 ({ "id": ..., "status": "SHADOW_IDENTICAL" })
+    Client -> Client: retrieve user decision
+    alt user continues
+        Client -> Service: POST MergeRequest(Shadow)
+        Client <- Service: 200 ({ "id": ..., "status": "VIEW_MERGED" })
+    else user aborts
+    end
+else preexisting different
+    Client <- Service: 409 ({ "id": ..., "status": "CONTENT_DIFFERENT" })
+    Client -> Client: retrieve user decision
+    alt user overwrites server content
+        Client -> Service: POST MergeRequest(Shadow)
+        Client <- Service: 200 ({ "id": ..., "status": "VIEW_MERGED" })
+    else user keeps server content
+        Client -> Service: POST MergeRequest(Shadow)
+        Service --> Others: FunctionModifiedEvent
+        Client <- Service: 200 ({ "id": ..., "status": "SHADOW_OVERWRITTEN" })
+    else user aborts
+    end
+
+end
+@enduml
