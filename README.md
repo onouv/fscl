@@ -1,4 +1,4 @@
-![](github/pics/master-logo.png)
+![](doc/pics/master-logo.png)
 
 # What is FSCL ?
 FSCL is a tool to model industrial systems from the following simple artefacts:
