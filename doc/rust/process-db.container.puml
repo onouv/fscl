@@ -1,0 +1,17 @@
+
+@startuml 
+title Process Database Container
+skinparam packageStyle rectangle
+node process-db <<container>> {
+    port 5432 as db_cnt_port
+    interface postgres
+    
+    component "postgres:17" as processdb {
+        port "localhost:5432" as db_port
+        artifact "fscl-process" <<schema>> as schema
+    }
+     
+    db_port -up- postgres
+    db_cnt_port --> postgres
+}
+@enduml

@@ -1,0 +1,13 @@
+@startuml
+title Process Service Container
+skinparam packageStyle rectangle
+node "process-service" as procsvc <<container>> {
+    port 3000 as process_cnt_port
+    interface "fscl/v2/process" as process_api
+    component "fscl-process-svc" as process_svc {
+        port "localhost:3000" as process_port
+        process_port -u- process_api
+    }
+    process_api <-- process_cnt_port 
+}
+@enduml

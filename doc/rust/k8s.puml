@@ -1,0 +1,93 @@
+@startuml k8s
+title FSCL Kubernetes Layout (Dev)
+footer Kubernetes Plant-UML
+scale max 1024 width
+
+skinparam nodesep 10
+skinparam ranksep 10
+
+!include <k8s/Common>
+!include <k8s/Simplified>
+!include <k8s/OSS/all>
+
+actor "User" as userAlias
+left to right direction
+
+' Kubernetes Components
+Cluster_Boundary(cluster, "Kubernetes Cluster") {
+    Namespace_Boundary(ns_fscl, "fscl") {
+        node "Gateway\nfscl-gateway\nhttp :80\nfscl.apps-crc.testing" as gateway
+        artifact "HTTPRoute\nfrontend-route\n/fscl/v2/app" as frontend_route
+        artifact "ConfigMap\nfrontend-config" as frontend_config
+        artifact "ConfigMap\nnats-config" as nats_config
+        artifact "Secret\nnats-secret" as nats_secret
+        artifact "ConfigMap\njetstream-bootstrap-config" as jetstream_bootstrap_config
+        artifact "Job\njetstream-bootstrap\nsuspend: true" as jetstream_bootstrap_job
+        KubernetesSvc(frontend_svc, "frontend-svc", ":8080")
+        KubernetesDeploy(frontend_deploy, "frontend", "")
+        KubernetesPod(frontend_pod, "frontend-*", "")
+        KubernetesSvc(nats_svc, "nats-svc", ":4222")
+        node "StatefulSet\nnats" as nats_stateful
+        KubernetesPod(nats_pod, "nats-0", "")
+        artifact "PVC\nnats-data" as nats_pvc
+    }
+
+    Namespace_Boundary(ns_process, "fscl-process") {
+        artifact "HTTPRoute\nprocess-route\n/fscl/v2/process" as process_route
+        artifact "ConfigMap\nprocess-config" as process_config
+        artifact "ConfigMap\nprocess-messaging-config" as process_messaging_config
+        artifact "Secret\nprocess-backend-secret" as process_secret
+        artifact "Secret\nprocess-messaging-secret" as process_messaging_secret
+        artifact "Secret\nprocess-db-secret" as db_secret
+        artifact "ConfigMap\noutbox-publisher-config" as outbox_publisher_config
+        KubernetesSvc(process_svc, "process-svc", ":3000")
+        KubernetesDeploy(process_deploy, "process-api", "")
+        KubernetesPod(process_pod, "process-api-*", "")
+        node "Sidecar\noutbox-publisher" as outbox_publisher
+
+        KubernetesSvc(database_svc, "database-svc", ":5432")
+        node "StatefulSet\ndatabase" as database_stateful
+        KubernetesPod(database_pod, "database-0", "")
+    }
+}
+
+Rel(userAlias, gateway, "HTTP request")
+Rel(gateway, frontend_route, "matches /fscl/v2/app")
+Rel(gateway, process_route, "matches /fscl/v2/process")
+
+Rel(frontend_route, frontend_svc, "")
+Rel(frontend_svc, frontend_pod, "")
+Rel_U(frontend_deploy, frontend_pod, "manages")
+Rel(frontend_config, frontend_pod, "env")
+
+Rel(nats_svc, nats_pod, "")
+Rel_U(nats_stateful, nats_pod, "manages")
+Rel(nats_config, nats_pod, "env")
+Rel(nats_secret, nats_pod, "secret env")
+Rel(nats_pvc, nats_pod, "jetstream store")
+Rel(jetstream_bootstrap_config, jetstream_bootstrap_job, "env")
+Rel(nats_secret, jetstream_bootstrap_job, "secret env")
+Rel(jetstream_bootstrap_job, nats_svc, "bootstrap stream + durable consumer")
+
+Rel(process_route, process_svc, "")
+Rel(process_svc, process_pod, "")
+Rel_U(process_deploy, process_pod, "manages")
+Rel(process_config, process_pod, "env")
+Rel(process_messaging_config, process_pod, "shared messaging env")
+Rel(process_secret, process_pod, "secret env")
+Rel(process_messaging_secret, process_pod, "shared messaging secret")
+Rel(db_secret, process_pod, "db creds")
+Rel(process_pod, nats_svc, "consumes fscl.process.*")
+Rel(process_pod, outbox_publisher, "sidecar")
+Rel(outbox_publisher_config, outbox_publisher, "env")
+Rel(process_messaging_config, outbox_publisher, "shared messaging env")
+Rel(process_messaging_secret, outbox_publisher, "shared messaging secret")
+Rel(db_secret, outbox_publisher, "db creds")
+Rel(outbox_publisher, database_svc, "reads outbox")
+Rel(outbox_publisher, nats_svc, "publishes fscl.process.*")
+
+Rel(process_pod, database_svc, "sql")
+Rel(database_svc, database_pod, "")
+Rel_U(database_stateful, database_pod, "manages")
+Rel(db_secret, database_pod, "db creds")
+@enduml

@@ -26,7 +26,7 @@ A system of microservices connected by a Kafka backbone. Each service supports a
     * postgres database server backend
     * webserver for the frontend, exposed to an external http port
 * The Kafka messaging backbone will be deployed into the k8s cluster by means of the Strimzi Operator system
-* For development, Minikube will be used as a local k8s cluster 
+* For development, a local k8s cluster such as Minikube or OpenShift Local can be used. The example manifests under `doc/rust/fscl-k8s` are tuned for OpenShift Local.
 
 ## Web Front Ends
 
