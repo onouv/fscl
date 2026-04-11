@@ -1,0 +1,30 @@
+@startuml
+node dev_host {
+    node client_browser {
+        component "fscl-frontend" <<SPA>> as frontend_instance
+    }
+    !include frontend.container.puml
+
+
+    !include process-svc.container.puml
+
+    !include message-bus.container.puml
+
+    !include process-db.container.puml
+    !include outbox.container.puml
+    
+    title "FSCL Deployment Development"
+    
+    processdb --> relay: SQL NOTIFY
+
+    database "fscl-process" <<volume>> as volume
+    volume -- processdb
+client_browser --> frontend_cnt_port: http: GET
+frontend_instance --> process_cnt_port: http: { GET, POST, PUT, DELETE }
+
+
+process_svc --> nats_cnt_port: subscribe
+process_svc --> db_cnt_port: sqlx
+relay --> nats_cnt_port: publish
+relay --> db_cnt_port: sqlx
+@enduml 

@@ -1,0 +1,13 @@
+@startuml frontend
+title FSCL Frontend Container
+skinparam packageStyle rectangle
+node frontend-svc <<container>> {
+    component "fscl-frontend" <<SPA>> as frontend
+    component "nginx:latest" as nginx {
+        port "localhost:8080" as nginx_port
+    }
+    port 8080 as frontend_cnt_port
+    frontend_cnt_port -- nginx_port
+    nginx ..> frontend
+}
+@enduml

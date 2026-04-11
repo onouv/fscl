@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jetstream-bootstrap-config
+  namespace: fscl
+data:
+  NATS_URL: nats://nats-svc.fscl.svc.cluster.local:4222
+  JETSTREAM_STREAM_NAME: fscl-events
+  JETSTREAM_SUBJECTS: fscl.process.*
+  JETSTREAM_RETENTION: limits
+  JETSTREAM_MAX_AGE: 24h
+  JETSTREAM_DURABLE_CONSUMER: process-worker
+  JETSTREAM_ACK_POLICY: explicit
+  JETSTREAM_ACK_WAIT: 30s
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: jetstream-bootstrap
+  namespace: fscl
+  annotations:
+    fscl.io/bootstrap-placeholder: "true"
+spec:
+  suspend: true
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        app: jetstream-bootstrap
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: jetstream-bootstrap
+          image: natsio/nats-box:0.14.0
+          envFrom:
+            - configMapRef:
+                name: jetstream-bootstrap-config
+            - secretRef:
+                name: nats-secret

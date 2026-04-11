@@ -1,0 +1,62 @@
+# OpenShift Local uses the apps-crc.testing wildcard domain by default.
+# This manifest assumes a Gateway controller is installed in the cluster.
+# Discover the available class with:
+#   oc get gatewayclass
+# Then replace TODO-SET-GATEWAYCLASS below with one of the returned names.
+
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: fscl-gateway
+  namespace: fscl
+spec:
+  gatewayClassName: TODO-SET-GATEWAYCLASS
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: 80
+      hostname: fscl.apps-crc.testing
+      allowedRoutes:
+        namespaces:
+          from: All
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: frontend-route
+  namespace: fscl
+spec:
+  parentRefs:
+    - name: fscl-gateway
+      sectionName: http
+  hostnames:
+    - fscl.apps-crc.testing
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /fscl/v2/app
+      backendRefs:
+        - name: frontend-svc
+          port: 8080
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: process-route
+  namespace: fscl-process
+spec:
+  parentRefs:
+    - name: fscl-gateway
+      namespace: fscl
+      sectionName: http
+  hostnames:
+    - fscl.apps-crc.testing
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /fscl/v2/process
+      backendRefs:
+        - name: process-svc
+          port: 3000
