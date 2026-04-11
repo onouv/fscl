@@ -1,0 +1,9 @@
+/fscl-core/
+/fscl-messaging/
+/fscl-outbox-publisher/
+/fscl-process-svc/
+
+/.env.shared
+/**/.env
+
+/.vscode/

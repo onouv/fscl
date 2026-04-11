@@ -1,0 +1,60 @@
+services:
+  postgres:
+    image: postgres:17
+    env_file:
+      - ../.env.shared
+      - ../fscl-process-svc/.env
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - ../fscl-process-svc/db-data:/var/lib/postgresql/data
+
+  process-api:
+    image: rust:1.86-bookworm
+    working_dir: /workspace/fscl-process-svc
+    command: sh -ec "cargo run"
+    env_file:
+      - ../.env.shared
+      - ../fscl-process-svc/.env
+    environment:
+      DB_HOST: postgres
+      NATS_URL: nats://fscl:change-me@nats:4222
+    volumes:
+      - ..:/workspace
+      - cargo-registry:/usr/local/cargo/registry
+      - cargo-git:/usr/local/cargo/git
+      - process-target:/workspace/fscl-process-svc/target
+    ports:
+      - "3100:3100"
+    depends_on:
+      - postgres
+      - nats
+
+  outbox-publisher:
+    image: rust:1.86-bookworm
+    working_dir: /workspace/fscl-outbox-publisher
+    command: sh -ec "cargo run"
+    env_file:
+      - ../.env.shared
+      - ../fscl-outbox-publisher/.env
+    environment:
+      DB_HOST: postgres
+      NATS_URL: nats://fscl:change-me@nats:4222
+    volumes:
+      - ..:/workspace
+      - cargo-registry:/usr/local/cargo/registry
+      - cargo-git:/usr/local/cargo/git
+      - publisher-target:/workspace/fscl-outbox-publisher/target
+    depends_on:
+      - postgres
+      - nats
+
+volumes:
+  cargo-registry:
+  cargo-git:
+  process-target:
+  publisher-target:
