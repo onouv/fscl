@@ -35,18 +35,19 @@ Cluster_Boundary(cluster, "Kubernetes Cluster") {
     Namespace_Boundary(ns_process, "fscl-process") {
         artifact "HTTPRoute\nprocess-route\n/fscl/v2/process" as process_route
         artifact "ConfigMap\nprocess-config" as process_config
+        artifact "ConfigMap\nprocess-messaging-config" as process_messaging_config
         artifact "Secret\nprocess-backend-secret" as process_secret
+        artifact "Secret\nprocess-messaging-secret" as process_messaging_secret
         artifact "Secret\nprocess-db-secret" as db_secret
         artifact "ConfigMap\noutbox-publisher-config" as outbox_publisher_config
-        artifact "Secret\noutbox-publisher-secret" as outbox_publisher_secret
         KubernetesSvc(process_svc, "process-svc", ":3000")
         KubernetesDeploy(process_deploy, "process-api", "")
         KubernetesPod(process_pod, "process-api-*", "")
         node "Sidecar\noutbox-publisher" as outbox_publisher
 
-        KubernetesSvc(postgres_svc, "postgres-svc", ":5432")
-        node "StatefulSet\npostgres" as postgres_stateful
-        KubernetesPod(postgres_pod, "postgres-0", "")
+        KubernetesSvc(database_svc, "database-svc", ":5432")
+        node "StatefulSet\ndatabase" as database_stateful
+        KubernetesPod(database_pod, "database-0", "")
     }
 }
 
@@ -72,18 +73,21 @@ Rel(process_route, process_svc, "")
 Rel(process_svc, process_pod, "")
 Rel_U(process_deploy, process_pod, "manages")
 Rel(process_config, process_pod, "env")
+Rel(process_messaging_config, process_pod, "shared messaging env")
 Rel(process_secret, process_pod, "secret env")
+Rel(process_messaging_secret, process_pod, "shared messaging secret")
 Rel(db_secret, process_pod, "db creds")
-Rel(process_pod, nats_svc, "nats")
+Rel(process_pod, nats_svc, "consumes fscl.process.*")
 Rel(process_pod, outbox_publisher, "sidecar")
 Rel(outbox_publisher_config, outbox_publisher, "env")
-Rel(outbox_publisher_secret, outbox_publisher, "secret env")
+Rel(process_messaging_config, outbox_publisher, "shared messaging env")
+Rel(process_messaging_secret, outbox_publisher, "shared messaging secret")
 Rel(db_secret, outbox_publisher, "db creds")
-Rel(outbox_publisher, postgres_svc, "reads outbox")
+Rel(outbox_publisher, database_svc, "reads outbox")
 Rel(outbox_publisher, nats_svc, "publishes fscl.process.*")
 
-Rel(process_pod, postgres_svc, "sql")
-Rel(postgres_svc, postgres_pod, "")
-Rel_U(postgres_stateful, postgres_pod, "manages")
-Rel(db_secret, postgres_pod, "db creds")
+Rel(process_pod, database_svc, "sql")
+Rel(database_svc, database_pod, "")
+Rel_U(database_stateful, database_pod, "manages")
+Rel(db_secret, database_pod, "db creds")
 @enduml

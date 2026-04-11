@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - 00-namespaces.yaml
   - 10-frontend.yaml
+  - 15-process-messaging.yaml
   - 20-process-api.yaml
   - 22-outbox-publisher.yaml
   - 25-nats.yaml

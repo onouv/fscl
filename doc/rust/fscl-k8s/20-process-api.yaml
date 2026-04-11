@@ -9,15 +9,10 @@ data:
   DATABASE_HOST: postgres-svc
   DATABASE_PORT: "5432"
   DATABASE_SSLMODE: disable
-  NATS_HOST: nats-svc.fscl.svc.cluster.local
-  NATS_PORT: "4222"
-  NATS_JETSTREAM_ENABLED: "true"
   NATS_JETSTREAM_STREAM: fscl-events
-  NATS_JETSTREAM_SUBJECTS: fscl.process.*
-  NATS_JETSTREAM_DURABLE_CONSUMER: process-worker
+  NATS_JETSTREAM_DURABLE_CONSUMER: process-api
   NATS_JETSTREAM_ACK_POLICY: explicit
   NATS_JETSTREAM_ACK_WAIT: 30s
-  NATS_JETSTREAM_RETENTION: limits
 ---
 apiVersion: v1
 kind: Secret
@@ -28,8 +23,6 @@ type: Opaque
 stringData:
   JWT_SIGNING_KEY: change-me
   SESSION_SIGNING_KEY: change-me
-  NATS_USERNAME: fscl
-  NATS_PASSWORD: change-me
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -53,8 +46,12 @@ spec:
           envFrom:
             - configMapRef:
                 name: process-config
+            - configMapRef:
+                name: process-messaging-config
             - secretRef:
                 name: process-backend-secret
+            - secretRef:
+                name: process-messaging-secret
           env:
             - name: DATABASE_NAME
               valueFrom:
@@ -94,9 +91,11 @@ spec:
           image: your-registry/fscl-outbox-publisher:latest
           envFrom:
             - configMapRef:
+                name: process-messaging-config
+            - configMapRef:
                 name: outbox-publisher-config
             - secretRef:
-                name: outbox-publisher-secret
+                name: process-messaging-secret
           env:
             - name: DB_HOST
               value: postgres-svc
