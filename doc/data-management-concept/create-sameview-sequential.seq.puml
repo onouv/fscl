@@ -1,0 +1,33 @@
+@startuml
+actor CA1 as "Client(A, 1)"
+actor CA2 as "Client(A, 2)"
+participant SA1 as "Service(A, 1)"
+participant SA2 as "Service(A, 2)"
+database DBA as "Database(A)"
+CA1 -> SA1: CreateRequest(A, R1, D1)
+activate SA1
+SA1 -> DBA: start tx for A
+activate DBA
+SA1 -> SA1: ... process CreateRequest(A, R1, D1)
+activate SA1
+SA1 -> DBA: insert Element(A, R1, D1) into Shadow and View
+SA1 <- DBA: success
+deactivate SA1
+SA1 -> DBA: commit tx for A
+deactivate DBA
+CA1 <-- SA1: 201 (A)
+deactivate SA1
+CA2 -> SA2: CreateRequest(A, R1, D2)
+activate SA2
+SA2 -> DBA: start tx for A
+activate DBA
+SA2 -> SA2: ... process CreateRequest(A, R1, D1)
+activate SA2
+SA2 -> DBA: select Element(A, R1, D1) from View
+SA2 <- DBA: (A, R1, D1)
+deactivate SA2
+SA2 -> DBA: commit tx for A
+deactivate DBA
+CA2 <-- SA2: 409 VIEW_PREEXISTING(A, R1, D1)
+deactivate SA2
+@enduml

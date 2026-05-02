@@ -1,0 +1,22 @@
+@startuml
+actor CA1 as "Client(A, 1)"
+actor CA2 as "Client(A, 2)"
+participant SA1 as "Service(A, 1)"
+participant SA2 as "Service(A, 2)"
+database DBA as "Database(A)"
+CA1 -> SA1: CreateRequest(A, R1, D1)
+activate SA1
+SA1 -> DBA: start tx for A
+activate DBA
+SA1 -> SA1: ... process CreateRequest(A, R1, D1)
+activate SA1
+CA2 -> SA1: CreateRequest(A, R1, D2)
+CA2 <- SA1: 409 (A, BUSY_CREATING(A, R1))
+SA1 -> DBA: insert Element(A, R1, D1) into Shadow and View
+SA1 <- DBA: success
+deactivate SA1
+SA1 -> DBA: commit tx for A
+deactivate DBA
+CA1 <-- SA1: 201 (A)
+
+@enduml

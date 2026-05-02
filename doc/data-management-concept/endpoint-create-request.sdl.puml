@@ -1,0 +1,32 @@
+@startuml endpoint CreateRequest
+!pragma useVerticalIf on
+floating note: SERVICE POST CreateFunctionRequest(id, req_data)
+start
+    split
+        :POST CreateFunctionRequest(id, req_data); <<input>>
+        :Look up View-Element by id; <<load>>
+        if (element in View) then (yes)
+            :409 (ID, VIEW_PREEXISTING); <<output>>
+        else (no)
+            :Look up Shadow-Element by id; <<load>>
+            if (element in shadow) then (yes)
+                if(Diff request vs shadow) then (identical)
+                    :409 (id, SHADOW_IDENTICAL(shadow_data)); <<output>>
+                else (different)
+                    :409 (ID, SHADOW_DIFFERENT(shadow_data)); <<output>>
+                end if
+            else (no)
+                :create Shadow-Element(MODIFIED) from req_data;
+                :create View-Element from req_data;
+                :link Shadow-Element and View-Element;
+                :Save Shadow-Element and View-Element; <<save>>
+                :publish CreatedEvent(id, req_data); <<output>>
+                :201 (id); <<output>>
+            end if
+        end if
+    split again
+        :... other events; <<input>>
+        :... process other events; <<process>>
+    end split
+end
+@enduml

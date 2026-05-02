@@ -1,0 +1,36 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+floating note: SERVICE
+start
+split
+    :POST CreateFunctionRequest(id, req_data); <<input>>
+    :[[./post-create-function-request.sdl.puml process create request]];
+split again
+    :POST MergeRequest(id, MergeCmd::Client(merge_data)); <<input>>
+    :Load Shadow-Element by id; <<load>>
+    :Overwrite Shadow-Element with merge_data;
+    :Flag Shadow-Element as MODIFIED;
+    :create View-Element from merge_data;
+    :link Shadow-Element and View-Element;
+    :Save Shadow-Element and View-Element; <<save>>
+    :publish ModifiedEvent(ID, merge_data); <<output>>
+    :200 (id); <<output>>
+split again
+    :POST MergeRequest(id, MergeCmd::Shadow(merge_data)); <<input>>
+    :Load Shadow-Element by ID; <<load>>
+    if (Shadow-Element exists) then (loaded)
+        if (Shadow-Element equals merge_data) then (yes)
+            :Create new View-Element from Shadow-Element;
+            :Merge addtnl content from merge_data;
+            :link Shadow-Element and View-Element;
+            :Save Shadow-Element and View-Element; <<save>>
+            :200 (id); <<output>>
+        else (no)
+            :422 (id, SHADOW_HAS_BEEN_CHANGED); <<output>>
+        endif
+    else (id not found)
+        :404 (id); <<output>>
+    end if
+end split
+stop
+@enduml

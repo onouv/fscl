@@ -1,0 +1,38 @@
+@startuml endpoint MergeRequest
+!pragma useVerticalIf on
+floating note: SERVICE POST MergeRequest
+start
+split
+    :POST MergeRequest(id, merge_cmd); <<input>>
+    :Load Shadow-Element by id; <<load>>
+    switch (merge_cmd) 
+        case (MergeCmd::Client(merge_data))
+            :Upsert Shadow-Element with merge_data;
+            note right: If Shadow-Element does not exist, it will be created.
+            :Flag Shadow-Element as MODIFIED;
+            :create View-Element from merge_data;
+            :link Shadow-Element and View-Element;
+            :Save Shadow-Element and View-Element; <<save>>
+            :publish ModifiedEvent(ID, merge_data); <<output>>
+            :200 (id); <<output>>
+        case (MergeCmd::Shadow(merge_data))
+            if (Shadow-Element exists) then (loaded)
+                if (Shadow-Element equals merge_data) then (yes)
+                    :Create new View-Element from Shadow-Element;
+                    :Merge addtnl content from merge_data;
+                    :link Shadow-Element and View-Element;
+                    :Save Shadow-Element and View-Element; <<save>>
+                    :200 (id); <<output>>
+                else (no)
+                    :422 (id, SHADOW_HAS_BEEN_CHANGED); <<output>>
+                endif
+            else (id not found)
+                :404 (id); <<output>>
+            end if
+    endswitch
+split again
+    :... other events; <<input>>
+    :... process other events; <<process>>
+end split
+end
+@enduml
