@@ -13,19 +13,35 @@ actor Cp2 as "Client(Cp-2, view Vp)"
 participant Sp1 as "Service(Sp-1, view Vp)"
 participant Sp2 as "Service(Sp-2, view Vp)"
 database DBp as "Database(Vp)"
-Cp1 -> Sp1: CreateRequest(Vp, R1, D1)
-activate Sp1
-Sp1 -> DBp: start tx for Vp
-activate DBp
-Sp1 -> Sp1: ... process CreateRequest(Vp, R1, D1)
-activate Sp1
-Cp2 -> Sp2: CreateRequest(Vp, R1, D2)
-Cp2 <- Sp2: 409 (Vp, BUSY_CREATING(Vp, R1))
-Sp1 -> DBp: insert Element(Vp, R1, D1) into Shadow and View
-Sp1 <- DBp: success
-deactivate Sp1
-Sp1 -> DBp: commit tx for Vp
-deactivate DBp
-Cp1 <-- Sp1: 201 (Vp)
+note over Sp1, Sp2
+Concurrent requests are resolved by normal transactional processing
+and database uniqueness constraints on view/resource identity.
+end note
+
+par overlapping requests
+	Cp1 -> Sp1: CreateRequest(Vp, R1, D1)
+	activate Sp1
+	Sp1 -> DBp: start tx for Vp
+	activate DBp
+	Sp1 -> Sp1: ... process CreateRequest(Vp, R1, D1)
+	Sp1 -> DBp: insert Element(Vp, R1, D1) into Shadow and View
+	Sp1 <- DBp: success
+	Sp1 -> DBp: commit tx for Vp
+	deactivate DBp
+	Cp1 <-- Sp1: 201 (Vp)
+	deactivate Sp1
+else
+	Cp2 -> Sp2: CreateRequest(Vp, R1, D2)
+	activate Sp2
+	Sp2 -> DBp: start tx for Vp
+	activate DBp
+	Sp2 -> Sp2: ... process CreateRequest(Vp, R1, D2)
+	Sp2 -> DBp: insert Element(Vp, R1, D2) into Shadow and View
+	Sp2 <- DBp: unique violation / preexisting
+	Sp2 -> DBp: rollback tx for Vp
+	deactivate DBp
+	Cp2 <-- Sp2: 409 VIEW_PREEXISTING(Vp, R1, D1)
+	deactivate Sp2
+end
 
 @enduml
