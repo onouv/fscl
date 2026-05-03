@@ -65,6 +65,15 @@ For brevity we do not show links but only parent-child relations in the diagrams
 
 3) A view may be processed on **any number of computational nodes**. A node may process **any number of different views**. 
 
+## Create Conflict Cases (Sequence Diagrams)
+
+The following sequence diagrams capture the four create-conflict cases discussed for resource `Rk`:
+
+- Case 1, same view sequential: [create-conflict-case-1-same-view-sequential.seq.puml](create-conflict-case-1-same-view-sequential.seq.puml)
+- Case 2, same view concurrent: [create-conflict-case-2-same-view-concurrent.seq.puml](create-conflict-case-2-same-view-concurrent.seq.puml)
+- Case 3, cross-view sequential: [create-conflict-case-3-cross-view-sequential.seq.puml](create-conflict-case-3-cross-view-sequential.seq.puml)
+- Case 4, cross-view concurrent with reconciliation: [create-conflict-case-4-cross-view-concurrent-reconcile.seq.puml](create-conflict-case-4-cross-view-concurrent-reconcile.seq.puml)
+
 ## Solution Concept
 
 Each node maintains a separate complete copy of the common model (**shadow model**). Each view on a node must maintain its view specific model (**view model**) and a complete copy he latter is eventually maintained consistent with all other views. There is no central copy of either the common shadow model or any view model.  

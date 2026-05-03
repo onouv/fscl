@@ -1,24 +1,25 @@
 @startuml
 !pragma useVerticalIf on
 floating note: CLIENT
+Legend: Vx=view, Sx-n=service instance, Cx-n=client, Rk=resource id, Dk=resource data
 
 start
 :User enters Element; <<input>>
 :User clicks SAVE; <<input>>
-:POST CreateFunctionRequest(id, original_data); <<output>>
+:POST CreateRequest(Vx, Rk, Dk); <<output>>
 :show waiting state;
 split
-    :201 (id); <<output>>
-    :Update client view (original_data);
+    :201 (Rk); <<output>>
+    :Update client view (Dk);
 split again
-    :409 (id, SHADOW_DIFFERENT(shadow_data)); <<input>>
+    :409 (Rk, SHADOW_DIFFERENT(shadow_data)); <<input>>
     :Show Content Decision Page;
     split
         :User clicks OVERWRITE; <<input>>
-        :POST MergeRequest(id, MergeCmd::Client(original_data)); <<output>>
+        :POST MergeRequest(Vx, Rk, MergeCmd::Client(Dk)); <<output>>
     split again
         :User clicks KEEP SERVER; <<input>>
-        :POST MergeRequest(id, MergeCmd::Shadow(shadow_data)); <<output>>
+        :POST MergeRequest(Vx, Rk, MergeCmd::Shadow(shadow_data)); <<output>>
     end split
     :show waiting state;
     split
@@ -30,13 +31,13 @@ split again
         :User clicks OK; <<input>>
     end split
 split again
-    :409 (ID, SHADOW_IDENTICAL(shadow_data)); <<input>>
+    :409 (Rk, SHADOW_IDENTICAL(shadow_data)); <<input>>
     :Show Cancel Option;
     split
         :User clicks CANCEL; <<input>>
     split again
-        :Use clicks OK; <<input>>
-        :POST MergeRequest(id, MergeCmd::Shadow(shadow_data)); <<output>>
+        :User clicks OK; <<input>>
+        :POST MergeRequest(Vx, Rk, MergeCmd::Shadow(shadow_data)); <<output>>
         :show waiting state;
         split
         :200; <<input>>
@@ -48,7 +49,7 @@ split again
         end split
     end split
 split again
-    :409 (ID, VIEW_PREEXISTING(resource_data)); <<input>>
+    :409 (Rk, VIEW_PREEXISTING(resource_data)); <<input>>
     :Show View Pre-existing Page;
     :User clicks OK; <<input>>
 split again

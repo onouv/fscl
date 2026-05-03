@@ -1,0 +1,117 @@
+@startuml
+title Case 4 - Create conflict across views, concurrent requests (reconcile)
+legend right
+Vx   : view
+Sx-n : service instance of view x
+Cx-n : client of view x
+Rk   : resource id
+Dk   : resource data
+endlegend
+
+note over Sp1, Sa1
+Default implementation (for now):
+- No deterministic winner policy
+- Process incoming events as usual
+- If same Rk carries conflicting Dk, keep both variants under Rk and flag RECONCILIATION_NEEDED
+- Store user references to allow offline coordination
+- Do not use in-memory cache for conflict/echo detection
+Keying rule:
+- Avoid PK collisions by using an internal row key / variant key
+- Keep Rk as a business identifier, not as sole physical primary key
+end note
+
+actor Cp1 as "Client(Cp-1, view Vp)"
+actor Ca1 as "Client(Ca-1, view Va)"
+control Sp1 as "Service(Sp-1, view Vp)"
+database DBp as "Database(Vp)"
+control Sa1 as "Service(Sa-1, view Va)"
+database DBa as "Database(Va)"
+queue Bus as "Event Bus (NATS)"
+
+par overlapping client requests
+    Cp1 -> Sp1: CreateRequest(Vp, R1, D1)
+    activate Sp1
+    Sp1 -> DBp: begin tx for Vp
+    activate DBp
+    Sp1 -> Sp1: ... process CreateRequest(Vp, R1, D1)
+    Sp1 -> DBp: insert Element(Vp, R1, D1) into Shadow and View
+    Sp1 <- DBp: success
+    Sp1 -> DBp: append outbox CreatedEvent(Vp, R1, D1)
+    Sp1 -> DBp: commit tx for Vp
+    deactivate DBp
+    Sp1 --> Cp1: 201 (Vp)
+    deactivate Sp1
+else
+    Ca1 -> Sa1: CreateRequest(Va, R1, D2)
+    activate Sa1
+    Sa1 -> DBa: begin tx for Va
+    activate DBa
+    Sa1 -> Sa1: ... process CreateRequest(Va, R1, D2)
+    Sa1 -> DBa: insert Element(Va, R1, D2) into Shadow and View
+    Sa1 <- DBa: success
+    Sa1 -> DBa: append outbox CreatedEvent(Va, R1, D2)
+    Sa1 -> DBa: commit tx for Va
+    deactivate DBa
+    Sa1 --> Ca1: 201 (Va)
+    deactivate Sa1
+end
+
+Sp1 -> Bus: publish CreatedEvent(Vp, R1, D1)
+Sa1 -> Bus: publish CreatedEvent(Va, R1, D2)
+
+Bus -> Sp1: CreatedEvent(Va, R1, D2)
+activate Sp1
+Sp1 -> DBp: begin tx for event handling
+activate DBp
+Sp1 -> DBp: insert processed_event(event_id, consumer_view=Vp)
+Sp1 -> Sp1: dedupe by event_id only (not by resource existence)
+Sp1 -> DBp: upsert variant by (R1, source_event_id)
+Sp1 -> Sp1: detect conflict on R1 (multiple variants)
+Sp1 -> DBp: set reconciliation_status = RECONCILIATION_NEEDED
+Sp1 -> DBp: store user references for offline exchange
+Sp1 -> DBp: commit tx
+deactivate DBp
+deactivate Sp1
+
+Bus -> Sa1: CreatedEvent(Vp, R1, D1)
+activate Sa1
+Sa1 -> DBa: begin tx for event handling
+activate DBa
+Sa1 -> DBa: insert processed_event(event_id, consumer_view=Va)
+Sa1 -> Sa1: dedupe by event_id only (not by resource existence)
+Sa1 -> DBa: upsert variant by (R1, source_event_id)
+Sa1 -> Sa1: detect conflict on R1 (multiple variants)
+Sa1 -> DBa: set reconciliation_status = RECONCILIATION_NEEDED
+Sa1 -> DBa: store user references for offline exchange
+Sa1 -> DBa: commit tx
+deactivate DBa
+deactivate Sa1
+
+Bus -> Sp1: CreatedEvent(Vp, R1, D1) (own echo)
+activate Sp1
+Sp1 -> DBp: begin tx for event handling
+activate DBp
+Sp1 -> DBp: insert processed_event(event_id, consumer_view=Vp)
+Sp1 -> Sp1: if duplicate event_id then no-op and commit
+Sp1 -> DBp: commit tx
+deactivate DBp
+deactivate Sp1
+
+Bus -> Sa1: CreatedEvent(Va, R1, D2) (own echo)
+activate Sa1
+Sa1 -> DBa: begin tx for event handling
+activate DBa
+Sa1 -> DBa: insert processed_event(event_id, consumer_view=Va)
+Sa1 -> Sa1: if duplicate event_id then no-op and commit
+Sa1 -> DBa: commit tx
+deactivate DBa
+deactivate Sa1
+
+note over Sp1, Sa1
+Future reconciliation workflow (major feature set):
+- Exchange user references so affected users can coordinate
+- Discard one variant and keep the other
+- Keep both variants but assign a new Rk to one variant
+- Merge variants by user-defined resolution
+end note
+@enduml

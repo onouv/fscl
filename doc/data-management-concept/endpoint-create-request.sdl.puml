@@ -1,27 +1,29 @@
 @startuml endpoint CreateRequest
 !pragma useVerticalIf on
-floating note: SERVICE POST CreateFunctionRequest(id, req_data)
+floating note: SERVICE
+Legend: Vx=view, Sx-n=service instance, Cx-n=client, Rk=resource id, Dk=resource data
+POST CreateRequest(Vx, Rk, Dk)
 start
     split
-        :POST CreateFunctionRequest(id, req_data); <<input>>
-        :Look up View-Element by id; <<load>>
+        :POST CreateRequest(Vx, Rk, Dk); <<input>>
+        :Look up View-Element by Rk; <<load>>
         if (element in View) then (yes)
-            :409 (ID, VIEW_PREEXISTING); <<output>>
+            :409 (Rk, VIEW_PREEXISTING); <<output>>
         else (no)
-            :Look up Shadow-Element by id; <<load>>
+            :Look up Shadow-Element by Rk; <<load>>
             if (element in shadow) then (yes)
                 if(Diff request vs shadow) then (identical)
-                    :409 (id, SHADOW_IDENTICAL(shadow_data)); <<output>>
+                    :409 (Rk, SHADOW_IDENTICAL(shadow_data)); <<output>>
                 else (different)
-                    :409 (ID, SHADOW_DIFFERENT(shadow_data)); <<output>>
+                    :409 (Rk, SHADOW_DIFFERENT(shadow_data)); <<output>>
                 end if
             else (no)
-                :create Shadow-Element(MODIFIED) from req_data;
-                :create View-Element from req_data;
+                :create Shadow-Element(MODIFIED) from Dk;
+                :create View-Element from Dk;
                 :link Shadow-Element and View-Element;
                 :Save Shadow-Element and View-Element; <<save>>
-                :publish CreatedEvent(id, req_data); <<output>>
-                :201 (id); <<output>>
+                :publish CreatedEvent(Vx, Rk, Dk); <<output>>
+                :201 (Rk); <<output>>
             end if
         end if
     split again
