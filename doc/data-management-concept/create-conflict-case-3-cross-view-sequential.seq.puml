@@ -1,0 +1,51 @@
+@startuml
+title Case 3 - Create conflict across views, sequential requests
+legend right
+Vx   : view
+Sx-n : service instance of view x
+Cx-n : client of view x
+Rk   : resource id
+Dk   : resource data
+endlegend
+
+actor Cp1 as "Client(Cp-1, view Vp)"
+actor Ca1 as "Client(Ca-1, view Va)"
+participant Sp1 as "Service(Sp-1, view Vp)"
+participant Sa1 as "Service(Sa-1, view Va)"
+database DBp as "Database(Vp)"
+database DBa as "Database(Va)"
+queue Bus as "Event Bus (NATS)"
+
+Cp1 -> Sp1: CreateRequest(Vp, R1, D1)
+activate Sp1
+Sp1 -> DBp: begin tx for Vp
+activate DBp
+Sp1 -> Sp1: ... process CreateRequest(Vp, R1, D1)
+Sp1 -> DBp: insert Element(Vp, R1, D1) into Shadow and View
+Sp1 <- DBp: success
+Sp1 -> DBp: append outbox CreatedEvent(Vp, R1, D1)
+Sp1 -> DBp: commit tx for Vp
+deactivate DBp
+Sp1 --> Cp1: 201 (Vp)
+deactivate Sp1
+
+Sp1 -> Bus: publish CreatedEvent(Vp, R1, D1)
+Bus -> Sa1: CreatedEvent(Vp, R1, D1)
+activate Sa1
+Sa1 -> DBa: begin tx for event handling
+activate DBa
+Sa1 -> DBa: insert Element(Va, R1, D1) into Shadow
+Sa1 -> DBa: commit tx
+deactivate DBa
+deactivate Sa1
+
+Ca1 -> Sa1: CreateRequest(Va, R1, D2)
+activate Sa1
+Sa1 -> DBa: begin tx for Va
+activate DBa
+Sa1 -> DBa: detect shadow Element(R1) already present
+Sa1 -> DBa: rollback tx
+deactivate DBa
+Sa1 --> Ca1: 409 SHADOW_DIFFERENT(Va, R1, D1)
+deactivate Sa1
+@enduml

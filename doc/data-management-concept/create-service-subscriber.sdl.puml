@@ -1,13 +1,14 @@
 @startuml
 !pragma useVerticalIf on
 floating note: SERVICE
+Legend: Vx=view, Sx-n=service instance, Cx-n=client, Rk=resource id, Dk=resource data
 start
-    :CreatedEvent(id, view_id, resource_data); <<input>>
-    :Look up Shadow-Element by id; <<load>>
+    :CreatedEvent(Vsrc, Rk, Dk); <<input>>
+    :Look up Shadow-Element by Rk; <<load>>
     if (element in shadow?) then (yes: Ignore, this is bus echo)
     else (no)
-        :Create new Shadow-Element from resource_data; <<save>>
-        if (view_id) then (own view) 
+        :Create new Shadow-Element from Dk; <<save>>
+        if (Vsrc == Vx) then (own view) 
             :merge into view model;
         else (other view)
     end if

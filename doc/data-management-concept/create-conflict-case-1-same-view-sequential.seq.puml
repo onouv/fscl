@@ -1,0 +1,42 @@
+@startuml
+title Case 1 - Create conflict in same view, sequential requests
+legend right
+Vx   : view
+Sx-n : service instance of view x
+Cx-n : client of view x
+Rk   : resource id
+Dk   : resource data
+endlegend
+
+actor Cp1 as "Client(Cp-1, view Vp)"
+actor Cp2 as "Client(Cp-2, view Vp)"
+participant Sp1 as "Service(Sp-1, view Vp)"
+participant Sp2 as "Service(Sp-2, view Vp)"
+database DBp as "Database(Vp)"
+Cp1 -> Sp1: CreateRequest(Vp, R1, D1)
+activate Sp1
+Sp1 -> DBp: start tx for Vp
+activate DBp
+Sp1 -> Sp1: ... process CreateRequest(Vp, R1, D1)
+activate Sp1
+Sp1 -> DBp: insert Element(Vp, R1, D1) into Shadow and View
+Sp1 <- DBp: success
+deactivate Sp1
+Sp1 -> DBp: commit tx for Vp
+deactivate DBp
+Cp1 <-- Sp1: 201 (Vp)
+deactivate Sp1
+Cp2 -> Sp2: CreateRequest(Vp, R1, D2)
+activate Sp2
+Sp2 -> DBp: start tx for Vp
+activate DBp
+Sp2 -> Sp2: ... process CreateRequest(Vp, R1, D2)
+activate Sp2
+Sp2 -> DBp: select Element(Vp, R1, D1) from View
+Sp2 <- DBp: (Vp, R1, D1)
+deactivate Sp2
+Sp2 -> DBp: commit tx for Vp
+deactivate DBp
+Cp2 <-- Sp2: 409 VIEW_PREEXISTING(Vp, R1, D1)
+deactivate Sp2
+@enduml
