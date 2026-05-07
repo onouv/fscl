@@ -28,9 +28,15 @@ cp compose/secrets.example compose/secrets.local
 
 ```sh
 source compose/load-secrets.sh
-docker compose -p fscl-process -f compose/process-stack.yaml up -d
+docker compose -p fscl -f compose/process-stack.yaml up -d
 ```
 
 `load-secrets.sh` must be sourced, not executed directly, so the exported variables stay in your current shell.
+
+For host-side process-api debugging, load API env vars as well:
+
+```sh
+source compose/load-process-api-env.sh
+```
 
 Use a different Compose project name and stack file for each view to run multiple stacks in parallel.
