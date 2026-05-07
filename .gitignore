@@ -3,9 +3,10 @@
 /fscl-outbox-publisher/
 /fscl-process-svc/
 
-/.env.shared
 /**/.env
+/compose/secrets.local
+/compose/*.secrets.local
 
 /.vscode/
 
-/fscl/
+claude.md

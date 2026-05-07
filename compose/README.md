@@ -1,20 +1,36 @@
 # FSCL Dev Compose
 
-This scaffolding follows the same config split as the Kubernetes manifests:
+Each view is modeled as a self-contained stack file named `<viewname>-stack.yaml`.
+The corresponding API service inside the stack is named `<viewname>-api`.
 
-- `.env.shared`: shared local-development values used across services
-- `fscl-process-svc/.env`: process-api local values
-- `fscl-outbox-publisher/.env`: outbox publisher local values
+Example:
 
-Code-level messaging contract constants such as `OUTBOX_NOTIFY_CHANNEL` stay in `fscl-messaging` and are not carried in the env files.
+- `compose/process-stack.yaml`
+- service `process-api`
+- service `process-outbox-publisher` (view-specific outbox sidecar instance)
 
-Start the local stack with:
+Credentials are not stored in tracked `.env` files. Instead, Compose reads credential values
+from exported environment variables loaded by a local script.
+
+Code-level messaging contract constants such as `OUTBOX_NOTIFY_CHANNEL` stay in `fscl-messaging` and are not carried as deployment config.
+
+## Local Secrets Flow
+
+1. Create local secrets file from template:
 
 ```sh
-cp .env.shared.example .env.shared
-cp fscl-process-svc/.env.example fscl-process-svc/.env
-cp fscl-outbox-publisher/.env.example fscl-outbox-publisher/.env
-docker compose -f compose/infra.yaml -f compose/process-stack.yaml up
+cp compose/secrets.example compose/secrets.local
 ```
 
-The Compose files intentionally override `DB_HOST` and `NATS_URL` for container-to-container networking while leaving the checked-in examples usable for host-based `cargo run` as well.
+2. Edit `compose/secrets.local` with your local credential values.
+
+3. Export them into your shell and start the stack:
+
+```sh
+source compose/load-secrets.sh
+docker compose -p fscl-process -f compose/process-stack.yaml up -d
+```
+
+`load-secrets.sh` must be sourced, not executed directly, so the exported variables stay in your current shell.
+
+Use a different Compose project name and stack file for each view to run multiple stacks in parallel.

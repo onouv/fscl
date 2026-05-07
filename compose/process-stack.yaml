@@ -1,60 +1,114 @@
 services:
   postgres:
     image: postgres:17
-    env_file:
-      - ../.env.shared
-      - ../fscl-process-svc/.env
     environment:
-      POSTGRES_DB: ${DB_NAME}
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${FSCL_DB_NAME:?FSCL_DB_NAME is required}
+      POSTGRES_USER: ${FSCL_DB_USER:?FSCL_DB_USER is required}
+      POSTGRES_PASSWORD: ${FSCL_DB_PASSWORD:?FSCL_DB_PASSWORD is required}
     ports:
-      - "5432:5432"
+      - "${FSCL_PROCESS_DB_HOST_PORT:-5432}:5432"
     volumes:
-      - ../fscl-process-svc/db-data:/var/lib/postgresql/data
+      - process-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB" ]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  nats:
+    image: nats:2.11-alpine
+    environment:
+      NATS_USERNAME: ${FSCL_NATS_USER:?FSCL_NATS_USER is required}
+      NATS_PASSWORD: ${FSCL_NATS_PASSWORD:?FSCL_NATS_PASSWORD is required}
+    command:
+      - /bin/sh
+      - -ec
+      - >
+        exec nats-server --name fscl-nats --server_name fscl-nats --port 4222
+        --http_port 8222 --jetstream --store_dir /data/jetstream --user
+        "$${NATS_USERNAME}" --pass "$${NATS_PASSWORD}"
+
+    ports:
+      - "${FSCL_PROCESS_NATS_CLIENT_PORT:-4222}:4222"
+      - "${FSCL_PROCESS_NATS_MONITOR_PORT:-8222}:8222"
+    volumes:
+      - nats-data:/data
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "wget", "-q", "-O", "-", "http://127.0.0.1:8222/healthz" ]
+      interval: 5s
+      timeout: 5s
+      retries: 12
 
   process-api:
-    image: rust:1.86-bookworm
+    image: rust:1.95
     working_dir: /workspace/fscl-process-svc
     command: sh -ec "cargo run"
-    env_file:
-      - ../.env.shared
-      - ../fscl-process-svc/.env
     environment:
+      DB_TYPE: postgres
       DB_HOST: postgres
-      NATS_URL: nats://fscl:change-me@nats:4222
+      DB_PORT: "5432"
+      DB_USER: ${FSCL_DB_USER:?FSCL_DB_USER is required}
+      DB_PASSWORD: ${FSCL_DB_PASSWORD:?FSCL_DB_PASSWORD is required}
+      DB_NAME: ${FSCL_DB_NAME:?FSCL_DB_NAME is required}
+      APP_HOST: 0.0.0.0
+      APP_PORT: "3100"
+      NATS_URL: nats://${FSCL_NATS_USER:?FSCL_NATS_USER is
+        required}:${FSCL_NATS_PASSWORD:?FSCL_NATS_PASSWORD is
+        required}@nats:4222
+      NATS_JETSTREAM_STREAM: fscl-events
+      NATS_JETSTREAM_DURABLE_CONSUMER: process-api
+      NATS_JETSTREAM_ACK_POLICY: explicit
+      NATS_JETSTREAM_ACK_WAIT: 30s
     volumes:
       - ..:/workspace
       - cargo-registry:/usr/local/cargo/registry
       - cargo-git:/usr/local/cargo/git
       - process-target:/workspace/fscl-process-svc/target
     ports:
-      - "3100:3100"
+      - "${FSCL_PROCESS_API_HOST_PORT:-3100}:3100"
+    restart: on-failure
     depends_on:
-      - postgres
-      - nats
+      postgres:
+        condition: service_healthy
+      nats:
+        condition: service_healthy
 
-  outbox-publisher:
-    image: rust:1.86-bookworm
+  process-outbox-publisher:
+    image: rust:1.95
     working_dir: /workspace/fscl-outbox-publisher
     command: sh -ec "cargo run"
-    env_file:
-      - ../.env.shared
-      - ../fscl-outbox-publisher/.env
     environment:
+      DB_TYPE: postgres
       DB_HOST: postgres
-      NATS_URL: nats://fscl:change-me@nats:4222
+      DB_PORT: "5432"
+      DB_USER: ${FSCL_DB_USER:?FSCL_DB_USER is required}
+      DB_PASSWORD: ${FSCL_DB_PASSWORD:?FSCL_DB_PASSWORD is required}
+      DB_NAME: ${FSCL_DB_NAME:?FSCL_DB_NAME is required}
+      NATS_URL: nats://${FSCL_NATS_USER:?FSCL_NATS_USER is
+        required}:${FSCL_NATS_PASSWORD:?FSCL_NATS_PASSWORD is
+        required}@nats:4222
+      OUTBOX_SUBJECT_PREFIX: process-view
+      OUTBOX_BATCH_SIZE: ${FSCL_OUTBOX_BATCH_SIZE:-100}
+      OUTBOX_FALLBACK_POLL_MS: ${FSCL_OUTBOX_FALLBACK_POLL_MS:-1000}
     volumes:
       - ..:/workspace
       - cargo-registry:/usr/local/cargo/registry
       - cargo-git:/usr/local/cargo/git
       - publisher-target:/workspace/fscl-outbox-publisher/target
+    restart: on-failure
     depends_on:
-      - postgres
-      - nats
+      postgres:
+        condition: service_healthy
+      nats:
+        condition: service_healthy
 
 volumes:
   cargo-registry:
   cargo-git:
+  process-db-data:
   process-target:
   publisher-target:
+  nats-data:
