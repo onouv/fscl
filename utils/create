@@ -1,0 +1,125 @@
+#!/bin/bash
+
+function show_help() {
+  echo 'Usage: create type id view [-n "name"] [-d "description"]'
+  echo 'where type is (f | s | c | l)'
+  echo 'and id is non-empty string w/o whitespace'
+  echo 'and view is (process)'
+}
+function type_is_valid() {
+  type="$1"
+  case $type in
+  "f") return 1 ;;
+  "s") return 1 ;;
+  "c") return 1 ;;
+  "l") return 1 ;;
+  *) return 0 ;;
+  esac
+}
+
+function id_is_valid() {
+  id="$1"
+  return 1
+}
+
+function view_is_valid() {
+  view=$1
+  case $view in
+  "process")
+    return 1
+    ;;
+  *)
+    return 0
+    ;;
+  esac
+}
+
+function build_payload() {
+  id=$1
+  name=$2
+  description=$3
+
+  return "{ "id": "$id", "name": "$name", "description": "$description"}"
+}
+
+# parameter args
+name=""
+id=""
+description=""
+type=""
+view=""
+
+#
+# get options
+#
+while getopts "n:d:" opt; do
+  case $opt in
+  n)
+    name="$OPTARG"
+    echo "name: $name"
+    ;;
+  d)
+    description="$OPTARG"
+    echo "description: $description"
+    ;;
+  *)
+    echo "invalid option $opt"
+    exit 1
+    ;;
+  esac
+done
+
+# TODO: adjust $OPTIND somehow
+# validate args
+if [[ $# -gt 3 ]]; then
+  type=${@:$OPTIND:1}
+  $(type_is_valid "$type")
+  if [[ $? -eq 0 ]]; then
+    echo 'expected f, s, c or l as first argument'
+    show_help
+    exit 1
+  fi
+
+  id=${@:$OPTIND+1:1}
+  $(id_is_valid $id)
+  if [[ $? -eq 0 ]]; then
+    echo 'expected non-empty string w/o whitespace as id argument'
+    show_help
+    exit 1
+  fi
+
+  view=${@:$OPTIND+2:1}
+  $(view_is_valid $view)
+  if [[ $? -eq 0 ]]; then
+    echo "expected keyword 'process'"
+    show_help
+    exit 1
+  fi
+else
+  show_help
+  exit 0
+fi
+
+#
+# call API
+#
+echo "id: $id name: $name description: $description"
+payload=$(jq --null-input --arg id "$id" --arg name "$name" --arg description "$description" '{"id": $id, "name": $name, "description": $description}')
+endpoint="http://127.0.0.1:3100/api/v2/$view/component"
+
+response_body="$(mktemp)"
+trap 'rm -f "$response_body"' EXIT
+
+status="$(curl -o "$response_body" -X POST "$endpoint" --data "$payload" -H 'Content-Type: application/json')"
+
+#
+# show result
+#
+echo "POST $endpoint"
+echo "$payload"
+echo "HTTP $status"
+jq <"$response_body"
+
+if [[ ! "$status" =~ ^2 ]]; then
+  exit 2
+fi
