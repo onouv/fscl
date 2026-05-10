@@ -1,6 +1,8 @@
 services:
   postgres:
     image: postgres:17
+    profiles:
+      - infra
     environment:
       POSTGRES_DB: ${FSCL_DB_NAME:?FSCL_DB_NAME is required}
       POSTGRES_USER: ${FSCL_DB_USER:?FSCL_DB_USER is required}
@@ -10,13 +12,15 @@ services:
     volumes:
       - process-db-data:/var/lib/postgresql/data
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB" ]
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
       interval: 5s
       timeout: 5s
       retries: 12
 
   nats:
     image: nats:2.11-alpine
+    profiles:
+      - infra
     environment:
       NATS_USERNAME: ${FSCL_NATS_USER:?FSCL_NATS_USER is required}
       NATS_PASSWORD: ${FSCL_NATS_PASSWORD:?FSCL_NATS_PASSWORD is required}
@@ -37,13 +41,41 @@ services:
       postgres:
         condition: service_healthy
     healthcheck:
-      test: [ "CMD", "wget", "-q", "-O", "-", "http://127.0.0.1:8222/healthz" ]
+      test: ["CMD", "wget", "-q", "-O", "-", "http://127.0.0.1:8222/healthz"]
       interval: 5s
       timeout: 5s
       retries: 12
 
+  nats-cli:
+    image: natsio/nats-box:latest
+    profiles:
+      - tools
+    environment:
+      NATS_SERVER: nats://${FSCL_NATS_USER:?FSCL_NATS_USER is required}:${FSCL_NATS_PASSWORD:?FSCL_NATS_PASSWORD is required}@nats:4222
+    command: ["sleep", "infinity"]
+    depends_on:
+      nats:
+        condition: service_healthy
+
+  postgres-cli:
+    image: postgres:17-alpine
+    profiles:
+      - tools
+    environment:
+      PGHOST: postgres
+      PGPORT: "5432"
+      PGUSER: ${FSCL_DB_USER:?FSCL_DB_USER is required}
+      PGPASSWORD: ${FSCL_DB_PASSWORD:?FSCL_DB_PASSWORD is required}
+      PGDATABASE: ${FSCL_DB_NAME:?FSCL_DB_NAME is required}
+    command: ["sleep", "infinity"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+
   process-api:
     image: rust:1.95
+    profiles:
+      - app
     working_dir: /workspace/fscl-process-svc
     command: sh -ec "cargo run"
     environment:
@@ -76,8 +108,10 @@ services:
       nats:
         condition: service_healthy
 
-  process-outbox-publisher:
+  outbox-publisher:
     image: rust:1.95
+    profiles:
+      - app
     working_dir: /workspace/fscl-outbox-publisher
     command: sh -ec "cargo run"
     environment:
@@ -91,7 +125,7 @@ services:
       NATS_PORT: "4222"
       NATS_USER: ${FSCL_NATS_USER:?FSCL_NATS_USER is required}
       NATS_PASSWORD: ${FSCL_NATS_PASSWORD:?FSCL_NATS_PASSWORD is required}
-      OUTBOX_SUBJECT_PREFIX: process-view
+      OUTBOX_SUBJECT_PREFIX: fscl.events
       OUTBOX_BATCH_SIZE: ${FSCL_OUTBOX_BATCH_SIZE:-100}
       OUTBOX_FALLBACK_POLL_MS: ${FSCL_OUTBOX_FALLBACK_POLL_MS:-1000}
     volumes:

@@ -1,10 +1,16 @@
 #!/bin/bash
 
 function show_help() {
-  echo 'Usage: create type id view [-n "name"] [-d "description"]'
-  echo 'where type is (f | s | c | l)'
-  echo 'and id is non-empty string w/o whitespace'
-  echo 'and view is (process)'
+  echo 'Usage: create [OPTIONS] type id view'
+  echo
+  echo 'PARAMETERS:'
+  echo 'type                (f | s | c | l)'
+  echo 'id                  non-empty string w/o whitespace'
+  echo 'view                (process | power | control | mechanical | civil-eng)'
+  echo
+  echo 'OPTIONS'
+  echo '-n "name"           clear text name of the resource'
+  echo '-d "description"    clear text description of the resource'
 }
 function type_is_valid() {
   type="$1"
@@ -26,6 +32,9 @@ function view_is_valid() {
   view=$1
   case $view in
   "process")
+    return 1
+    ;;
+  "control")
     return 1
     ;;
   *)
@@ -71,7 +80,7 @@ done
 
 # TODO: adjust $OPTIND somehow
 # validate args
-if [[ $# -gt 3 ]]; then
+if [[ $# -gt 2 ]]; then
   type=${@:$OPTIND:1}
   $(type_is_valid "$type")
   if [[ $? -eq 0 ]]; then
@@ -91,7 +100,7 @@ if [[ $# -gt 3 ]]; then
   view=${@:$OPTIND+2:1}
   $(view_is_valid $view)
   if [[ $? -eq 0 ]]; then
-    echo "expected keyword 'process'"
+    echo "expected valid view id"
     show_help
     exit 1
   fi
@@ -105,7 +114,17 @@ fi
 #
 echo "id: $id name: $name description: $description"
 payload=$(jq --null-input --arg id "$id" --arg name "$name" --arg description "$description" '{"id": $id, "name": $name, "description": $description}')
-endpoint="http://127.0.0.1:3100/api/v2/$view/component"
+case $type in
+"f") type="function" ;;
+"s") type="system" ;;
+"c") type="component" ;;
+"l") type="location" ;;
+*)
+  echo "internal error (type not f, s, c, l)"
+  exit 3
+  ;;
+esac
+endpoint="http://127.0.0.1:3100/api/v2/$view/$type"
 
 response_body="$(mktemp)"
 trap 'rm -f "$response_body"' EXIT

@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+
+# shellcheck disable=SC1090
+source "$ROOT_DIR/compose/load-secrets.sh" >/dev/null
+
+docker compose -p fscl -f "$ROOT_DIR/compose/process-stack.yaml" exec -it nats-cli \
+  sh -lc 'nats --server "$NATS_SERVER" "$@"' sh "$@"
