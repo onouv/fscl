@@ -38,19 +38,19 @@ Find the [original FSCL demonstrator here](https://github.com/onouv/fscl/tree/ma
 Currently, the entire backend is being migrated to Rust/sqlx/axum.
 
 ### Core library
-[fscl-core, main](https://github.com/onouv/fscl-core/main)  
+[fscl-core](https://github.com/onouv/fscl-core)  
 
 
 ### Messaging Library
-[fscl-messaging, main](https://github.com/onouv/fscl-messaging/main)
+[fscl-messaging](https://github.com/onouv/fscl-messaging)
 
 
 ### Outbox Publishing Service
-[fscl-outbox-publisher, main](https://github.com/onouv/fscl-core/outbox-publisher)
+[fscl-outbox-publisher](https://github.com/onouv/fscl-core/outbox-publisher)
 
 ### Process View Service
-[fscl-process-svc, main](https://github.com/onouv/fscl-process-svc/main)  
-[fscl-process-svc, integrate](https://github.com/onouv/fscl-process-svc/integrate)
+[fscl-process-svc](https://github.com/onouv/fscl-process-svc)
+  
 
 ## Java Implementation
 
