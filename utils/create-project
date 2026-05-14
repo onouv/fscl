@@ -1,5 +1,5 @@
 #!/bin/bash
-# Bootstrap script to publish IdFormatChangeEvent to NATS
+# Bootstrap script to publish ProjectCreatedEvent to NATS.
 # Usage: ./bootstrap-project-format.sh <project_id> [prefix] [separator] [block_length]
 # Example: ./bootstrap-project-format.sh dev-project "=" "-" "4"
 
@@ -12,13 +12,13 @@ BLOCK_LENGTH="${4:-4}"
 
 # NATS server defaults
 NATS_URL="${NATS_URL:-localhost:4222}"
-NATS_SUBJECT="events.project.id_format_changed"
+NATS_SUBJECT="${NATS_SUBJECT:-events.project.created}"
 
 # Generate UUIDs and timestamp
 EVENT_ID=$(uuidgen | tr '[:upper:]' '[:lower:]')
 OCCURRED_AT=$(date -u +"%Y-%m-%dT%H:%M:%S.000Z")
 
-echo "[bootstrap] Publishing IdFormatChangeEvent for project: $PROJECT_ID"
+echo "[bootstrap] Publishing ProjectCreatedEvent for project: $PROJECT_ID"
 echo "[bootstrap]   Event ID: $EVENT_ID"
 echo "[bootstrap]   Format: prefix='$PREFIX' separator='$SEPARATOR' block_length=$BLOCK_LENGTH"
 echo "[bootstrap]   NATS URL: $NATS_URL"
