@@ -1,0 +1,48 @@
+#!/bin/bash
+# Bootstrap script to publish IdFormatChangeEvent to NATS
+# Usage: ./bootstrap-project-format.sh <project_id> [prefix] [separator] [block_length]
+# Example: ./bootstrap-project-format.sh dev-project "=" "-" "4"
+
+set -e
+
+PROJECT_ID="${1:-dev-project}"
+PREFIX="${2:-=}"
+SEPARATOR="${3:--}"
+BLOCK_LENGTH="${4:-4}"
+
+# NATS server defaults
+NATS_URL="${NATS_URL:-localhost:4222}"
+NATS_SUBJECT="events.project.id_format_changed"
+
+# Generate UUIDs and timestamp
+EVENT_ID=$(uuidgen | tr '[:upper:]' '[:lower:]')
+OCCURRED_AT=$(date -u +"%Y-%m-%dT%H:%M:%S.000Z")
+
+echo "[bootstrap] Publishing IdFormatChangeEvent for project: $PROJECT_ID"
+echo "[bootstrap]   Event ID: $EVENT_ID"
+echo "[bootstrap]   Format: prefix='$PREFIX' separator='$SEPARATOR' block_length=$BLOCK_LENGTH"
+echo "[bootstrap]   NATS URL: $NATS_URL"
+echo "[bootstrap]   Subject: $NATS_SUBJECT"
+
+# Create JSON payload
+read -r -d '' PAYLOAD <<EOF || true
+{
+  "event_id": "$EVENT_ID",
+  "occurred_at": "$OCCURRED_AT",
+  "project_id": "$PROJECT_ID",
+  "prefix": "$PREFIX",
+  "separator": "$SEPARATOR",
+  "block_length": $BLOCK_LENGTH
+}
+EOF
+
+# Publish to NATS using nats CLI
+if command -v nats &> /dev/null; then
+    echo "$PAYLOAD" | nats pub --server="$NATS_URL" "$NATS_SUBJECT"
+    echo "[bootstrap] Event published successfully"
+else
+    echo "[bootstrap] ERROR: 'nats' CLI not found. Install NATS CLI or use nc/telnet to publish manually."
+    echo "[bootstrap] Payload to publish:"
+    echo "$PAYLOAD"
+    exit 1
+fi
