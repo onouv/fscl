@@ -1,0 +1,61 @@
+#!/bin/bash
+# Publish ProjectCreatedEvent to NATS.
+# Usage: ./issue_project_created_event <project_id> <name> [description] [prefix] [separator] [block_length]
+# Example: ./issue_project_created_event dev-project "Dev Project" "Local dev environment" "=" "-" "4"
+
+set -e
+
+ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+
+PROJECT_ID="${1:-dev-project}"
+NAME="${2:-Dev Project}"
+DESCRIPTION="${3:-}"
+PREFIX="${4:-=}"
+SEPARATOR="${5:--}"
+BLOCK_LENGTH="${6:-4}"
+
+# NATS defaults
+NATS_SUBJECT="${NATS_SUBJECT:-events.project.created}"
+
+# Generate UUIDs and timestamp
+EVENT_ID=$(uuidgen | tr '[:upper:]' '[:lower:]')
+OCCURRED_AT=$(date -u +"%Y-%m-%dT%H:%M:%S.000Z")
+
+echo "[issue_project_created_event] Publishing ProjectCreatedEvent for project: $PROJECT_ID"
+echo "[issue_project_created_event]   Name: $NAME"
+echo "[issue_project_created_event]   Event ID: $EVENT_ID"
+echo "[issue_project_created_event]   Format: prefix='$PREFIX' separator='$SEPARATOR' block_length=$BLOCK_LENGTH"
+echo "[issue_project_created_event]   Subject: $NATS_SUBJECT"
+
+# Build description JSON field (null if empty)
+if [ -n "$DESCRIPTION" ]; then
+    DESC_JSON="\"$DESCRIPTION\""
+else
+    DESC_JSON="null"
+fi
+
+# Create JSON payload
+read -r -d '' PAYLOAD <<EOF || true
+{
+  "event_id": "$EVENT_ID",
+  "occurred_at": "$OCCURRED_AT",
+  "project_id": "$PROJECT_ID",
+  "name": "$NAME",
+  "description": $DESC_JSON,
+  "prefix": "$PREFIX",
+  "separator": "$SEPARATOR",
+  "block_length": $BLOCK_LENGTH
+}
+EOF
+
+# Publish via utils/nats, which runs nats-cli in the dev stack.
+if [ -x "$ROOT_DIR/utils/nats" ]; then
+    echo "$PAYLOAD" | "$ROOT_DIR/utils/nats" pub "$NATS_SUBJECT"
+    echo "[issue_project_created_event] Event published successfully"
+else
+    echo "[issue_project_created_event] ERROR: '$ROOT_DIR/utils/nats' not found or not executable."
+    echo "[issue_project_created_event] Payload to publish:"
+    echo "$PAYLOAD"
+    exit 1
+fi
+
