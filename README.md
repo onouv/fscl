@@ -19,7 +19,7 @@ Find more details on the motivation [here](doc/intro.md)
 
 # What is FSCL NewGen ?
 
-I have refactored the original concept by defining a set of [application views](doc/views/index.md) and I am in the process of implementing a **NewGen of FSCL** based on these concepts, which you will find documented on 'main' in this repo.  
+I have refactored the original concept by defining a set of [application views](doc/views/index.md) and I am in the process of implementing a **NewGen of FSCL** based on these concepts, which you will find documented on 'main' in this repo.
 
 If the views before have been simply the Functions, Systems, Components and Locations described above, they are now defined with much more focus on real-world application purpose (at least in my mind :-). The four core concepts (FSCL) have now become elements of a common distributed [data management concept](doc/data-management-concept/index.md).
 
@@ -34,9 +34,28 @@ Find the [original FSCL demonstrator here](https://github.com/onouv/fscl/tree/ma
 
 # Artefacts
 
-## Supporting Artefacts
+## Rust
+Currently, the entire backend is being migrated to Rust/sqlx/axum.
+
+### Core library
+[fscl-core, main](https://github.com/onouv/fscl-core/main)  
+
+
+### Messaging Library
+[fscl-messaging, main](https://github.com/onouv/fscl-messaging/main)
+
+
+### Outbox Publishing Service
+[fscl-outbox-publisher, main](https://github.com/onouv/fscl-core/outbox-publisher)
+
+### Process View Service
+[fscl-process-svc, main](https://github.com/onouv/fscl-process-svc/main)
+[fscl-process-svc, integrate](https://github.com/onouv/fscl-process-svc/integrate)
+
+## Java Implementation
+### Core Library
 [fscl-core-lib](https://github.com/onouv/fscl-core-lib/tree/newgen)
 
-## Process Technology View
+### Process Technology Service
 [fscl-process-service](https://github.com/onouv/fscl-process-service)  
 [fscl-process-ui]() (TO BE DONE)

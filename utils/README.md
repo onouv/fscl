@@ -37,6 +37,9 @@ This folder contains small helper scripts for local FSCL development with Docker
 - `create`
   - posting create requests to API endpoints.
 
+- `issue_project_created_event`
+  - publishes a `ProjectCreatedEvent` to NATS using `utils/nats`.
+
 # Minimal Workflow
 
 ### 1. Start infra:
