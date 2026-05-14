@@ -63,36 +63,105 @@ Bus -> Sp1: CreatedEvent(Va, R1, D2)
 activate Sp1
 Sp1 -> DBp: begin tx for event handling
 activate DBp
-Sp1 -> DBp: insert processed_event(event_id, consumer_view=Vp)
-Sp1 -> Sp1: dedupe by event_id only (not by resource existence)
-Sp1 -> DBp: upsert variant by (R1, source_event_id)
-Sp1 -> Sp1: detect conflict on R1 (multiple variants)
-Sp1 -> DBp: set reconciliation_status = RECONCILIATION_NEEDED
-Sp1 -> DBp: store user references for offline exchange
-Sp1 -> DBp: commit tx
-deactivate DBp
-deactivate Sp1
+Sp1 -> DBp: insert processed_event into inbox ledger (event_id, consumer_view=Vp)
+note right
+Inbox ledger retention:
+- if reconciliation case exists for R1:
+    keep entries until reconciliation is complete,
+    then purge after grace period
+- if no reconciliation case exists for R1:
+    purge after TTL + grace period
+end note
+Sp1 -> Sp1: dedupe by event_id 
+Sp1 -> DBp: found = find(R1)
+Sp1 <-- DBp: return found
+Sp1 -> Sp1: decision = detect_conflict(found, incoming=D2)
+alt decision == ConflictNeedsReconciliation
+    Sp1 -> DBp: save_conflict_variant(R1, source_event_id, D2)
+    Sp1 -> DBp: set reconciliation_status = RECONCILIATION_NEEDED
+    Sp1 -> DBp: store user references for offline exchange
+    Sp1 -> DBp: commit tx
+    Cp1 <- Sp1: WebSockets: ReconciliationNeeded(R1)
+    deactivate DBp
+    deactivate Sp1
+    activate Cp1
+    alt conflict in current client context
+        Cp1 -> Sp1: request conflicting variants for R1
+        activate Sp1
+        Sp1 -> DBp: query variants by R1
+        activate DBp
+        Sp1 <-- DBp: return variant1_metadata, variant2_metadata
+        deactivate DBp
+        Sp1 --> Cp1: return variant1_metadata, variant2_metadata 
+        deactivate Sp1
+        Cp1 -> Cp1: update view
+    else other context
+        Cp1 -> Cp1: ignore 
+        note right: next time client loads context with conflict, it will find it marked and may request details on variants 
+        deactivate Cp1
+    end
+else decision != ConflictNeedsReconciliation
+    Sp1 -> DBp: save_no_conflict(found, incoming=D2)
+    Sp1 -> DBp: commit tx
+    deactivate DBp
+    deactivate Sp1
+end
 
 Bus -> Sa1: CreatedEvent(Vp, R1, D1)
 activate Sa1
 Sa1 -> DBa: begin tx for event handling
 activate DBa
-Sa1 -> DBa: insert processed_event(event_id, consumer_view=Va)
-Sa1 -> Sa1: dedupe by event_id only (not by resource existence)
-Sa1 -> DBa: upsert variant by (R1, source_event_id)
-Sa1 -> Sa1: detect conflict on R1 (multiple variants)
-Sa1 -> DBa: set reconciliation_status = RECONCILIATION_NEEDED
-Sa1 -> DBa: store user references for offline exchange
-Sa1 -> DBa: commit tx
-deactivate DBa
-deactivate Sa1
+Sa1 -> DBa: insert processed_event into inbox ledger (event_id, consumer_view=Va)
+note right
+Inbox ledger retention:
+- if reconciliation case exists for R1:
+    keep entries until reconciliation is complete,
+    then purge after grace period
+- if no reconciliation case exists for R1:
+    purge after TTL + grace period
+end note
+Sa1 -> Sa1: dedupe by event_id 
+Sa1 -> DBa: found = find(R1)
+Sa1 <-- DBa: return found
+Sa1 -> Sa1: decision = detect_conflict(found, incoming=D1)
+alt decision == ConflictNeedsReconciliation
+    Sa1 -> DBa: save_conflict_variant(R1, source_event_id, D1)
+    Sa1 -> DBa: set reconciliation_status = RECONCILIATION_NEEDED
+    Sa1 -> DBa: store user references for offline exchange
+    Sa1 -> DBa: commit tx
+    Ca1 <- Sa1: WebSockets: ReconciliationNeeded(R1)
+    deactivate DBa
+    deactivate Sa1
+    activate Ca1
+    alt conflict in current client context
+        Ca1 -> Sa1: request conflicting variants for R1
+        activate Sa1
+        Sa1 -> DBa: query variants by R1
+        activate DBa
+        Sa1 <-- DBa: return variant1_metadata, variant2_metadata
+        deactivate DBa
+        Sa1 --> Ca1: return variant1_metadata, variant2_metadata 
+        deactivate Sa1
+        Ca1 -> Ca1: update view
+    else other context
+        Ca1 -> Ca1: ignore 
+        note right: next time client loads context with conflict, it will find it marked and may request details on variants 
+        deactivate Ca1
+    end
+else decision != ConflictNeedsReconciliation
+    Sa1 -> DBa: save_no_conflict(found, incoming=D1)
+    Sa1 -> DBa: commit tx
+    deactivate DBa
+    deactivate Sa1
+end
 
 Bus -> Sp1: CreatedEvent(Vp, R1, D1) (own echo)
 activate Sp1
 Sp1 -> DBp: begin tx for event handling
 activate DBp
-Sp1 -> DBp: insert processed_event(event_id, consumer_view=Vp)
-Sp1 -> Sp1: if duplicate event_id then no-op and commit
+Sp1 -> DBp: insert processed_event into inbox ledger (event_id, consumer_view=Vp)
+Sp1 -> Sp1: dedupe by event_id 
+note right: duplicate event_id detected, this is bus echo
 Sp1 -> DBp: commit tx
 deactivate DBp
 deactivate Sp1
@@ -101,8 +170,9 @@ Bus -> Sa1: CreatedEvent(Va, R1, D2) (own echo)
 activate Sa1
 Sa1 -> DBa: begin tx for event handling
 activate DBa
-Sa1 -> DBa: insert processed_event(event_id, consumer_view=Va)
-Sa1 -> Sa1: if duplicate event_id then no-op and commit
+Sa1 -> DBa: insert processed_event into inbox ledger (event_id, consumer_view=Va)
+Sa1 -> Sa1: dedupe by event_id
+note right: duplicate event_id detected, this is bus echo
 Sa1 -> DBa: commit tx
 deactivate DBa
 deactivate Sa1

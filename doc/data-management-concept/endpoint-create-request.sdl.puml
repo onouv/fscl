@@ -1,8 +1,14 @@
 @startuml endpoint CreateRequest
 !pragma useVerticalIf on
 floating note: SERVICE
-Legend: Vx=view, Sx-n=service instance, Cx-n=client, Rk=resource id, Dk=resource data
-POST CreateRequest(Vx, Rk, Dk)
+legend right
+Vx      : view, 
+Sx-n    : service instance, 
+Cx-n : client, 
+Rk : resource id,
+Dk : resource data
+endlegend
+
 start
     split
         :POST CreateRequest(Vx, Rk, Dk); <<input>>
