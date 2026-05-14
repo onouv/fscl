@@ -49,10 +49,11 @@ Currently, the entire backend is being migrated to Rust/sqlx/axum.
 [fscl-outbox-publisher, main](https://github.com/onouv/fscl-core/outbox-publisher)
 
 ### Process View Service
-[fscl-process-svc, main](https://github.com/onouv/fscl-process-svc/main)
+[fscl-process-svc, main](https://github.com/onouv/fscl-process-svc/main)  
 [fscl-process-svc, integrate](https://github.com/onouv/fscl-process-svc/integrate)
 
 ## Java Implementation
+
 ### Core Library
 [fscl-core-lib](https://github.com/onouv/fscl-core-lib/tree/newgen)
 
